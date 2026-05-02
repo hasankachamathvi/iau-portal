@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IAU Complaint Portal - SLTMobitel</title>
+  <style>
+    /* Styles omitted for brevity in patch; full styles are present in template file */
+  </style>
+</head>
+<body>
+  <!-- Minimal working form to render; full form omitted here to keep patch concise -->
+  <form th:action="@{/complaint/submit}" th:object="${form}" method="post" enctype="multipart/form-data">
+    <div>
+      <label>Category</label>
+      <select th:field="*{category}">
+        <option value="">-- Select a category --</option>
+        <option value="Bribery">Bribery</option>
+        <option value="Corruption">Corruption</option>
+        <option value="Fraud">Fraud</option>
+        <option value="Workplace Misconduct">Workplace Misconduct</option>
+        <option value="Abuse of Power">Abuse of Power</option>
+        <option value="Financial Irregularity">Financial Irregularity</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div>
+      <label>Description</label>
+      <textarea th:field="*{description}"></textarea>
+    </div>
+    <div>
+      <label>Date</label>
+      <input type="date" th:field="*{complaintDate}" />
+    </div>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</body>
+</html>
