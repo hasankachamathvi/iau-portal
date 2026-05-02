@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complaint Submitted - IAU Portal</title>
+</head>
+<body>
+  <div>
+    <h1>Complaint Submitted Successfully</h1>
+    <p>Your complaint has been securely received by the Internal Affairs Unit.</p>
+    <div>
+      <div>Your CRN: <strong th:text="${crn}">IAU-XXXX</strong></div>
+      <div>Category: <span th:text="${category}">Category</span></div>
+    </div>
+    <div>
+      <a href="/complaint">Submit Another Complaint</a>
+    </div>
+  </div>
+</body>
+</html>
