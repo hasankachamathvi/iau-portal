@@ -3,395 +3,273 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Complaint Submitted — IAU Portal</title>
+  <title>Complaint Submitted Successfully</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap');
 
     :root {
-      --blue-dark: #0d3b6e;
-      --blue:      #1a5276;
-      --blue-light:#d6eaf8;
-      --green:     #1a7a4a;
-      --green-dark:#0b5345;
-      --green-light:#d5f5e3;
-      --gray-bg:   #f4f6f9;
-      --text-dark: #1a202c;
-      --text-mid:  #4a5568;
-      --text-light:#718096;
+      --primary: #0d3b6e;
+      --primary-light: #1a5276;
+      --success: #1a7a4a;
+      --gray-bg: #f4f6f9;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: var(--gray-bg);
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #1a202c;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 24px;
     }
 
-    .card {
+    .confirmation-container {
       background: white;
-      border-radius: 20px;
-      padding: 52px 44px;
-      max-width: 560px;
-      width: 100%;
+      border-radius: 16px;
+      padding: 48px 32px;
       text-align: center;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-      border: 0.5px solid #dde3ec;
-      animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+      max-width: 500px;
+      animation: slideUp 0.6s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-icon {
+      font-size: 64px;
+      color: var(--success);
+      margin-bottom: 24px;
+      animation: popIn 0.6s ease 0.2s both;
     }
 
     @keyframes popIn {
-      from { opacity:0; transform: scale(0.92) translateY(20px); }
-      to   { opacity:1; transform: scale(1) translateY(0); }
-    }
-
-    .success-ring {
-      width: 88px; height: 88px;
-      border-radius: 50%;
-      background: var(--green-light);
-      border: 3px solid var(--green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 28px;
-      font-size: 40px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 0 rgba(26,122,74,0.3); }
-      50%      { box-shadow: 0 0 0 12px rgba(26,122,74,0); }
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     h1 {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 8px;
+      font-family: 'Poppins', sans-serif;
+      color: #1a202c;
+      margin-bottom: 12px;
     }
 
     .subtitle {
       font-size: 14px;
-      color: var(--text-light);
+      color: #718096;
       margin-bottom: 32px;
-      line-height: 1.5;
-    }
-
-    .category-pill {
-      display: inline-block;
-      background: var(--blue-light);
-      color: var(--blue-dark);
-      padding: 4px 16px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 28px;
+      line-height: 1.6;
     }
 
     .crn-box {
-      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
-      border-radius: 14px;
-      padding: 28px 24px;
-      margin-bottom: 28px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .crn-box::before {
-      content: '';
-      position: absolute;
-      top: -30px; right: -30px;
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.07);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 32px;
     }
 
     .crn-label {
-      font-size: 11px;
-      color: rgba(255,255,255,0.65);
+      font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+      margin-bottom: 8px;
+      font-weight: 600;
     }
 
     .crn-number {
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 700;
-      color: white;
-      letter-spacing: 3px;
       font-family: 'Courier New', monospace;
+      word-break: break-all;
     }
 
-    .crn-note {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      margin-top: 8px;
-    }
-
-    .next-steps {
-      background: var(--gray-bg);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 28px;
-      text-align: left;
-    }
-
-    .next-steps-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      margin-bottom: 12px;
-    }
-
-    .next-step-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 13px;
-      color: var(--text-mid);
-    }
-
-    .next-step-item:last-child { border-bottom: none; }
-    .next-step-item .ns-icon { flex-shrink: 0; }
-
-    .btn-home {
-      display: inline-block;
-      background: var(--blue);
+    .copy-button {
+      margin-top: 12px;
+      background: rgba(255,255,255,0.2);
       color: white;
-      padding: 13px 36px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
       font-weight: 600;
-      transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(26,82,118,0.3);
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .btn-home:hover {
-      background: var(--blue-dark);
-      transform: translateY(-1px);
+    .copy-button:hover {
+      background: rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    .info-box {
+      background: #f0f7ff;
+      border-left: 4px solid var(--primary);
+      padding: 16px;
+      border-radius: 10px;
+      text-align: left;
+      margin-bottom: 32px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .info-box strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(13, 59, 110, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(13, 59, 110, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--gray-bg);
+      color: #1a202c;
+      border: 2px solid #dde3ec;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      background: rgba(13, 59, 110, 0.02);
     }
 
     .footer-note {
       margin-top: 24px;
-      font-size: 11px;
-      color: var(--text-light);
+      padding-top: 24px;
+      border-top: 1px solid #dde3ec;
+      font-size: 12px;
+      color: #718096;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .confirmation-container {
+        padding: 32px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .crn-number {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
 
-    <div class="success-ring">✅</div>
-
-    <h1>Complaint Submitted!</h1>
-    <p class="subtitle">
-      Your complaint has been securely received and registered<br/>
-      with the SLTMobitel Internal Affairs Unit.
-    </p>
-
-    <div class="category-pill" th:text="${category}">Category</div>
-
-    <div class="crn-box">
-      <div class="crn-label">Your Complaint Reference Number</div>
-      <div class="crn-number" th:text="${crn}">IAU-2026-000001</div>
-      <div class="crn-note">📋 Save this number to track your complaint status</div>
-    </div>
-
-    <div class="next-steps">
-      <div class="next-steps-title">What happens next</div>
-      <div class="next-step-item">
-        <span class="ns-icon">🔍</span>
-        <span>Your complaint has been assigned to an IAU investigation officer.</span>
-      </div>
-      <div class="next-step-item">
-        <span class="ns-icon">🔒</span>
-        <span>All submitted data is encrypted and stored securely.</span>
-      </div>
-      <div class="next-step-item" th:if="${!anonymous}">
-        <span class="ns-icon">📧</span>
-        <span>A confirmation email has been sent to your email address.</span>
-      </div>
-      <div class="next-step-item" th:if="${anonymous}">
-        <span class="ns-icon">🕵️</span>
-        <span>Your identity remains completely protected and anonymous.</span>
-      </div>
-      <div class="next-step-item">
-        <span class="ns-icon">📞</span>
-        <span>You may be contacted if further information is required.</span>
-      </div>
-    </div>
-
-    <a href="/complaint" class="btn-home">Submit Another Complaint</a>
-
-    <div class="footer-note">
-      🔒 SLTMobitel Internal Affairs Unit &bull; Strictly Confidential &bull; 2026
-    </div>
-
+<div class="confirmation-container">
+  <div class="success-icon">
+    <i class="fas fa-check-circle"></i>
   </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Complaint Submitted - IAU Portal</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+  <h1>Complaint Submitted!</h1>
+  <p class="subtitle">Your complaint has been successfully received and will be reviewed by our team.</p>
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 48px 40px;
-      max-width: 560px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-
-    .success-icon {
-      width: 72px;
-      height: 72px;
-      background: #eafaf1;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px;
-      font-size: 36px;
-    }
-
-    h1 {
-      font-size: 22px;
-      color: #1a5276;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 32px;
-    }
-
-    .crn-box {
-      background: #f0f4f8;
-      border: 2px dashed #1a5276;
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 28px;
-    }
-
-    .crn-label {
-      font-size: 12px;
-      color: #999;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-
-    .crn-number {
-      font-size: 28px;
-      font-weight: 700;
-      color: #1a5276;
-      letter-spacing: 2px;
-    }
-
-    .crn-note {
-      font-size: 12px;
-      color: #888;
-      margin-top: 8px;
-    }
-
-    .info-list {
-      text-align: left;
-      background: #f9f9f9;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 28px;
-    }
-
-    .info-list p {
-      font-size: 13px;
-      color: #555;
-      padding: 6px 0;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .info-list p:last-child { border-bottom: none; }
-
-    .btn-home {
-      display: inline-block;
-      background: #1a5276;
-      color: white;
-      padding: 12px 32px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .btn-home:hover { background: #154360; }
-
-    .category-badge {
-      display: inline-block;
-      background: #eaf0f8;
-      color: #1a5276;
-      padding: 3px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="success-icon">OK</div>
-
-    <h1>Complaint Submitted Successfully</h1>
-    <p class="subtitle">Your complaint has been securely received by the Internal Affairs Unit.</p>
-
-    <span class="category-badge" th:text="${category}">Category</span>
-
-    <div class="crn-box">
-      <div class="crn-label">Your Complaint Reference Number</div>
-      <div class="crn-number" th:text="${crn}">IAU-2026-000001</div>
-      <div class="crn-note">Please save this number to track your complaint status.</div>
-    </div>
-
-    <div class="info-list">
-      <p>Your complaint has been assigned to an IAU officer.</p>
-      <p>All submitted data is encrypted and securely stored.</p>
-      <p th:if="${!anonymous}">A confirmation email has been sent to your email address.</p>
-      <p th:if="${anonymous}">Your identity remains completely protected.</p>
-      <p>You will be contacted if further information is needed.</p>
-    </div>
-
-    <a href="/complaint" class="btn-home">Submit Another Complaint</a>
+  <div class="crn-box">
+    <div class="crn-label">Your Complaint Reference Number</div>
+    <div class="crn-number" id="crn" th:text="${crn}">IAU-2026-000001</div>
+    <button class="copy-button" onclick="copyCRN()">
+      <i class="fas fa-copy"></i> Copy CRN
+    </button>
   </div>
+
+  <div class="info-box">
+    <strong>📌 Important Information:</strong>
+    <div>
+      <ul style="margin-left: 20px; margin-top: 8px;">
+        <li>Save your CRN for future reference and tracking</li>
+        <li>Our team will review your complaint within 5-7 business days</li>
+        <li>You may receive follow-up questions if additional information is needed</li>
+        <li>All complaints are treated with strict confidentiality</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <a href="/complaint" class="btn btn-primary">
+      <i class="fas fa-plus-circle"></i> Submit Another Complaint
+    </a>
+    <a href="/" class="btn btn-secondary">
+      <i class="fas fa-home"></i> Back to Home
+    </a>
+  </div>
+
+  <div class="footer-note">
+    <strong>Need Help?</strong><br>
+    If you have any questions about your complaint, please contact our support team at support@iau.com
+  </div>
+</div>
+
+<script>
+  function copyCRN() {
+    const crn = document.getElementById('crn').textContent;
+    navigator.clipboard.writeText(crn).then(() => {
+      const btn = event.target.closest('button');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+      }, 2000);
+    });
+  }
+</script>
+
 </body>
 </html>

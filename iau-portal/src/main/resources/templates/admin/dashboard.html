@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IAU Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap');
+
+    :root {
+      --primary: #0d3b6e;
+      --primary-dark: #0a2d52;
+      --accent: #d68910;
+      --success: #1a7a4a;
+      --danger: #c0392b;
+      --warning: #d68910;
+      --gray-bg: #f4f6f9;
+      --gray-border: #dde3ec;
+      --white: #ffffff;
+      --text: #1a202c;
+      --text-light: #718096;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gray-bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: linear-gradient(135deg, var(--primary) 0%, #1a5276 100%);
+      padding: 16px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .navbar-brand {
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .navbar-link {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .navbar-link:hover { color: white; }
+
+    .logout-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, #1a5276 100%);
+      color: white;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    .stat-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .search-bar {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(13, 59, 110, 0.1);
+    }
+
+    .search-btn {
+      background: linear-gradient(135deg, var(--primary) 0%, #1a5276 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(13, 59, 110, 0.3);
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--gray-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: var(--gray-bg);
+      padding: 16px 24px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    td {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--gray-border);
+      font-size: 13px;
+    }
+
+    tr:hover {
+      background: rgba(0,0,0,0.02);
+    }
+
+    .crn-cell {
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-pending {
+      background: #fff9e6;
+      color: #d68910;
+      border: 1px solid #d68910;
+    }
+
+    .badge-resolved {
+      background: #d5f5e3;
+      color: #1a7a4a;
+      border: 1px solid #1a7a4a;
+    }
+
+    .badge-escalated {
+      background: #fdecea;
+      color: #c0392b;
+      border: 1px solid #c0392b;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: var(--gray-border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #ccd4dd;
+    }
+
+    .pagination {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--gray-border);
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .page-links {
+      display: flex;
+      gap: 4px;
+    }
+
+    .page-links a, .page-links span {
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .page-links a:hover {
+      background: var(--gray-border);
+    }
+
+    .page-links .active {
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-bar {
+        flex-direction: column;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 12px 16px;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="navbar-brand">🛡️ IAU Admin Panel</div>
+  <div class="navbar-actions">
+    <a href="/complaint" class="navbar-link"><i class="fas fa-arrow-left"></i> Back to Portal</a>
+    <form method="post" action="/logout" style="display:inline;">
+      <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </form>
+  </div>
+</div>
+
+<div class="header">
+  <h1>📊 Complaints Dashboard</h1>
+</div>
+
+<div class="container">
+  <!-- STATS CARDS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">📋</div>
+      <div class="stat-label">Total Complaints</div>
+      <div class="stat-value" th:text="${totalComplaints}">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-label">Pending</div>
+      <div class="stat-value" th:text="${pendingCount}">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🚨</div>
+      <div class="stat-label">Escalated</div>
+      <div class="stat-value" th:text="${escalatedCount}">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-label">This Month</div>
+      <div class="stat-value" th:text="${monthlyCount}">0</div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-bar">
+    <input type="text" placeholder="Search by CRN..." id="searchInput"/>
+    <button class="search-btn" onclick="performSearch()"><i class="fas fa-search"></i> Search</button>
+  </div>
+
+  <!-- COMPLAINTS TABLE -->
+  <div class="table-container">
+    <div class="table-header">
+      <div class="table-title"><i class="fas fa-table"></i> Recent Complaints</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>CRN</th>
+          <th>Category</th>
+          <th>Date</th>
+          <th>Reporter</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="complaint : ${complaints}">
+          <td class="crn-cell" th:text="${complaint.crn}">IAU-2026-000001</td>
+          <td th:text="${complaint.category}">Fraud</td>
+          <td th:text="${#temporals.format(complaint.createdAt, 'MMM dd, yyyy')}">Jan 01, 2026</td>
+          <td>
+            <th:block th:if="${complaint.reporters[0]?.anonymousFlag}">
+              <i class="fas fa-user-secret"></i> Anonymous
+            </th:block>
+            <th:block th:unless="${complaint.reporters[0]?.anonymousFlag}">
+              <span th:text="${complaint.reporters[0]?.fullName}">Reporter Name</span>
+            </th:block>
+          </td>
+          <td>
+            <span class="badge" th:classappend="${'badge-' + complaint.status.toLowerCase()}" th:text="${complaint.status}">PENDING</span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <a th:href="@{/admin/complaint/{crn}(crn=${complaint.crn})}" class="btn btn-primary">
+                <i class="fas fa-eye"></i> View
+              </a>
+            </div>
+          </td>
+        </tr>
+        <tr th:if="${complaints.isEmpty()}">
+          <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-light);">
+            <i class="fas fa-inbox" style="font-size: 32px; margin-bottom: 12px; display: block;"></i>
+            No complaints found
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- PAGINATION -->
+    <div class="pagination" th:if="${totalPages > 1}">
+      <span>Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span></span>
+      <div class="page-links">
+        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=1)}">&laquo;</a>
+        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=${currentPage - 1})}">&lsaquo;</a>
+        
+        <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${i != currentPage}" th:href="@{/admin/dashboard(page=${i})}" th:text="${i}">1</a>
+          <span th:if="${i == currentPage}" class="active" th:text="${i}">1</span>
+        </th:block>
+
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${currentPage + 1})}">&rsaquo;</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${totalPages})}">&raquo;</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function performSearch() {
+    const crn = document.getElementById('searchInput').value;
+    if (crn.trim()) {
+      window.location.href = '/admin/search?crn=' + encodeURIComponent(crn);
+    }
+  }
+
+  document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  });
+</script>
+
+</body>
+</html>

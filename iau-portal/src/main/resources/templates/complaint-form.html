@@ -3,960 +3,826 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IAU Complaint Portal — SLTMobitel</title>
+  <title>IAU Complaint Portal — Report Securely</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap');
 
     :root {
-      --blue-dark:  #0d3b6e;
-      --blue:       #1a5276;
-      --blue-mid:   #2471a3;
-      --blue-light: #d6eaf8;
-      --green-dark: #0b5345;
-      --green:      #1a7a4a;
-      --green-light:#d5f5e3;
-      --red:        #c0392b;
-      --red-light:  #fdecea;
-      --amber:      #d68910;
-      --amber-light:#fef9e7;
-      --gray-bg:    #f4f6f9;
-      --gray-card:  #ffffff;
-      --gray-border:#dde3ec;
-      --text-dark:  #1a202c;
-      --text-mid:   #4a5568;
+      --primary: #0d3b6e;
+      --primary-dark: #0a2d52;
+      --primary-light: #1a5276;
+      --accent: #d68910;
+      --success: #1a7a4a;
+      --danger: #c0392b;
+      --gray-bg: #f4f6f9;
+      --gray-border: #dde3ec;
+      --white: #ffffff;
+      --text: #1a202c;
       --text-light: #718096;
-      --shadow:     0 4px 24px rgba(0,0,0,0.08);
-      --shadow-lg:  0 8px 40px rgba(0,0,0,0.13);
-      --radius:     14px;
-      --radius-sm:  8px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: var(--gray-bg);
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--text);
       min-height: 100vh;
-      padding: 0 0 48px;
     }
 
-    .top-banner {
-      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, var(--blue-mid) 100%);
-      padding: 0;
-      position: relative;
-      overflow: hidden;
+    .navbar {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      padding: 16px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .top-banner::before {
-      content: '';
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 220px; height: 220px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.05);
-    }
-
-    .top-banner::after {
-      content: '';
-      position: absolute;
-      bottom: -40px; left: 40%;
-      width: 160px; height: 160px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.04);
-    }
-
-    .banner-inner {
-      max-width: 820px;
+    .navbar-content {
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 32px 24px 28px;
       display: flex;
       align-items: center;
-      gap: 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .banner-logo {
-      width: 58px; height: 58px;
-      background: white;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      font-size: 26px;
-    }
-
-    .banner-text h1 {
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-      letter-spacing: -0.3px;
-    }
-
-    .banner-text p {
-      font-size: 13px;
-      color: rgba(255,255,255,0.75);
-      margin-top: 4px;
-    }
-
-    .banner-badges {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.25);
-    }
-
-    .progress-outer {
-      max-width: 820px;
-      margin: 28px auto 0;
-      padding: 0 24px;
-    }
-
-    .steps-row {
-      display: flex;
-      align-items: flex-start;
       justify-content: space-between;
-      position: relative;
+      color: white;
+    }
+
+    .navbar-brand {
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+    }
+
+    .navbar-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .navbar-links a:hover { color: white; }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 48px 24px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      margin-bottom: 32px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+
+    .header p {
+      font-size: 15px;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+      padding-bottom: 48px;
+    }
+
+    .progress-container {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .progress-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       margin-bottom: 12px;
     }
 
-    .steps-row::before {
-      content: '';
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      right: 18px;
-      height: 2px;
-      background: var(--gray-border);
-      z-index: 0;
-    }
-
-    .step-dot-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      flex: 1;
-      position: relative;
-      z-index: 1;
-    }
-
-    .step-dot {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: white;
-      border: 2px solid var(--gray-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-light);
-      transition: all 0.3s ease;
-    }
-
-    .step-dot.active {
-      background: var(--blue);
-      border-color: var(--blue);
-      color: white;
-      box-shadow: 0 0 0 4px var(--blue-light);
-    }
-
-    .step-dot.done {
-      background: var(--green);
-      border-color: var(--green);
-      color: white;
-    }
-
-    .step-dot-label {
-      font-size: 11px;
-      color: var(--text-light);
-      font-weight: 500;
-      text-align: center;
-    }
-
-    .step-dot-label.active { color: var(--blue); font-weight: 600; }
-    .step-dot-label.done   { color: var(--green); }
-
-    .card {
-      background: var(--gray-card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      max-width: 820px;
-      margin: 20px auto 0;
-      padding: 36px 40px;
-      border: 0.5px solid var(--gray-border);
-    }
-
-    @media(max-width:600px) {
-      .card { padding: 24px 18px; margin: 16px 12px 0; }
-      .banner-inner { padding: 24px 16px; }
-    }
-
-    .step-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 28px;
-      padding-bottom: 20px;
-      border-bottom: 1.5px solid var(--gray-border);
-    }
-
-    .step-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      background: var(--blue-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .step-header-text h2 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
-
-    .step-header-text p {
-      font-size: 13px;
-      color: var(--text-light);
-      margin-top: 2px;
-    }
-
-    .step { display: none; animation: fadeIn 0.3s ease; }
-    .step.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .form-group { margin-bottom: 20px; }
-
-    .form-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-mid);
-      margin-bottom: 7px;
-    }
-
-    .form-label .req { color: var(--red); margin-left: 2px; }
-    .form-label .hint {
-      font-weight: 400;
-      color: var(--text-light);
-      font-size: 12px;
-    }
-
-    .form-control {
+    .progress-bar {
       width: 100%;
-      padding: 11px 15px;
-      border: 1.5px solid var(--gray-border);
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      color: var(--text-dark);
-      font-family: inherit;
-      transition: all 0.2s;
-      background: #fafbfc;
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--blue);
-      background: white;
-      box-shadow: 0 0 0 3px var(--blue-light);
-    }
-
-    textarea.form-control {
-      resize: vertical;
-      min-height: 120px;
-      line-height: 1.6;
-    }
-
-    .submission-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .toggle-card {
-      border: 2px solid var(--gray-border);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-    }
-
-    .toggle-card:hover { border-color: var(--blue-mid); }
-
-    .toggle-card.selected {
-      border-color: var(--blue);
-      background: var(--blue-light);
-    }
-
-    .toggle-card input { display: none; }
-
-    .toggle-card .t-icon { font-size: 24px; margin-bottom: 6px; }
-
-    .toggle-card .t-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    .toggle-card .t-desc {
-      font-size: 12px;
-      color: var(--text-light);
-      margin-top: 3px;
-    }
-
-    .toggle-card.selected .t-title { color: var(--blue-dark); }
-
-    .notice {
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      font-size: 13px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
+      height: 8px;
+      background: var(--gray-border);
+      border-radius: 10px;
+      overflow: hidden;
       margin-bottom: 20px;
     }
 
-    .notice-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px rgba(13, 59, 110, 0.3);
+    }
 
-    .notice-blue  { background: var(--blue-light);  color: var(--blue-dark);  border-left: 4px solid var(--blue); }
-    .notice-amber { background: var(--amber-light); color: #7d5a00; border-left: 4px solid var(--amber); }
-    .notice-red   { background: var(--red-light);   color: var(--red);        border-left: 4px solid var(--red); display:none; }
-    .notice-green { background: var(--green-light); color: var(--green-dark); border-left: 4px solid var(--green); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+    }
 
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media(max-width:600px) { .two-col { grid-template-columns: 1fr; } }
+    .step-badge {
+      text-align: center;
+      padding: 12px;
+      border-radius: 12px;
+      background: white;
+      border: 2px solid var(--gray-border);
+      color: var(--text-light);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
 
-    .check-item {
+    .step-badge:hover { border-color: var(--primary); background: rgba(13, 59, 110, 0.05); }
+
+    .step-badge.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(13, 59, 110, 0.3);
+      transform: scale(1.05);
+    }
+
+    .step-badge.completed {
+      background: linear-gradient(135deg, var(--success) 0%, #2d9e5a 100%);
+      color: white;
+      border-color: var(--success);
+    }
+
+    .form-section { display: none; animation: fadeInSlide 0.4s ease; }
+    .form-section.active { display: block; }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--gray-bg);
+    }
+
+    .section-icon { font-size: 28px; color: var(--primary); }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .form-group { margin-bottom: 22px; }
+
+    .form-group.two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .form-group.two-col { grid-template-columns: 1fr; }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    label .required { color: var(--danger); margin-left: 2px; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--gray-border);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s;
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(13, 59, 110, 0.1);
+      background: rgba(13, 59, 110, 0.01);
+    }
+
+    textarea { resize: vertical; min-height: 120px; font-family: 'Inter', sans-serif; }
+
+    .input-hint {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .char-count {
+      float: right;
+      font-size: 11px;
+      color: var(--text-light);
+    }
+
+    .char-count.warning { color: var(--accent); font-weight: 600; }
+
+    .toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .toggle-btn {
+      padding: 14px;
+      border: 2px solid var(--gray-border);
+      background: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .toggle-btn:hover { border-color: var(--primary); background: rgba(13, 59, 110, 0.02); }
+
+    .toggle-btn.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(13, 59, 110, 0.3);
+    }
+
+    .conditional-field { display: none; animation: fadeInSlide 0.3s ease; }
+    .conditional-field.show { display: block; }
+
+    .checkbox-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      padding: 14px 16px;
-      border: 1.5px solid var(--gray-border);
-      border-radius: var(--radius-sm);
+      padding: 14px;
+      background: var(--gray-bg);
+      border-radius: 10px;
       margin-bottom: 12px;
-      transition: border-color 0.2s;
       cursor: pointer;
+      transition: all 0.3s;
     }
 
-    .check-item:hover { border-color: var(--blue); }
+    .checkbox-item:hover { background: rgba(13, 59, 110, 0.05); border-radius: 12px; }
 
-    .check-item input[type="checkbox"] {
-      width: 18px; height: 18px;
-      margin-top: 1px;
+    .checkbox-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--primary);
+      cursor: pointer;
       flex-shrink: 0;
-      accent-color: var(--blue);
-      cursor: pointer;
     }
 
-    .check-item label {
-      font-size: 13px;
-      color: var(--text-mid);
+    .checkbox-label {
+      margin: 0;
+      font-size: 14px;
+      cursor: pointer;
       line-height: 1.5;
-      cursor: pointer;
     }
 
-    .upload-zone {
-      border: 2px dashed var(--gray-border);
-      border-radius: var(--radius-sm);
-      padding: 36px 24px;
+    .file-upload {
+      position: relative;
+      border: 2px dashed var(--primary);
+      border-radius: 12px;
+      padding: 40px 24px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
-      background: #fafbfc;
+      transition: all 0.3s;
+      background: rgba(13, 59, 110, 0.02);
     }
 
-    .upload-zone:hover {
-      border-color: var(--blue);
-      background: var(--blue-light);
+    .file-upload:hover {
+      background: rgba(13, 59, 110, 0.05);
+      border-color: var(--accent);
+      transform: translateY(-2px);
     }
 
-    .upload-zone .uz-icon { font-size: 36px; margin-bottom: 10px; }
+    .file-upload input[type="file"] { display: none; }
 
-    .upload-zone .uz-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
+    .file-upload-icon { font-size: 40px; color: var(--primary); margin-bottom: 12px; }
 
-    .upload-zone .uz-sub {
-      font-size: 12px;
-      color: var(--text-light);
-      margin-top: 4px;
-    }
+    .file-upload-text { font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+
+    .file-upload-hint { font-size: 12px; color: var(--text-light); }
+
+    .file-list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--gray-border); }
 
     .file-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--gray-bg);
-      border: 1px solid var(--gray-border);
-      border-radius: var(--radius-sm);
-      padding: 8px 14px;
-      margin-top: 8px;
+      padding: 12px;
+      background: linear-gradient(135deg, #fff9e6 0%, #fffcf0 100%);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      margin-bottom: 10px;
       font-size: 13px;
-      color: var(--text-mid);
     }
 
-    .file-item .fi-name { display: flex; align-items: center; gap: 8px; }
-    .file-item .fi-size { color: var(--text-light); font-size: 12px; }
+    .file-item-name { font-weight: 500; color: var(--text); }
 
-    .char-count {
+    .file-item-size { font-size: 11px; color: var(--text-light); }
+
+    .file-remove-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
       font-size: 11px;
-      color: var(--text-light);
-      text-align: right;
-      margin-top: 5px;
+      font-weight: 600;
+      transition: all 0.3s;
     }
 
-    .char-count.ok { color: var(--green); font-weight: 600; }
+    .file-remove-btn:hover { background: #a02d1f; transform: scale(1.05); }
 
-    .captcha-wrap {
-      background: var(--gray-bg);
-      border: 1.5px solid var(--gray-border);
-      border-radius: var(--radius-sm);
-      padding: 18px 20px;
+    .notice {
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(13, 59, 110, 0.05) 0%, rgba(13, 59, 110, 0.02) 100%);
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .declaration-box {
+      background: linear-gradient(135deg, #fef9e7 0%, #fffcf0 100%);
+      border-left: 4px solid var(--accent);
+      padding: 20px;
+      border-radius: 10px;
       margin-bottom: 20px;
     }
 
-    .captcha-q {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 10px;
+    .declaration-box p { font-size: 13px; line-height: 1.6; margin: 0; }
+
+    .declaration-box ul { margin-left: 20px; margin-top: 10px; font-size: 13px; line-height: 1.6; }
+
+    .summary-section {
+      background: var(--gray-bg);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 16px;
     }
 
-    .captcha-input {
-      width: 120px;
-      padding: 9px 14px;
-      border: 1.5px solid var(--gray-border);
-      border-radius: var(--radius-sm);
-      font-size: 15px;
-      font-weight: 600;
-      text-align: center;
-      font-family: inherit;
-    }
+    .summary-title { font-weight: 700; color: var(--primary); margin-bottom: 12px; font-size: 14px; }
 
-    .captcha-input:focus {
-      outline: none;
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px var(--blue-light);
-    }
-
-    .btn-row {
+    .summary-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray-border);
+      font-size: 13px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-top: 32px;
-      gap: 12px;
     }
 
-    .btn {
-      padding: 12px 28px;
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 600;
+    .summary-item:last-child { border-bottom: none; }
+
+    .summary-label { font-weight: 600; color: var(--text-light); }
+
+    .summary-value { color: var(--text); font-weight: 500; }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      margin-top: 32px;
+    }
+
+    button {
+      padding: 14px 28px;
       border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-      display: inline-flex;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+      display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
     }
 
-    .btn-back {
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      flex: 1;
+      box-shadow: 0 4px 12px rgba(13, 59, 110, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(13, 59, 110, 0.4);
+    }
+
+    .btn-primary:disabled { background: var(--text-light); cursor: not-allowed; transform: none; }
+
+    .btn-secondary {
       background: white;
-      color: var(--text-mid);
-      border: 1.5px solid var(--gray-border);
+      color: var(--text);
+      border: 2px solid var(--gray-border);
+      flex: 1;
     }
 
-    .btn-back:hover { background: var(--gray-bg); border-color: #bbb; }
+    .btn-secondary:hover { border-color: var(--primary); background: rgba(13, 59, 110, 0.02); }
 
-    .btn-next {
-      background: var(--blue);
-      color: white;
-      margin-left: auto;
-      box-shadow: 0 4px 12px rgba(26,82,118,0.3);
-    }
-
-    .btn-next:hover { background: var(--blue-dark); transform: translateY(-1px); }
-
-    .btn-submit {
-      background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
-      color: white;
-      margin-left: auto;
-      box-shadow: 0 4px 12px rgba(26,122,74,0.3);
-    }
-
-    .btn-submit:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(26,122,74,0.4);
-    }
-
-    .btn-submit:disabled {
-      background: #ccc;
-      box-shadow: none;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .error-banner {
-      background: var(--red-light);
-      border: 1px solid #f5c6cb;
-      border-radius: var(--radius-sm);
-      padding: 14px 18px;
-      font-size: 13px;
-      color: var(--red);
+    .alert {
+      padding: 14px 16px;
+      border-radius: 10px;
       margin-bottom: 20px;
+      font-size: 13px;
       display: flex;
-      gap: 10px;
-      align-items: center;
+      gap: 12px;
+      align-items: flex-start;
     }
 
-    .portal-footer {
-      max-width: 820px;
-      margin: 24px auto 0;
-      padding: 0 24px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-light);
+    .alert-danger {
+      background: #fdecea;
+      color: #c0392b;
+      border: 1px solid rgba(192, 57, 43, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .header { padding: 32px 16px; }
+      .header h1 { font-size: 24px; }
+      .container { padding: 16px; }
+      .form-card { padding: 20px; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .button-group { flex-direction: column; }
+      .toggle-group { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<div class="top-banner">
-  <div class="banner-inner">
-    <div class="banner-logo">🛡️</div>
-    <div class="banner-text">
-      <h1>Complaint &amp; Concern Reporting Portal</h1>
-      <p>Sri Lanka Telecom PLC — Internal Affairs Unit (IAU)</p>
-      <div class="banner-badges">
-        <span class="badge">🔒 Secure &amp; Encrypted</span>
-        <span class="badge">👤 Anonymous Option</span>
-        <span class="badge">⚡ Confidential</span>
-      </div>
+<div class="navbar">
+  <div class="navbar-content">
+    <div class="navbar-brand">🛡️ IAU Portal</div>
+    <div class="navbar-links">
+      <a href="/">Home</a>
+      <a href="/admin/dashboard">Admin</a>
     </div>
   </div>
 </div>
 
-<div class="progress-outer">
-  <div class="steps-row">
-    <div class="step-dot-wrap">
-      <div class="step-dot active" id="dot-1">1</div>
-      <div class="step-dot-label active" id="lbl-1">Reporter</div>
-    </div>
-    <div class="step-dot-wrap">
-      <div class="step-dot" id="dot-2">2</div>
-      <div class="step-dot-label" id="lbl-2">Complaint</div>
-    </div>
-    <div class="step-dot-wrap">
-      <div class="step-dot" id="dot-3">3</div>
-      <div class="step-dot-label" id="lbl-3">Subject</div>
-    </div>
-    <div class="step-dot-wrap">
-      <div class="step-dot" id="dot-4">4</div>
-      <div class="step-dot-label" id="lbl-4">Evidence</div>
-    </div>
-    <div class="step-dot-wrap">
-      <div class="step-dot" id="dot-5">5</div>
-      <div class="step-dot-label" id="lbl-5">Declaration</div>
-    </div>
-  </div>
+<div class="header">
+  <h1>Report Corruption Securely</h1>
+  <p>Help us maintain integrity and accountability. Your report helps fight fraud, corruption, and misconduct.</p>
 </div>
 
-<div class="card" th:if="${error}" style="margin-top:20px;">
-  <div class="error-banner">⚠️ <span th:text="${error}"></span></div>
-</div>
-
-<form th:action="@{/complaint/submit}"
-      th:object="${form}"
-      method="post"
-      enctype="multipart/form-data"
-      id="mainForm">
-
-<div class="card">
-
-  <div class="step active" id="step-1">
-    <div class="step-header">
-      <div class="step-icon">👤</div>
-      <div class="step-header-text">
-        <h2>Reporter Information</h2>
-        <p>Choose how you want to submit — anonymously or with your details.</p>
-      </div>
+<div class="container">
+  <div class="progress-container">
+    <div class="progress-label">Your Progress</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 16.66%"></div>
     </div>
-
-    <div class="submission-toggle">
-      <label class="toggle-card selected" id="card-anon">
-        <input type="radio" name="anonymous" value="true"
-               th:field="*{anonymous}" checked
-               onchange="toggleAnon(true)"/>
-        <div class="t-icon">🕵️</div>
-        <div class="t-title">Anonymous</div>
-        <div class="t-desc">Your identity is fully protected</div>
-      </label>
-      <label class="toggle-card" id="card-named">
-        <input type="radio" name="anonymous" value="false"
-               th:field="*{anonymous}"
-               onchange="toggleAnon(false)"/>
-        <div class="t-icon">🙋</div>
-        <div class="t-title">Named</div>
-        <div class="t-desc">Provide your contact details</div>
-      </label>
+    <div class="steps-grid">
+      <div class="step-badge active" id="stepBadge1"><span class="step-number">✓</span> Reporter</div>
+      <div class="step-badge" id="stepBadge2"><span class="step-number">2</span> Complaint</div>
+      <div class="step-badge" id="stepBadge3"><span class="step-number">3</span> Subject</div>
+      <div class="step-badge" id="stepBadge4"><span class="step-number">4</span> Evidence</div>
+      <div class="step-badge" id="stepBadge5"><span class="step-number">5</span> Confirm</div>
+      <div class="step-badge" id="stepBadge6"><span class="step-number">6</span> Submit</div>
     </div>
+  </div>
 
-    <div class="notice notice-blue" id="anon-notice">
-      <span class="notice-icon">🔒</span>
-      <span>Your identity is completely protected. No IP address, device info, or location data will be recorded or stored.</span>
-    </div>
+  <th:block th:if="${error}">
+    <div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> <div th:text="${error}"></div></div>
+  </th:block>
 
-    <div id="personal-fields" style="display:none;">
-      <div class="two-col">
-        <div class="form-group">
-          <label class="form-label">Full Name <span class="req">*</span></label>
-          <input type="text" class="form-control" th:field="*{fullName}" placeholder="Enter your full name"/>
+  <form id="complaintForm" method="post" action="/complaint/submit" enctype="multipart/form-data" th:object="${form}">
+
+    <!-- STEP 1 -->
+    <div class="form-section active" id="section1">
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-user"></i></div>
+          <div class="section-title">Your Identity</div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-control" th:field="*{email}" placeholder="your@email.com"/>
+        <div class="notice"><i class="fas fa-shield-alt"></i> Your information is protected. Choose to report anonymously or with your details.</div>
+        <div class="toggle-group">
+          <button type="button" class="toggle-btn active" onclick="setReporterType(event, 'anonymous')"><i class="fas fa-user-secret"></i> Anonymous</button>
+          <button type="button" class="toggle-btn" onclick="setReporterType(event, 'named')"><i class="fas fa-user-check"></i> Named</button>
         </div>
-      </div>
-      <div class="two-col">
-        <div class="form-group">
-          <label class="form-label">Phone Number</label>
-          <input type="tel" class="form-control" th:field="*{phone}" placeholder="+94 77 123 4567"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Employee ID <span class="hint">(if SLT staff)</span></label>
-          <input type="text" class="form-control" th:field="*{employeeId}" placeholder="EMP-XXXXX"/>
+        <input type="hidden" id="anonymousFlag" name="anonymous" value="true" th:field="*{anonymous}"/>
+        <div id="namedFields" class="conditional-field">
+          <div class="form-group">
+            <label>Full Name <span class="required">*</span></label>
+            <input type="text" name="fullName" placeholder="Enter your full name" th:field="*{fullName}"/>
+          </div>
+          <div class="form-group two-col">
+            <div>
+              <label>Email Address <span class="required">*</span></label>
+              <input type="email" name="email" placeholder="your@email.com" th:field="*{email}"/>
+            </div>
+            <div>
+              <label>Phone Number</label>
+              <input type="tel" name="phone" placeholder="+1 (555) 000-0000" th:field="*{phone}"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Employee ID (Optional)</label>
+            <input type="text" name="employeeId" placeholder="Your employee ID" th:field="*{employeeId}"/>
+            <div class="input-hint"><i class="fas fa-info-circle"></i> Helps us verify your position</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="btn-row">
-      <button type="button" class="btn btn-next" onclick="goNext(1)">Continue ›</button>
-    </div>
-  </div>
-
-  <div class="step" id="step-2">
-    <div class="step-header">
-      <div class="step-icon">📋</div>
-      <div class="step-header-text">
-        <h2>Complaint Details</h2>
-        <p>Provide clear and accurate information about the incident.</p>
+    <!-- STEP 2 -->
+    <div class="form-section" id="section2">
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="section-title">Complaint Details</div>
+        </div>
+        <div class="form-group">
+          <label>Category <span class="required">*</span></label>
+          <select name="category" th:field="*{category}">
+            <option value="">-- Select Category --</option>
+            <option value="Fraud">💰 Fraud</option>
+            <option value="Corruption">🤝 Corruption</option>
+            <option value="Misconduct">⚠️ Misconduct</option>
+            <option value="Theft">🚨 Theft</option>
+            <option value="Harassment">😢 Harassment</option>
+            <option value="Other">📋 Other</option>
+          </select>
+        </div>
+        <div class="form-group two-col">
+          <div>
+            <label>Date of Incident <span class="required">*</span></label>
+            <input type="date" name="complaintDate" th:field="*{complaintDate}"/>
+          </div>
+          <div>
+            <label>Location</label>
+            <input type="text" name="location" placeholder="Where did it occur?" th:field="*{location}"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Complaint Description <span class="required">*</span></label>
+          <textarea name="description" placeholder="Provide detailed information..." th:field="*{description}" minlength="50" maxlength="2000" onkeyup="updateCharCount(this)"></textarea>
+          <div class="input-hint"><i class="fas fa-pen"></i> Minimum 50 characters <span class="char-count"><span id="charCount">0</span>/2000</span></div>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="reportedBefore" name="reportedBefore" th:field="*{reportedBefore}"/>
+          <label for="reportedBefore" class="checkbox-label"><strong>Already reported this issue before?</strong><br><span style="font-size: 12px; color: var(--text-light);">If yes, we'll link it to your existing complaint</span></label>
+        </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Complaint Category <span class="req">*</span></label>
-      <select class="form-control" th:field="*{category}">
-        <option value="">— Select a category —</option>
-        <option value="Bribery">💰 Bribery</option>
-        <option value="Corruption">🔗 Corruption</option>
-        <option value="Fraud">📑 Fraud</option>
-        <option value="Workplace Misconduct">⚠️ Workplace Misconduct</option>
-        <option value="Abuse of Power">🚫 Abuse of Power</option>
-        <option value="Financial Irregularity">💹 Financial Irregularity</option>
-        <option value="Other">📌 Other</option>
-      </select>
-    </div>
-
-    <div class="two-col">
-      <div class="form-group">
-        <label class="form-label">Date of Incident <span class="req">*</span></label>
-        <input type="date" class="form-control" th:field="*{complaintDate}" id="incident-date"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Location <span class="req">*</span></label>
-        <input type="text" class="form-control" th:field="*{location}" placeholder="e.g. Colombo Head Office"/>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">
-        Description <span class="req">*</span>
-        <span class="hint">— minimum 50 characters</span>
-      </label>
-      <textarea class="form-control" th:field="*{description}"
-                id="desc-field"
-                placeholder="Describe what happened in detail. Include dates, people involved, what was said or done, and any other relevant information..."
-                onkeyup="countChars()"></textarea>
-      <div class="char-count" id="char-count">0 characters — need at least 50</div>
-    </div>
-
-    <div class="check-item">
-      <input type="checkbox" th:field="*{reportedBefore}" id="rep-before"/>
-      <label for="rep-before">I have previously reported this issue through another channel.</label>
-    </div>
-
-    <div class="btn-row">
-      <button type="button" class="btn btn-back" onclick="goPrev(2)">‹ Back</button>
-      <button type="button" class="btn btn-next" onclick="goNext(2)">Continue ›</button>
-    </div>
-  </div>
-
-  <div class="step" id="step-3">
-    <div class="step-header">
-      <div class="step-icon">🎯</div>
-      <div class="step-header-text">
-        <h2>Subject Information</h2>
-        <p>Details about the person(s) involved. All fields are optional.</p>
+    <!-- STEP 3 -->
+    <div class="form-section" id="section3">
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-person"></i></div>
+          <div class="section-title">Person Involved</div>
+        </div>
+        <div class="notice"><i class="fas fa-lightbulb"></i> Provide details about the person allegedly involved in the misconduct.</div>
+        <div class="form-group">
+          <label>Full Name <span class="required">*</span></label>
+          <input type="text" name="subjectName" placeholder="Name of person involved" th:field="*{subjectName}"/>
+        </div>
+        <div class="form-group two-col">
+          <div>
+            <label>Job Title / Role</label>
+            <input type="text" name="subjectRole" placeholder="Position/Designation" th:field="*{subjectRole}"/>
+          </div>
+          <div>
+            <label>Organization/Department</label>
+            <input type="text" name="subjectOrganization" placeholder="Department name" th:field="*{subjectOrganization}"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Relationship / Context</label>
+          <input type="text" name="subjectRelationship" placeholder="How do you know this person?" th:field="*{subjectRelationship}"/>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="seniorManagement" name="seniorManagement" th:field="*{seniorManagement}"/>
+          <label for="seniorManagement" class="checkbox-label"><strong>Senior Management Involved</strong><br><span style="font-size: 12px; color: var(--text-light);">Check if senior or executive level personnel are involved</span></label>
+        </div>
       </div>
     </div>
 
-    <div class="notice notice-amber">
-      <span class="notice-icon">ℹ️</span>
-      <span>Provide as much detail as possible to help the investigation. If you do not know certain details, leave them blank.</span>
-    </div>
-
-    <div class="two-col">
-      <div class="form-group">
-        <label class="form-label">Full Name of Accused</label>
-        <input type="text" class="form-control" th:field="*{subjectName}" placeholder="Full name"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Role / Position</label>
-        <input type="text" class="form-control" th:field="*{subjectRole}" placeholder="e.g. Senior Manager"/>
-      </div>
-    </div>
-
-    <div class="two-col">
-      <div class="form-group">
-        <label class="form-label">Organization / Department</label>
-        <input type="text" class="form-control" th:field="*{subjectOrganization}" placeholder="e.g. Finance Department"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Your Relationship to Subject</label>
-        <input type="text" class="form-control" th:field="*{subjectRelationship}" placeholder="e.g. Direct supervisor"/>
-      </div>
-    </div>
-
-    <div class="check-item">
-      <input type="checkbox" th:field="*{seniorManagement}"
-             id="senior-chk" onchange="checkEscalation()"/>
-      <label for="senior-chk">
-        This complaint involves <strong>senior management</strong> (Director level or above).
-      </label>
-    </div>
-
-    <div class="notice notice-red" id="escalation-notice">
-      <span class="notice-icon">⚡</span>
-      <span>This complaint will be <strong>automatically escalated</strong> to the IAU Director for priority handling due to senior management involvement.</span>
-    </div>
-
-    <div class="btn-row">
-      <button type="button" class="btn btn-back" onclick="goPrev(3)">‹ Back</button>
-      <button type="button" class="btn btn-next" onclick="goNext(3)">Continue ›</button>
-    </div>
-  </div>
-
-  <div class="step" id="step-4">
-    <div class="step-header">
-      <div class="step-icon">📎</div>
-      <div class="step-header-text">
-        <h2>Evidence &amp; Supporting Documents</h2>
-        <p>Upload files that support your complaint. This step is optional.</p>
+    <!-- STEP 4 -->
+    <div class="form-section" id="section4">
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-paperclip"></i></div>
+          <div class="section-title">Supporting Evidence</div>
+        </div>
+        <div class="notice"><i class="fas fa-lock"></i> Upload documents, emails, or files (PDF, JPG, PNG, DOCX, XLS - Max 10MB each)</div>
+        <div class="form-group">
+          <div class="file-upload" id="fileUpload" onclick="document.getElementById('evidenceFiles').click()">
+            <div class="file-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <div class="file-upload-text">Drag & drop or click to upload</div>
+            <div class="file-upload-hint">PDF, JPG, PNG, DOCX, XLS • Max 10MB each • Up to 5 files</div>
+            <input type="file" id="evidenceFiles" name="evidenceFiles" multiple accept=".pdf,.jpg,.jpeg,.png,.docx,.xls,.xlsx" th:field="*{evidenceFiles}"/>
+          </div>
+          <div class="file-list" id="fileList"></div>
+        </div>
+        <div class="form-group">
+          <label>Witness Names (Optional)</label>
+          <textarea name="witnessNames" placeholder="List any witnesses who can corroborate..." th:field="*{witnessNames}"></textarea>
+          <div class="input-hint"><i class="fas fa-users"></i> Separate multiple names with commas</div>
+        </div>
+        <div class="form-group">
+          <label>Additional Notes</label>
+          <textarea name="additionalNotes" placeholder="Any other relevant information..." th:field="*{additionalNotes}" maxlength="500"></textarea>
+        </div>
       </div>
     </div>
 
-    <div class="upload-zone" onclick="document.getElementById('file-inp').click()">
-      <div class="uz-icon">☁️</div>
-      <div class="uz-title">Click to upload files</div>
-      <div class="uz-sub">PDF, JPG, PNG, DOCX &bull; Max 5 files &bull; 10MB per file</div>
-    </div>
-
-    <input type="file" id="file-inp" name="evidenceFiles"
-           multiple accept=".pdf,.jpg,.jpeg,.png,.docx"
-           style="display:none" onchange="showFiles(this)"/>
-
-    <div id="file-list"></div>
-
-    <div class="form-group" style="margin-top:22px;">
-      <label class="form-label">Witness Names <span class="hint">(optional)</span></label>
-      <input type="text" class="form-control" th:field="*{witnessNames}"
-             placeholder="e.g. John Silva, Mary Perera"/>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Additional Notes <span class="hint">(optional)</span></label>
-      <textarea class="form-control" th:field="*{additionalNotes}"
-                style="min-height:80px"
-                placeholder="Any other information that may help the investigation..."></textarea>
-    </div>
-
-    <div class="btn-row">
-      <button type="button" class="btn btn-back" onclick="goPrev(4)">‹ Back</button>
-      <button type="button" class="btn btn-next" onclick="goNext(4)">Continue ›</button>
-    </div>
-  </div>
-
-  <div class="step" id="step-5">
-    <div class="step-header">
-      <div class="step-icon">✍️</div>
-      <div class="step-header-text">
-        <h2>Declaration &amp; Submission</h2>
-        <p>Please read carefully and confirm before submitting.</p>
+    <!-- STEP 5 -->
+    <div class="form-section" id="section5">
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-certificate"></i></div>
+          <div class="section-title">Legal Declaration</div>
+        </div>
+        <div class="declaration-box">
+          <p><strong>Important:</strong> By submitting this complaint, you confirm that the information provided is truthful to the best of your knowledge. False or malicious complaints may result in legal consequences.</p>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="declarationChecked" name="declarationChecked" th:field="*{declarationChecked}" required/>
+          <label for="declarationChecked" class="checkbox-label"><strong>I declare that the information provided is true and accurate</strong><br><span style="font-size: 12px; color: var(--text-light);">I understand providing false information may have legal consequences</span></label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="consentChecked" name="consentChecked" th:field="*{consentChecked}" required/>
+          <label for="consentChecked" class="checkbox-label"><strong>I consent to investigation and follow-up</strong><br><span style="font-size: 12px; color: var(--text-light);">The IAU may contact me for additional information if needed</span></label>
+        </div>
       </div>
     </div>
 
-    <div class="check-item">
-      <input type="checkbox" id="chk1" onchange="checkSubmit()"/>
-      <label for="chk1">
-        I confirm that all information in this complaint is <strong>true and accurate</strong>
-        to the best of my knowledge. I understand that submitting false information
-        is a serious offence under Sri Lankan law.
-      </label>
+    <!-- STEP 6 -->
+    <div class="form-section" id="section6">
+      <div class="form-card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="section-title">Review & Submit</div>
+        </div>
+        <div class="notice"><i class="fas fa-info-circle"></i> Please review your submission. You'll receive a Complaint Reference Number (CRN) after submission.</div>
+        <div class="summary-section">
+          <div class="summary-title"><i class="fas fa-user"></i> Reporter Information</div>
+          <div class="summary-item">
+            <span class="summary-label">Report Type:</span>
+            <span class="summary-value" id="summaryType">Anonymous</span>
+          </div>
+        </div>
+        <div class="summary-section">
+          <div class="summary-title"><i class="fas fa-exclamation-triangle"></i> Complaint Summary</div>
+          <div class="summary-item">
+            <span class="summary-label">Category:</span>
+            <span class="summary-value" id="summaryCategory"></span>
+          </div>
+        </div>
+        <div class="declaration-box">
+          <p><strong>✓ You have confirmed:</strong></p>
+          <ul>
+            <li>Information provided is truthful and accurate</li>
+            <li>Consent to investigation and follow-up</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="check-item">
-      <input type="checkbox" id="chk2" onchange="checkSubmit()"/>
-      <label for="chk2">
-        I <strong>consent to this complaint being investigated</strong> by the Internal
-        Affairs Unit and understand that the process may involve reviewing relevant records
-        and interviewing relevant parties.
-      </label>
+    <!-- BUTTONS -->
+    <div class="button-group">
+      <button type="button" class="btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display:none;"><i class="fas fa-chevron-left"></i> Previous</button>
+      <button type="button" class="btn-primary" id="nextBtn" onclick="changeStep(1)">Next <i class="fas fa-chevron-right"></i></button>
+      <button type="submit" class="btn-primary" id="submitBtn" style="display:none;"><i class="fas fa-paper-plane"></i> Submit Complaint</button>
     </div>
-
-    <div class="captcha-wrap">
-      <div class="captcha-q">🔐 Security Check — What is <span id="cap-q" style="color:var(--blue);"></span> ?</div>
-      <input type="text" class="captcha-input" id="cap-ans"
-             placeholder="?" onkeyup="checkSubmit()"/>
-      <div style="font-size:12px;color:var(--red);margin-top:8px;" id="cap-err"></div>
-    </div>
-
-    <div class="notice notice-green">
-      <span class="notice-icon">🔒</span>
-      <span>Your submission is protected with TLS encryption. All data is stored securely and only accessible by authorized IAU personnel.</span>
-    </div>
-
-    <div class="btn-row">
-      <button type="button" class="btn btn-back" onclick="goPrev(5)">‹ Back</button>
-      <button type="submit" class="btn btn-submit" id="sub-btn" disabled>
-        🚀 Submit Complaint
-      </button>
-    </div>
-  </div>
-
-</div>
-</form>
-
-<div class="portal-footer">
-  <p>🔒 All data is encrypted and handled in strict confidence &bull; SLTMobitel Internal Affairs Unit &bull; 2026</p>
+  </form>
 </div>
 
 <script>
-  let cur = 1;
-  const n1 = Math.floor(Math.random()*9)+1;
-  const n2 = Math.floor(Math.random()*9)+1;
-  document.getElementById('cap-q').textContent = n1 + ' + ' + n2;
+  let currentStep = 1;
+  const totalSteps = 6;
 
-  function showStep(n) {
-    document.getElementById('step-'+cur).classList.remove('active');
-    document.getElementById('dot-'+cur).classList.remove('active');
-    document.getElementById('lbl-'+cur).classList.remove('active');
-    if(cur < n) {
-      document.getElementById('dot-'+cur).classList.add('done');
-      document.getElementById('lbl-'+cur).classList.add('done');
-    } else {
-      document.getElementById('dot-'+cur).classList.remove('done');
-      document.getElementById('lbl-'+cur).classList.remove('done');
-    }
-    cur = n;
-    document.getElementById('step-'+cur).classList.add('active');
-    document.getElementById('dot-'+cur).classList.add('active');
-    document.getElementById('lbl-'+cur).classList.add('active');
-    window.scrollTo({top:0, behavior:'smooth'});
+  function setReporterType(e, type) {
+    e.preventDefault();
+    const anonymous = type === 'anonymous';
+    document.getElementById('anonymousFlag').value = anonymous;
+    document.getElementById('namedFields').classList.toggle('show', !anonymous);
+    document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+    e.target.closest('.toggle-btn').classList.add('active');
   }
 
-  function goNext(s) {
-    if(!validate(s)) return;
-    showStep(s+1);
+  function updateCharCount(elem) {
+    const count = elem.value.length;
+    document.getElementById('charCount').textContent = count;
+    const counter = document.querySelector('.char-count');
+    if (count > 1800) counter.classList.add('warning');
+    else counter.classList.remove('warning');
   }
 
-  function goPrev(s) { showStep(s-1); }
+  function changeStep(n) {
+    currentStep += n;
+    if (currentStep < 1) currentStep = 1;
+    if (currentStep > totalSteps) currentStep = totalSteps;
+    showStep(currentStep);
+  }
 
-  function validate(s) {
-    if(s===2) {
-      const cat = document.querySelector('select[name="category"]').value;
-      const desc = document.getElementById('desc-field').value;
-      const date = document.getElementById('incident-date').value;
-      if(!cat)  { alert('Please select a complaint category.'); return false; }
-      if(!date) { alert('Please enter the date of the incident.'); return false; }
-      if(desc.length < 50) {
-        alert('Description must be at least 50 characters.\nCurrently: ' + desc.length + ' characters.');
-        return false;
+  function showStep(step) {
+    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section' + step).classList.add('active');
+
+    const progress = (step / totalSteps) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+
+    for (let i = 1; i <= totalSteps; i++) {
+      const badge = document.getElementById('stepBadge' + i);
+      badge.classList.remove('active', 'completed');
+      if (i < step) {
+        badge.classList.add('completed');
+        badge.querySelector('.step-number').textContent = '✓';
+      } else if (i === step) {
+        badge.classList.add('active');
+        badge.querySelector('.step-number').textContent = step;
+      } else {
+        badge.querySelector('.step-number').textContent = i;
       }
     }
-    return true;
-  }
 
-  function toggleAnon(isAnon) {
-    document.getElementById('personal-fields').style.display = isAnon ? 'none' : 'block';
-    document.getElementById('anon-notice').style.display = isAnon ? 'flex' : 'none';
-    document.getElementById('card-anon').classList.toggle('selected', isAnon);
-    document.getElementById('card-named').classList.toggle('selected', !isAnon);
-  }
+    document.getElementById('prevBtn').style.display = step > 1 ? 'flex' : 'none';
+    document.getElementById('nextBtn').style.display = step < totalSteps ? 'flex' : 'none';
+    document.getElementById('submitBtn').style.display = step === totalSteps ? 'flex' : 'none';
 
-  function countChars() {
-    const len = document.getElementById('desc-field').value.length;
-    const el = document.getElementById('char-count');
-    el.textContent = len >= 50
-      ? '✔ ' + len + ' characters — good to go!'
-      : len + ' characters — need at least 50';
-    el.className = 'char-count' + (len >= 50 ? ' ok' : '');
-  }
-
-  function checkEscalation() {
-    const chk = document.getElementById('senior-chk').checked;
-    document.getElementById('escalation-notice').style.display = chk ? 'flex' : 'none';
-  }
-
-  function showFiles(inp) {
-    const list = document.getElementById('file-list');
-    list.innerHTML = '';
-    Array.from(inp.files).slice(0,5).forEach(f => {
-      const d = document.createElement('div');
-      d.className = 'file-item';
-      d.innerHTML =
-        '<span class="fi-name">📄 ' + f.name + '</span>' +
-        '<span class="fi-size">' + (f.size/1024).toFixed(1) + ' KB</span>';
-      list.appendChild(d);
-    });
-  }
-
-  function checkSubmit() {
-    const c1 = document.getElementById('chk1').checked;
-    const c2 = document.getElementById('chk2').checked;
-    const ans = parseInt(document.getElementById('cap-ans').value);
-    const ok = ans === (n1+n2);
-    const errEl = document.getElementById('cap-err');
-    if(document.getElementById('cap-ans').value && !ok) {
-      errEl.textContent = '✗ Incorrect answer. Please try again.';
-    } else {
-      errEl.textContent = '';
+    if (step === 6) {
+      document.getElementById('summaryType').textContent = document.getElementById('anonymousFlag').value === 'true' ? '🔒 Anonymous' : '👤 Named';
+      document.getElementById('summaryCategory').textContent = document.querySelector('select[name="category"]').value || 'Not selected';
     }
-    document.getElementById('sub-btn').disabled = !(c1 && c2 && ok);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  document.getElementById('evidenceFiles').addEventListener('change', function(e) {
+    const fileList = document.getElementById('fileList');
+    fileList.innerHTML = '';
+    Array.from(this.files).forEach(file => {
+      const item = document.createElement('div');
+      item.className = 'file-item';
+      item.innerHTML = `<div><div class="file-item-name"><i class="fas fa-file"></i> ${file.name}</div><div class="file-item-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div></div><button type="button" class="file-remove-btn" onclick="this.parentElement.remove()">Remove</button>`;
+      fileList.appendChild(item);
+    });
+  });
+
+  const fileUpload = document.getElementById('fileUpload');
+  fileUpload.addEventListener('dragover', (e) => { e.preventDefault(); fileUpload.style.borderColor = 'var(--accent)'; });
+  fileUpload.addEventListener('dragleave', () => { fileUpload.style.borderColor = 'var(--primary)'; });
+  fileUpload.addEventListener('drop', (e) => {
+    e.preventDefault();
+    document.getElementById('evidenceFiles').files = e.dataTransfer.files;
+    document.getElementById('evidenceFiles').dispatchEvent(new Event('change'));
+    fileUpload.style.borderColor = 'var(--primary)';
+  });
+
+  showStep(1);
 </script>
+
 </body>
 </html>
