@@ -32,7 +32,10 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .permitAll()
             )
-            .logout(logout -> logout.permitAll())
+            .logout(logout -> logout
+                .logoutSuccessUrl("/")
+                .permitAll()
+            )
             .csrf(csrf -> csrf.disable()); // Disabled for demo - enable in production
         
         return http.build();
