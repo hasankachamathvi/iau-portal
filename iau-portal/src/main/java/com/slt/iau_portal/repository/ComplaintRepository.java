@@ -1,7 +1,10 @@
 package com.slt.iau_portal.repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +15,18 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
 
     Optional<Complaint> findByCrn(String crn);
 
+    Page<Complaint> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+    Page<Complaint> findByStatusOrderByCreatedAtDesc(String status, Pageable pageable);
+
+    Page<Complaint> findByEscalatedTrueOrderByCreatedAtDesc(Pageable pageable);
+
+    Page<Complaint> findByCreatedAtBetweenOrderByCreatedAtDesc(LocalDateTime start, LocalDateTime end, Pageable pageable);
+
     long countByEscalatedTrue();
 
     long countByStatus(String status);
+
+    long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
 }

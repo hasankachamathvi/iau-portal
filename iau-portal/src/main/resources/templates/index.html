@@ -137,7 +137,7 @@
       padding: 80px 5% 60px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 48px;
       max-width: 1200px;
       margin: 0 auto;
@@ -145,7 +145,7 @@
 
     .hero-left {
       flex: 1;
-      max-width: 560px;
+      max-width: 760px;
     }
 
     .hero-eyebrow {
@@ -267,168 +267,6 @@
       margin-top: 4px;
     }
 
-    .hero-right {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .hero-illustration {
-      width: 100%;
-      max-width: 480px;
-      position: relative;
-    }
-
-    .illus-main {
-      background: linear-gradient(145deg, #e8f4fd, #d0e9f7);
-      border-radius: 24px;
-      padding: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 320px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .illus-main::before {
-      content: '';
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      background: rgba(26, 82, 118, 0.08);
-    }
-
-    .illus-main::after {
-      content: '';
-      position: absolute;
-      bottom: -30px;
-      left: -30px;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: rgba(26, 122, 74, 0.07);
-    }
-
-    .illus-center {
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .illus-icon-big {
-      font-size: 80px;
-      display: block;
-      margin-bottom: 16px;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    .illus-text {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--blue-dark);
-    }
-
-    .illus-sub {
-      font-size: 13px;
-      color: var(--text-mid);
-      margin-top: 4px;
-    }
-
-    .float-card {
-      position: absolute;
-      background: white;
-      border-radius: 14px;
-      padding: 14px 18px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 160px;
-      animation: floatCard 4s ease-in-out infinite;
-    }
-
-    .float-card:nth-child(2) {
-      animation-delay: -1.5s;
-    }
-
-    .float-card:nth-child(3) {
-      animation-delay: -3s;
-    }
-
-    @keyframes floatCard {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-6px);
-      }
-    }
-
-    .fc-top {
-      top: -20px;
-      right: -20px;
-    }
-
-    .fc-bottom {
-      bottom: -20px;
-      left: -20px;
-    }
-
-    .fc-mid {
-      top: 50%;
-      right: -30px;
-      transform: translateY(-50%);
-    }
-
-    .fc-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .fc-blue {
-      background: var(--blue-light);
-    }
-
-    .fc-green {
-      background: var(--green-light);
-    }
-
-    .fc-amber {
-      background: #fef3c7;
-    }
-
-    .fc-text .fc-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    .fc-text .fc-sub {
-      font-size: 11px;
-      color: var(--text-light);
-    }
 
     .section {
       padding: 72px 5%;
@@ -660,20 +498,11 @@
 
     @media (max-width: 900px) {
       .hero {
-        flex-direction: column;
         padding: 48px 5% 40px;
       }
 
       .hero-title {
         font-size: 36px;
-      }
-
-      .hero-right {
-        width: 100%;
-      }
-
-      .float-card {
-        display: none;
       }
 
       .steps-grid,
@@ -758,17 +587,6 @@
     </div>
   </div>
 
-  <div class="hero-right">
-    <div class="hero-illustration">
-      <div class="illus-main">
-        <div class="illus-center">
-          <span class="illus-icon-big">🛡️</span>
-          <div class="illus-text">IAU Portal</div>
-          <div class="illus-sub">SLTMobitel Internal Affairs</div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="section" id="how-it-works">

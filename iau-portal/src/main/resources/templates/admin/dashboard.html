@@ -113,6 +113,19 @@
       transition: all 0.3s;
     }
 
+    .stat-card-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .stat-card-link.active {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
     .stat-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 6px 20px rgba(0,0,0,0.12);
@@ -379,26 +392,34 @@
 <div class="container">
   <!-- STATS CARDS -->
   <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon">📋</div>
-      <div class="stat-label">Total Complaints</div>
-      <div class="stat-value" th:text="${totalComplaints}">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">⏳</div>
-      <div class="stat-label">Pending</div>
-      <div class="stat-value" th:text="${pendingCount}">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🚨</div>
-      <div class="stat-label">Escalated</div>
-      <div class="stat-value" th:text="${escalatedCount}">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">✅</div>
-      <div class="stat-label">This Month</div>
-      <div class="stat-value" th:text="${monthlyCount}">0</div>
-    </div>
+    <a class="stat-card-link" th:classappend="${currentFilter == 'all'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='all')}">
+      <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-label">Total Complaints</div>
+        <div class="stat-value" th:text="${totalComplaints}">0</div>
+      </div>
+    </a>
+    <a class="stat-card-link" th:classappend="${currentFilter == 'pending'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='pending')}">
+      <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-label">Pending</div>
+        <div class="stat-value" th:text="${pendingCount}">0</div>
+      </div>
+    </a>
+    <a class="stat-card-link" th:classappend="${currentFilter == 'escalated'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='escalated')}">
+      <div class="stat-card">
+        <div class="stat-icon">🚨</div>
+        <div class="stat-label">Escalated</div>
+        <div class="stat-value" th:text="${escalatedCount}">0</div>
+      </div>
+    </a>
+    <a class="stat-card-link" th:classappend="${currentFilter == 'month'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='month')}">
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-label">This Month</div>
+        <div class="stat-value" th:text="${monthlyCount}">0</div>
+      </div>
+    </a>
   </div>
 
   <!-- SEARCH -->
@@ -410,7 +431,7 @@
   <!-- COMPLAINTS TABLE -->
   <div class="table-container">
     <div class="table-header">
-      <div class="table-title"><i class="fas fa-table"></i> Recent Complaints</div>
+      <div class="table-title"><i class="fas fa-table"></i> <span th:text="${currentFilterLabel}">All Complaints</span></div>
     </div>
     <table>
       <thead>
@@ -429,11 +450,13 @@
           <td th:text="${complaint.category}">Fraud</td>
           <td th:text="${#temporals.format(complaint.createdAt, 'MMM dd, yyyy')}">Jan 01, 2026</td>
           <td>
-            <th:block th:if="${complaint.reporters[0]?.anonymousFlag}">
-              <i class="fas fa-user-secret"></i> Anonymous
-            </th:block>
-            <th:block th:unless="${complaint.reporters[0]?.anonymousFlag}">
-              <span th:text="${complaint.reporters[0]?.fullName}">Reporter Name</span>
+            <th:block th:with="reporter=${reportersByComplaintId[complaint.id]}">
+              <th:block th:if="${reporter != null and reporter.anonymousFlag}">
+                <i class="fas fa-user-secret"></i> Anonymous
+              </th:block>
+              <th:block th:unless="${reporter != null and reporter.anonymousFlag}">
+                <span th:text="${reporter != null and reporter.fullName != null and !#strings.isEmpty(reporter.fullName) ? reporter.fullName : 'Anonymous'}">Reporter Name</span>
+              </th:block>
             </th:block>
           </td>
           <td>
@@ -460,16 +483,16 @@
     <div class="pagination" th:if="${totalPages > 1}">
       <span>Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span></span>
       <div class="page-links">
-        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=1)}">&laquo;</a>
-        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=${currentPage - 1})}">&lsaquo;</a>
+        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=0,filter=${currentFilter})}">&laquo;</a>
+        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=${currentPage - 2},filter=${currentFilter})}">&lsaquo;</a>
         
         <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a th:if="${i != currentPage}" th:href="@{/admin/dashboard(page=${i})}" th:text="${i}">1</a>
+          <a th:if="${i != currentPage}" th:href="@{/admin/dashboard(page=${i - 1},filter=${currentFilter})}" th:text="${i}">1</a>
           <span th:if="${i == currentPage}" class="active" th:text="${i}">1</span>
         </th:block>
 
-        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${currentPage + 1})}">&rsaquo;</a>
-        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${totalPages})}">&raquo;</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${currentPage},filter=${currentFilter})}">&rsaquo;</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${totalPages - 1},filter=${currentFilter})}">&raquo;</a>
       </div>
     </div>
   </div>
@@ -479,7 +502,7 @@
   function performSearch() {
     const crn = document.getElementById('searchInput').value;
     if (crn.trim()) {
-      window.location.href = '/admin/search?crn=' + encodeURIComponent(crn);
+      window.location.href = '/admin/search?query=' + encodeURIComponent(crn);
     }
   }
 
