@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home() { return "redirect:/complaint"; }
+    public String home() { return "index"; }
 
     @GetMapping("/confirmation")
     public String confirmation() { return "confirmation"; }

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IAU Complaint Portal - SLTMobitel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --blue: #1a5276;
+      --blue-dark: #0d3b6e;
+      --blue-mid: #2471a3;
+      --blue-light: #d6eaf8;
+      --green: #1a7a4a;
+      --green-light: #d5f5e3;
+      --orange: #e8590c;
+      --gray-bg: #f7f9fc;
+      --text-dark: #0d1b2a;
+      --text-mid: #4a5568;
+      --text-light: #718096;
+      --white: #ffffff;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.13);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: var(--gray-bg);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: white;
+      border-bottom: 1px solid #e8edf3;
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-logo-text .brand {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      line-height: 1;
+    }
+
+    .nav-logo-text .sub {
+      font-size: 10px;
+      color: var(--text-light);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-links a.active {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .nav-btn {
+      background: var(--blue);
+      color: white !important;
+      padding: 9px 22px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+      transition: all 0.2s !important;
+      box-shadow: 0 3px 10px rgba(26, 82, 118, 0.3);
+    }
+
+    .nav-btn:hover {
+      background: var(--blue-dark) !important;
+      color: white !important;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 80px 5% 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-left {
+      flex: 1;
+      max-width: 560px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      border: 1px solid #b3d4f0;
+    }
+
+    .hero-title {
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+
+    .hero-title .line1 {
+      color: var(--text-dark);
+    }
+
+    .hero-title .line2 {
+      color: var(--blue);
+    }
+
+    .hero-title .line3 {
+      color: var(--text-dark);
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: white;
+      padding: 15px 32px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(26, 82, 118, 0.35);
+      transition: all 0.25s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(26, 82, 118, 0.45);
+    }
+
+    .btn-primary .arrow {
+      transition: transform 0.2s;
+    }
+
+    .btn-primary:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 15px 4px;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--blue);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--blue-dark);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .hero-right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-illustration {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .illus-main {
+      background: linear-gradient(145deg, #e8f4fd, #d0e9f7);
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .illus-main::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: rgba(26, 82, 118, 0.08);
+    }
+
+    .illus-main::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(26, 122, 74, 0.07);
+    }
+
+    .illus-center {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .illus-icon-big {
+      font-size: 80px;
+      display: block;
+      margin-bottom: 16px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .illus-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue-dark);
+    }
+
+    .illus-sub {
+      font-size: 13px;
+      color: var(--text-mid);
+      margin-top: 4px;
+    }
+
+    .float-card {
+      position: absolute;
+      background: white;
+      border-radius: 14px;
+      padding: 14px 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 160px;
+      animation: floatCard 4s ease-in-out infinite;
+    }
+
+    .float-card:nth-child(2) {
+      animation-delay: -1.5s;
+    }
+
+    .float-card:nth-child(3) {
+      animation-delay: -3s;
+    }
+
+    @keyframes floatCard {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .fc-top {
+      top: -20px;
+      right: -20px;
+    }
+
+    .fc-bottom {
+      bottom: -20px;
+      left: -20px;
+    }
+
+    .fc-mid {
+      top: 50%;
+      right: -30px;
+      transform: translateY(-50%);
+    }
+
+    .fc-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .fc-blue {
+      background: var(--blue-light);
+    }
+
+    .fc-green {
+      background: var(--green-light);
+    }
+
+    .fc-amber {
+      background: #fef3c7;
+    }
+
+    .fc-text .fc-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .fc-text .fc-sub {
+      font-size: 11px;
+      color: var(--text-light);
+    }
+
+    .section {
+      padding: 72px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-block;
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--text-light);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .step-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid #e2e8f0;
+      box-shadow: var(--shadow);
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--blue-mid));
+      border-radius: 16px 16px 0 0;
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .step-num {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--blue-light);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .step-card-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--blue-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .step-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .step-card p {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    .features-strip {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);
+      padding: 56px 5%;
+    }
+
+    .features-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .feature-item {
+      text-align: center;
+      color: white;
+    }
+
+    .feature-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .feature-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+    }
+
+    .cta-section {
+      padding: 80px 5%;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cta-box {
+      background: white;
+      border-radius: 24px;
+      padding: 64px 48px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: var(--blue-light);
+      opacity: 0.4;
+    }
+
+    .cta-box::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: var(--green-light);
+      opacity: 0.4;
+    }
+
+    .cta-box-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-box h2 {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+
+    .cta-box p {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    .cta-badges {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .cta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gray-bg);
+      color: var(--text-mid);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid #e2e8f0;
+    }
+
+    .footer {
+      background: var(--text-dark);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 32px 5%;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column;
+        padding: 48px 5% 40px;
+      }
+
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .hero-right {
+        width: 100%;
+      }
+
+      .float-card {
+        display: none;
+      }
+
+      .steps-grid,
+      .features-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-stats {
+        gap: 18px;
+      }
+
+      .cta-box {
+        padding: 40px 24px;
+      }
+
+      .cta-box h2 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">🛡️</div>
+    <div class="nav-logo-text">
+      <span class="brand">SLTMobitel</span>
+      <span class="sub">Internal Affairs Unit</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="/" class="active">Home</a></li>
+    <li><a href="#how-it-works">How it Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="/complaint" class="nav-btn">Report Now</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">🔒 Secure &amp; Confidential Portal</div>
+
+    <h1 class="hero-title">
+      <span class="line1">Online</span><br/>
+      <span class="line2">Complaint</span>
+      <span class="line3"> Portal</span>
+    </h1>
+
+    <p class="hero-desc">
+      A safe and secure platform to report bribery, corruption, fraud, and workplace misconduct within SLT Mobitel. Your identity is always protected.
+    </p>
+
+    <div class="hero-actions">
+      <a href="/complaint" class="btn-primary">
+        Get Started
+        <span class="arrow">→</span>
+      </a>
+      <a href="#how-it-works" class="btn-secondary">Learn how it works ↓</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Confidential</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Available</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5 min</div>
+        <div class="stat-label">To Submit</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-illustration">
+      <div class="illus-main">
+        <div class="float-card fc-top">
+          <div class="fc-icon fc-green">✅</div>
+          <div class="fc-text">
+            <div class="fc-title">Submitted!</div>
+            <div class="fc-sub">IAU-2026-000042</div>
+          </div>
+        </div>
+
+        <div class="float-card fc-bottom">
+          <div class="fc-icon fc-blue">🔒</div>
+          <div class="fc-text">
+            <div class="fc-title">Encrypted</div>
+            <div class="fc-sub">AES-256 secured</div>
+          </div>
+        </div>
+
+        <div class="float-card fc-mid" style="right:-40px;">
+          <div class="fc-icon fc-amber">⚡</div>
+          <div class="fc-text">
+            <div class="fc-title">Escalated</div>
+            <div class="fc-sub">IAU Director notified</div>
+          </div>
+        </div>
+
+        <div class="illus-center">
+          <span class="illus-icon-big">🛡️</span>
+          <div class="illus-text">IAU Portal</div>
+          <div class="illus-sub">SLTMobitel Internal Affairs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="how-it-works">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">Simple. Secure. Effective.</h2>
+  <p class="section-desc">
+    Submit your complaint in just 3 easy steps. The entire process takes less than 5 minutes.
+  </p>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-card-icon">📝</div>
+      <h3>Fill in the Form</h3>
+      <p>Complete the complaint form with details about the incident, people involved, and any evidence you have.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-card-icon">🚀</div>
+      <h3>Submit Your Complaint</h3>
+      <p>Submit securely. You will instantly receive a unique Complaint Reference Number (CRN) to track your case.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-card-icon">🔍</div>
+      <h3>IAU Investigates</h3>
+      <p>The Internal Affairs Unit reviews and investigates your complaint confidentially. You may be contacted for more information.</p>
+    </div>
+  </div>
+</div>
+
+<div class="features-strip" id="features">
+  <div class="features-inner">
+    <div class="feature-item">
+      <div class="feature-icon">🕵️</div>
+      <div class="feature-title">Anonymous Reporting</div>
+      <div class="feature-desc">Submit without revealing your identity. No IP or device tracking.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">End-to-End Encrypted</div>
+      <div class="feature-desc">All data protected with AES-256 encryption and TLS security.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Instant CRN</div>
+      <div class="feature-desc">Receive a unique reference number immediately after submission.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">Mobile Friendly</div>
+      <div class="feature-desc">Works perfectly on any device - phone, tablet, or desktop.</div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <div class="cta-box">
+    <div class="cta-box-inner">
+      <h2>Ready to Report?</h2>
+      <p>
+        Your complaint matters. Help us build a more transparent and accountable SLTMobitel. It only takes 5 minutes.
+      </p>
+
+      <div class="cta-badges">
+        <span class="cta-badge">🔒 Fully Confidential</span>
+        <span class="cta-badge">👤 Anonymous Option</span>
+        <span class="cta-badge">⚡ Instant CRN</span>
+        <span class="cta-badge">📧 Email Confirmation</span>
+      </div>
+
+      <a href="/complaint" class="btn-primary" style="font-size:16px;padding:16px 40px;">
+        Get Started - Report Now
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>
+    🛡️ <strong>SLTMobitel Internal Affairs Unit</strong> &bull;
+    Complaint &amp; Concern Reporting Portal &bull;
+    All submissions are strictly confidential &bull; 2026
+  </p>
+</div>
+
+</body>
+</html>
