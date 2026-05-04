@@ -761,10 +761,61 @@
   }
 
   function changeStep(n) {
+    if (n > 0 && !validateCurrentStep()) {
+      return;
+    }
+
     currentStep += n;
     if (currentStep < 1) currentStep = 1;
     if (currentStep > totalSteps) currentStep = totalSteps;
     showStep(currentStep);
+  }
+
+  function validateCurrentStep() {
+    if (currentStep === 2) {
+      const category = document.querySelector('select[name="category"]');
+      const complaintDate = document.querySelector('input[name="complaintDate"]');
+      const description = document.querySelector('textarea[name="description"]');
+
+      if (!category.value) {
+        alert('Please select a complaint category before continuing.');
+        category.focus();
+        return false;
+      }
+
+      if (!complaintDate.value) {
+        alert('Please select the date of incident before continuing.');
+        complaintDate.focus();
+        return false;
+      }
+
+      if (!description.value || description.value.trim().length < 50) {
+        alert('Please provide at least 50 characters in the complaint description.');
+        description.focus();
+        return false;
+      }
+    }
+
+    if (currentStep === 3) {
+      const subjectName = document.querySelector('input[name="subjectName"]');
+      if (!subjectName.value || !subjectName.value.trim()) {
+        alert('Please enter the name of the person involved before continuing.');
+        subjectName.focus();
+        return false;
+      }
+    }
+
+    if (currentStep === 5) {
+      const declarationChecked = document.getElementById('declarationChecked');
+      const consentChecked = document.getElementById('consentChecked');
+
+      if (!declarationChecked.checked || !consentChecked.checked) {
+        alert('Please confirm both declarations before continuing to submission.');
+        return false;
+      }
+    }
+
+    return true;
   }
 
   function showStep(step) {
@@ -819,6 +870,18 @@
     document.getElementById('evidenceFiles').files = e.dataTransfer.files;
     document.getElementById('evidenceFiles').dispatchEvent(new Event('change'));
     fileUpload.style.borderColor = 'var(--primary)';
+  });
+
+  document.getElementById('complaintForm').addEventListener('submit', function(e) {
+    const declarationChecked = document.getElementById('declarationChecked');
+    const consentChecked = document.getElementById('consentChecked');
+
+    if (!declarationChecked.checked || !consentChecked.checked) {
+      e.preventDefault();
+      alert('Please complete the declaration step before submitting your complaint.');
+      currentStep = 5;
+      showStep(5);
+    }
   });
 
   showStep(1);
