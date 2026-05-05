@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.slt.iau_portal.dto.ComplaintFormDto;
+import com.slt.iau_portal.exception.ComplaintProcessingException;
 import com.slt.iau_portal.model.Complaint;
 import com.slt.iau_portal.model.Evidence;
 import com.slt.iau_portal.model.Reporter;
@@ -19,9 +22,12 @@ import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
 import com.slt.iau_portal.repository.SubjectRepository;
 import com.slt.iau_portal.util.CrnGenerator;
+import com.slt.iau_portal.util.ValidationUtil;
 
 @Service
 public class ComplaintService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ComplaintService.class);
 
     @Autowired
     private ComplaintRepository complaintRepository;
@@ -47,75 +53,124 @@ public class ComplaintService {
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
     private static final int MAX_FILES = 5;
 
-    public String processComplaint(ComplaintFormDto form) throws IOException {
-        String crn = crnGenerator.generate();
+    public String processComplaint(ComplaintFormDto form) {
+        try {
+            logger.info("Starting complaint processing");
+            String crn = crnGenerator.generate();
+            logger.info("Generated CRN: {}", crn);
 
-        Complaint complaint = new Complaint();
-        complaint.setCrn(crn);
-        complaint.setCategory(form.getCategory());
-        complaint.setDescription(form.getDescription());
-        complaint.setComplaintDate(form.getComplaintDate());
-        complaint.setLocation(form.getLocation());
-        complaint.setReportedBefore(form.isReportedBefore());
-        complaint.setEscalated(form.isSeniorManagement());
-        complaint.setStatus("PENDING");
-        complaintRepository.save(complaint);
+            // Create complaint
+            Complaint complaint = new Complaint();
+            complaint.setCrn(crn);
+            complaint.setCategory(form.getCategory());
+            complaint.setDescription(form.getDescription());
+            complaint.setComplaintDate(form.getComplaintDate());
+            complaint.setLocation(form.getLocation());
+            complaint.setReportedBefore(form.isReportedBefore());
+            complaint.setEscalated(form.isSeniorManagement());
+            complaint.setStatus("PENDING");
+            complaintRepository.save(complaint);
+            logger.info("Complaint saved with ID: {}", complaint.getId());
 
-        Reporter reporter = new Reporter();
-        reporter.setComplaint(complaint);
-        reporter.setAnonymousFlag(form.isAnonymous());
-        if (!form.isAnonymous()) {
-            reporter.setFullName(form.getFullName());
-            reporter.setEmail(form.getEmail());
-            reporter.setPhone(form.getPhone());
-            reporter.setEmployeeId(form.getEmployeeId());
-        }
-        reporterRepository.save(reporter);
+            // Save reporter information
+            Reporter reporter = new Reporter();
+            reporter.setComplaint(complaint);
+            reporter.setAnonymousFlag(form.isAnonymous());
+            if (!form.isAnonymous()) {
+                reporter.setFullName(form.getFullName());
+                reporter.setEmail(form.getEmail());
+                reporter.setPhone(form.getPhone());
+                reporter.setEmployeeId(form.getEmployeeId());
+                logger.info("Non-anonymous complaint from: {}", form.getFullName());
+            } else {
+                logger.info("Anonymous complaint submitted");
+            }
+            reporterRepository.save(reporter);
 
-        if (form.getSubjectName() != null && !form.getSubjectName().isEmpty()) {
-            Subject subject = new Subject();
-            subject.setComplaint(complaint);
-            subject.setFullName(form.getSubjectName());
-            subject.setRole(form.getSubjectRole());
-            subject.setOrganization(form.getSubjectOrganization());
-            subject.setRelationship(form.getSubjectRelationship());
-            subjectRepository.save(subject);
-        }
+            // Save subject information
+            if (form.getSubjectName() != null && !form.getSubjectName().isEmpty()) {
+                Subject subject = new Subject();
+                subject.setComplaint(complaint);
+                subject.setFullName(form.getSubjectName());
+                subject.setRole(form.getSubjectRole());
+                subject.setOrganization(form.getSubjectOrganization());
+                subject.setRelationship(form.getSubjectRelationship());
+                subjectRepository.save(subject);
+                logger.info("Subject information saved for: {}", form.getSubjectName());
+            }
 
-        // Handle file uploads with validation
-        if (form.getEvidenceFiles() != null) {
-            List<MultipartFile> files = form.getEvidenceFiles();
-            int fileCount = 0;
+            // Handle file uploads
+            if (form.getEvidenceFiles() != null && !form.getEvidenceFiles().isEmpty()) {
+                processEvidenceFiles(form.getEvidenceFiles(), complaint);
+            }
+
+            // Send email notification if not anonymous
+            if (!form.isAnonymous() && form.getEmail() != null && !form.getEmail().isEmpty()) {
+                try {
+                    emailService.sendConfirmationEmail(form.getEmail(), crn, form.getCategory());
+                    logger.info("Confirmation email sent to: {}", form.getEmail());
+                } catch (Exception e) {
+                    logger.warn("Failed to send confirmation email to: {} - {}", form.getEmail(), e.getMessage());
+                }
+            }
+
+            logger.info("Complaint processing completed successfully. CRN: {}", crn);
+            return crn;
             
-            for (MultipartFile file : files) {
-                if (!file.isEmpty()) {
-                    // Validate file count
-                    if (fileCount >= MAX_FILES) {
-                        throw new IOException("Maximum " + MAX_FILES + " files allowed");
-                    }
-                    
-                    // Validate file size
-                    if (file.getSize() > MAX_FILE_SIZE) {
-                        throw new IOException("File " + file.getOriginalFilename() + " exceeds 10MB limit");
-                    }
-                    
-                    // Validate file type
-                    String contentType = file.getContentType();
-                    if (!isAllowedFileType(contentType)) {
-                        throw new IOException("File type not allowed for " + file.getOriginalFilename());
-                    }
-                    
+        } catch (Exception e) {
+            logger.error("Error processing complaint", e);
+            throw new ComplaintProcessingException("Failed to process complaint: " + e.getMessage(), e);
+        }
+    }
+
+    private void processEvidenceFiles(List<MultipartFile> files, Complaint complaint) throws IOException {
+        int fileCount = 0;
+        
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                // Validate file count
+                if (fileCount >= MAX_FILES) {
+                    throw new ComplaintProcessingException("Maximum " + MAX_FILES + " files allowed");
+                }
+                
+                // Validate file size
+                if (file.getSize() > MAX_FILE_SIZE) {
+                    throw new ComplaintProcessingException(
+                        "File " + file.getOriginalFilename() + " exceeds 10MB limit"
+                    );
+                }
+                
+                // Validate filename
+                if (!ValidationUtil.isValidFileName(file.getOriginalFilename())) {
+                    throw new ComplaintProcessingException(
+                        "Invalid filename: " + file.getOriginalFilename()
+                    );
+                }
+                
+                // Validate file type
+                String contentType = file.getContentType();
+                if (!isAllowedFileType(contentType)) {
+                    throw new ComplaintProcessingException(
+                        "File type not allowed for " + file.getOriginalFilename()
+                    );
+                }
+                
+                try {
                     // Create upload directory
                     File uploadFolder = new File(uploadDir);
                     if (!uploadFolder.exists()) {
-                        uploadFolder.mkdirs();
+                        if (!uploadFolder.mkdirs()) {
+                            throw new IOException("Failed to create upload directory");
+                        }
                     }
 
                     // Generate unique filename to prevent overwrite
-                    String uniqueFilename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                    String uniqueFilename = System.currentTimeMillis() + "_" + sanitizeFilename(file.getOriginalFilename());
                     String filePath = uploadDir + File.separator + uniqueFilename;
                     file.transferTo(new File(filePath));
+                    logger.info("File uploaded successfully: {}", uniqueFilename);
 
+                    // Save evidence record
                     Evidence evidence = new Evidence();
                     evidence.setComplaint(complaint);
                     evidence.setFileName(file.getOriginalFilename());
@@ -124,16 +179,17 @@ public class ComplaintService {
                     evidenceRepository.save(evidence);
                     
                     fileCount++;
+                    
+                } catch (IOException e) {
+                    logger.error("Error uploading file: {}", file.getOriginalFilename(), e);
+                    throw new ComplaintProcessingException("Failed to upload file: " + file.getOriginalFilename(), e);
                 }
             }
         }
+    }
 
-        // Send email notification if not anonymous
-        if (!form.isAnonymous() && form.getEmail() != null && !form.getEmail().isEmpty()) {
-            emailService.sendConfirmationEmail(form.getEmail(), crn, form.getCategory());
-        }
-
-        return crn;
+    private String sanitizeFilename(String filename) {
+        return filename.replaceAll("[^a-zA-Z0-9._-]", "_");
     }
 
     private boolean isAllowedFileType(String contentType) {
@@ -155,6 +211,8 @@ public class ComplaintService {
                 return true;
             }
         }
+        
+        logger.warn("Unsupported file type attempted: {}", contentType);
         return false;
     }
 }
