@@ -93,8 +93,8 @@ public class AdminController {
 
         model.addAttribute("complaint", complaint);
         model.addAttribute("reporter", reporter);
-        model.addAttribute("subjects", subjects);
-        model.addAttribute("evidence", evidence);
+        model.addAttribute("subjects", subjects == null ? List.of() : subjects);
+        model.addAttribute("evidence", evidence == null ? List.of() : evidence);
 
         return "admin/complaint-detail";
     }

@@ -284,7 +284,7 @@
   </div>
 
   <!-- Subject Details -->
-  <div class="section" th:if="${!subjects.isEmpty()}">
+  <div class="section" th:if="${subjects != null and !#lists.isEmpty(subjects)}">
     <div class="section-title">👥 Subject(s) Involved</div>
     <div th:each="subject : ${subjects}" style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-border);">
       <div class="field-group">
@@ -309,7 +309,7 @@
   </div>
 
   <!-- Evidence Files -->
-  <div class="section" th:if="${!evidence.isEmpty()}">
+  <div class="section" th:if="${evidence != null and !#lists.isEmpty(evidence)}">
     <div class="section-title">📎 Evidence Files</div>
     <ul class="file-list">
       <li class="file-item" th:each="file : ${evidence}">
@@ -319,7 +319,7 @@
     </ul>
   </div>
 
-  <div class="section" th:unless="${!evidence.isEmpty()}">
+  <div class="section" th:unless="${evidence != null and !#lists.isEmpty(evidence)}">
     <div class="section-title">📎 Evidence Files</div>
     <p style="color: #718096; font-size: 13px;">No files attached to this complaint.</p>
   </div>
