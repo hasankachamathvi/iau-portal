@@ -5,12 +5,16 @@ import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +31,11 @@ import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
 import com.slt.iau_portal.repository.SubjectRepository;
 
-// @Controller (Disabled - using AdminControllerEnhanced instead)
+@Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     private ComplaintRepository complaintRepository;
@@ -49,12 +55,14 @@ public class AdminController {
             @RequestParam(defaultValue = "all") String filter,
             @RequestParam(defaultValue = "0") int page) {
 
+        logger.info("Admin dashboard accessed");
+
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Complaint> complaints = getComplaintsByFilter(filter, pageable);
         Map<Long, Reporter> reportersByComplaintId = getReportersByComplaintId(complaints.getContent());
         LocalDateTime monthStart = YearMonth.now().atDay(1).atStartOfDay();
         LocalDateTime monthEnd = YearMonth.now().plusMonths(1).atDay(1).atStartOfDay();
-        
+
         model.addAttribute("complaints", complaints.getContent());
         model.addAttribute("reportersByComplaintId", reportersByComplaintId);
         model.addAttribute("totalComplaints", complaintRepository.count());
@@ -65,40 +73,42 @@ public class AdminController {
         model.addAttribute("currentFilterLabel", getFilterLabel(filter));
         model.addAttribute("currentPage", page + 1);
         model.addAttribute("totalPages", complaints.getTotalPages());
-        
+
         return "admin/dashboard";
     }
 
     @GetMapping("/complaint/{crn}")
     public String viewComplaint(@PathVariable String crn, Model model) {
+        logger.info("Fetching complaint details for CRN: {}", crn);
+
         Complaint complaint = complaintRepository.findByCrn(crn).orElse(null);
-        
+
         if (complaint == null) {
             model.addAttribute("error", "Complaint not found");
             return "redirect:/admin/dashboard";
         }
-        
+
         Reporter reporter = reporterRepository.findByComplaintId(complaint.getId());
         List<Subject> subjects = subjectRepository.findByComplaintId(complaint.getId());
         List<Evidence> evidence = evidenceRepository.findByComplaintId(complaint.getId());
-        
+
         model.addAttribute("complaint", complaint);
         model.addAttribute("reporter", reporter);
         model.addAttribute("subjects", subjects);
         model.addAttribute("evidence", evidence);
-        
+
         return "admin/complaint-detail";
     }
 
     @PostMapping("/complaint/{id}/status")
     public String updateStatus(@PathVariable Long id, @RequestParam String status) {
         Complaint complaint = complaintRepository.findById(id).orElse(null);
-        
+
         if (complaint != null) {
             complaint.setStatus(status);
             complaintRepository.save(complaint);
         }
-        
+
         return "redirect:/admin/dashboard";
     }
 
@@ -114,7 +124,7 @@ public class AdminController {
                 : complaintRepository.findByCrn(searchValue).stream().toList();
 
         Map<Long, Reporter> reportersByComplaintId = getReportersByComplaintId(complaints);
-        
+
         model.addAttribute("complaints", complaints);
         model.addAttribute("searchQuery", query);
         model.addAttribute("reportersByComplaintId", reportersByComplaintId);
@@ -128,7 +138,7 @@ public class AdminController {
         model.addAttribute("currentFilterLabel", "Search Results");
         model.addAttribute("currentPage", 1);
         model.addAttribute("totalPages", 1);
-        
+
         return "admin/dashboard";
     }
 
