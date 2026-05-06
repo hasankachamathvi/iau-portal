@@ -18,6 +18,12 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
     Page<Complaint> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     Page<Complaint> findByStatusOrderByCreatedAtDesc(String status, Pageable pageable);
+    
+    Page<Complaint> findByStatus(String status, Pageable pageable);
+    
+    Page<Complaint> findByCategory(String category, Pageable pageable);
+    
+    Page<Complaint> findByStatusAndCategory(String status, String category, Pageable pageable);
 
     Page<Complaint> findByEscalatedTrueOrderByCreatedAtDesc(Pageable pageable);
 

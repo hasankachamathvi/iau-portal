@@ -27,7 +27,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminControllerEnhanced {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
@@ -35,7 +35,7 @@ public class AdminController {
     private final ReporterRepository reporterRepository;
     private final EvidenceRepository evidenceRepository;
 
-    public AdminController(
+    public AdminControllerEnhanced(
             ComplaintRepository complaintRepository,
             ReporterRepository reporterRepository,
             EvidenceRepository evidenceRepository) {

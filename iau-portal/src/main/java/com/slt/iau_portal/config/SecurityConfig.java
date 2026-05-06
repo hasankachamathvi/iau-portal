@@ -11,8 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.Customizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -49,12 +52,11 @@ public class SecurityConfig {
                 .disable() // Disabled for form submissions - enable in production with proper CSRF tokens
             )
             .headers(headers -> headers
-                .contentTypeOptions().and()
-                .xssProtection().and()
-                .frameOptions().deny()
+                .contentTypeOptions(withDefaults())
+                .xssProtection(withDefaults())
+                .frameOptions(withDefaults())
             )
             .sessionManagement(session -> session
-                .sessionFixationProtection(org.springframework.security.config.http.SessionFixationProtection.MIGRATEDATA)
                 .sessionConcurrency(concurrency -> concurrency.maximumSessions(1))
             );
         
