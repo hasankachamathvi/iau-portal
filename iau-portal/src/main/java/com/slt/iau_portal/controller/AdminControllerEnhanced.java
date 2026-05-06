@@ -22,41 +22,64 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.slt.iau_portal.model.Complaint;
 import com.slt.iau_portal.model.Evidence;
 import com.slt.iau_portal.model.Reporter;
+import com.slt.iau_portal.model.Subject;
 import com.slt.iau_portal.repository.ComplaintRepository;
 import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
+import com.slt.iau_portal.repository.SubjectRepository;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminControllerEnhanced {
 
-    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminControllerEnhanced.class);
 
     private final ComplaintRepository complaintRepository;
     private final ReporterRepository reporterRepository;
+    private final SubjectRepository subjectRepository;
     private final EvidenceRepository evidenceRepository;
 
     public AdminControllerEnhanced(
             ComplaintRepository complaintRepository,
             ReporterRepository reporterRepository,
+            SubjectRepository subjectRepository,
             EvidenceRepository evidenceRepository) {
         this.complaintRepository = complaintRepository;
         this.reporterRepository = reporterRepository;
+        this.subjectRepository = subjectRepository;
         this.evidenceRepository = evidenceRepository;
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(
+            Model model,
+            @RequestParam(defaultValue = "all") String filter,
+            @RequestParam(defaultValue = "0") int page) {
+
         logger.info("Admin dashboard accessed");
         
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Complaint> complaints = getComplaintsByFilter(filter, pageable);
+        Map<Long, Reporter> reportersByComplaintId = getReportersByComplaintId(complaints.getContent());
+        java.time.LocalDateTime monthStart = java.time.YearMonth.now().atDay(1).atStartOfDay();
+        java.time.LocalDateTime monthEnd = java.time.YearMonth.now().plusMonths(1).atDay(1).atStartOfDay();
         long totalComplaints = complaintRepository.count();
-        long pendingComplaints = complaintRepository.countByStatus("PENDING");
+        long escalatedCount = complaintRepository.countByEscalatedTrue();
+        long pendingCount = complaintRepository.countByStatus("PENDING");
+        long monthlyCount = complaintRepository.countByCreatedAtBetween(monthStart, monthEnd);
         
-        logger.info("Dashboard stats - Total: {}, Pending: {}", totalComplaints, pendingComplaints);
+        logger.info("Dashboard stats - Total: {}, Pending: {}", totalComplaints, pendingCount);
         
+        model.addAttribute("complaints", complaints.getContent());
+        model.addAttribute("reportersByComplaintId", reportersByComplaintId);
         model.addAttribute("totalComplaints", totalComplaints);
-        model.addAttribute("pendingComplaints", pendingComplaints);
-        model.addAttribute("resolvedComplaints", totalComplaints - pendingComplaints);
+        model.addAttribute("escalatedCount", escalatedCount);
+        model.addAttribute("pendingCount", pendingCount);
+        model.addAttribute("monthlyCount", monthlyCount);
+        model.addAttribute("currentFilter", filter);
+        model.addAttribute("currentFilterLabel", getFilterLabel(filter));
+        model.addAttribute("currentPage", page + 1);
+        model.addAttribute("totalPages", complaints.getTotalPages());
         
         return "admin/dashboard";
     }
@@ -94,24 +117,26 @@ public class AdminControllerEnhanced {
         return "admin/complaint-list";
     }
 
-    @GetMapping("/complaint/{id}")
-    public String viewComplaintDetail(@PathVariable Long id, Model model) {
-        logger.info("Fetching complaint details for ID: {}", id);
+    @GetMapping("/complaint/{crn}")
+    public String viewComplaintDetail(@PathVariable String crn, Model model) {
+        logger.info("Fetching complaint details for CRN: {}", crn);
         
-        Optional<Complaint> complaintOpt = complaintRepository.findById(id);
+        Optional<Complaint> complaintOpt = complaintRepository.findByCrn(crn);
         
         if (complaintOpt.isEmpty()) {
-            logger.warn("Complaint not found with ID: {}", id);
+            logger.warn("Complaint not found with CRN: {}", crn);
             model.addAttribute("error", "Complaint not found");
             return "error";
         }
 
         Complaint complaint = complaintOpt.get();
         Reporter reporter = reporterRepository.findByComplaintId(complaint.getId());
+        List<Subject> subjects = subjectRepository.findByComplaintId(complaint.getId());
         List<Evidence> evidences = evidenceRepository.findByComplaintId(complaint.getId());
 
         model.addAttribute("complaint", complaint);
         model.addAttribute("reporter", reporter);
+        model.addAttribute("subjects", subjects);
         model.addAttribute("evidences", evidences);
 
         logger.info("Complaint details loaded - CRN: {}", complaint.getCrn());
@@ -166,5 +191,57 @@ public class AdminControllerEnhanced {
 
         logger.info("Statistics generated - Total complaints: {}", allComplaints.size());
         return "admin/statistics";
+    }
+
+    private Page<Complaint> getComplaintsByFilter(String filter, Pageable pageable) {
+        java.time.LocalDateTime monthStart = java.time.YearMonth.now().atDay(1).atStartOfDay();
+        java.time.LocalDateTime monthEnd = java.time.YearMonth.now().plusMonths(1).atDay(1).atStartOfDay();
+
+        if ("pending".equalsIgnoreCase(filter)) {
+            return complaintRepository.findByStatusOrderByCreatedAtDesc("PENDING", pageable);
+        }
+
+        if ("escalated".equalsIgnoreCase(filter)) {
+            return complaintRepository.findByEscalatedTrueOrderByCreatedAtDesc(pageable);
+        }
+
+        if ("month".equalsIgnoreCase(filter)) {
+            return complaintRepository.findByCreatedAtBetweenOrderByCreatedAtDesc(monthStart, monthEnd, pageable);
+        }
+
+        return complaintRepository.findAllByOrderByCreatedAtDesc(pageable);
+    }
+
+    private Map<Long, Reporter> getReportersByComplaintId(List<Complaint> complaints) {
+        Map<Long, Reporter> reportersByComplaintId = new HashMap<>();
+
+        for (Complaint complaint : complaints) {
+            Reporter reporter = reporterRepository.findByComplaintId(complaint.getId());
+            if (reporter != null) {
+                reportersByComplaintId.put(complaint.getId(), reporter);
+            }
+        }
+
+        return reportersByComplaintId;
+    }
+
+    private String getFilterLabel(String filter) {
+        if ("pending".equalsIgnoreCase(filter)) {
+            return "Pending Complaints";
+        }
+
+        if ("escalated".equalsIgnoreCase(filter)) {
+            return "Escalated Complaints";
+        }
+
+        if ("month".equalsIgnoreCase(filter)) {
+            return "This Month's Complaints";
+        }
+
+        if ("search".equalsIgnoreCase(filter)) {
+            return "Search Results";
+        }
+
+        return "All Complaints";
     }
 }
