@@ -28,7 +28,7 @@ import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
 import com.slt.iau_portal.repository.SubjectRepository;
 
-@Controller
+// @Controller (Disabled - using AdminControllerEnhanced instead)
 @RequestMapping("/admin")
 public class AdminController {
 
