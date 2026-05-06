@@ -106,11 +106,11 @@ public class AdminControllerEnhanced {
         }
 
         Complaint complaint = complaintOpt.get();
-        List<Reporter> reporters = reporterRepository.findByComplaint(complaint);
-        List<Evidence> evidences = evidenceRepository.findByComplaint(complaint);
+        Reporter reporter = reporterRepository.findByComplaintId(complaint.getId());
+        List<Evidence> evidences = evidenceRepository.findByComplaintId(complaint.getId());
 
         model.addAttribute("complaint", complaint);
-        model.addAttribute("reporters", reporters);
+        model.addAttribute("reporter", reporter);
         model.addAttribute("evidences", evidences);
 
         logger.info("Complaint details loaded - CRN: {}", complaint.getCrn());
