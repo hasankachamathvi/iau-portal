@@ -26,7 +26,10 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--gray-bg);
+      background:
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(13, 59, 110, 0.10), transparent 25%),
+        var(--gray-bg);
       color: var(--text);
       min-height: 100vh;
     }
@@ -92,10 +95,88 @@
       font-family: 'Poppins', sans-serif;
     }
 
+    .header p {
+      max-width: 760px;
+      margin: 0 auto;
+      color: rgba(255,255,255,0.88);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 32px 24px;
+    }
+
+    .hero-panel {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid rgba(13, 59, 110, 0.08);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(13, 59, 110, 0.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(13, 59, 110, 0.08);
+      color: var(--primary);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 12px;
+    }
+
+    .hero-copy h2 {
+      font-size: 26px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      font-family: 'Poppins', sans-serif;
+      color: var(--primary-dark);
+    }
+
+    .hero-copy p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-light);
+    }
+
+    .hero-aside {
+      min-width: 220px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .hero-chip {
+      background: rgba(13, 59, 110, 0.05);
+      border: 1px solid rgba(13, 59, 110, 0.08);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .hero-chip strong {
+      display: block;
+      color: var(--primary-dark);
+      font-size: 16px;
+      margin-top: 2px;
+      font-family: 'Poppins', sans-serif;
     }
 
     .stats-grid {
@@ -163,6 +244,12 @@
       gap: 12px;
     }
 
+    .search-form {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+
     .search-bar input {
       flex: 1;
       padding: 12px 16px;
@@ -196,6 +283,50 @@
     .search-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(13, 59, 110, 0.3);
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--gray-border);
+      background: rgba(255,255,255,0.85);
+      color: var(--text);
+      transition: all 0.25s ease;
+    }
+
+    .filter-pill:hover {
+      transform: translateY(-1px);
+      border-color: rgba(13, 59, 110, 0.18);
+      box-shadow: 0 8px 16px rgba(13, 59, 110, 0.08);
+    }
+
+    .filter-pill.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .table-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      color: var(--text-light);
+      font-size: 13px;
     }
 
     .table-container {
@@ -350,13 +481,47 @@
       font-weight: 600;
     }
 
+    .empty-state {
+      padding: 44px 24px;
+      text-align: center;
+      color: var(--text-light);
+    }
+
+    .empty-state i {
+      font-size: 36px;
+      color: rgba(13, 59, 110, 0.3);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .empty-state h3 {
+      color: var(--text);
+      font-size: 18px;
+      margin-bottom: 8px;
+      font-family: 'Poppins', sans-serif;
+    }
+
     @media (max-width: 768px) {
+      .hero-panel {
+        flex-direction: column;
+      }
+
       .stats-grid {
         grid-template-columns: 1fr;
       }
 
       .search-bar {
         flex-direction: column;
+      }
+
+      .search-form {
+        flex-direction: column;
+      }
+
+      .table-meta,
+      .pagination {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       table {
@@ -387,9 +552,24 @@
 
 <div class="header">
   <h1>📊 Complaints Dashboard</h1>
+  <p>Monitor live complaint activity, review submissions by status, and drill into individual CRNs without leaving the admin console.</p>
 </div>
 
 <div class="container">
+  <div class="hero-panel">
+    <div class="hero-copy">
+      <div class="hero-kicker"><i class="fas fa-shield-alt"></i> Administration overview</div>
+      <h2>Track complaints with fewer clicks and a clearer signal.</h2>
+      <p>
+        Use the cards below to switch between slices of the queue, search a CRN directly, or open a complaint detail view for full reporter and evidence context.
+      </p>
+    </div>
+    <div class="hero-aside">
+      <div class="hero-chip">Current view<strong th:text="${currentFilterLabel}">All Complaints</strong></div>
+      <div class="hero-chip">Visible items<strong th:text="${#lists.size(complaints)}">0</strong></div>
+    </div>
+  </div>
+
   <!-- STATS CARDS -->
   <div class="stats-grid">
     <a class="stat-card-link" th:classappend="${currentFilter == 'all'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='all')}">
@@ -424,14 +604,27 @@
 
   <!-- SEARCH -->
   <div class="search-bar">
-    <input type="text" placeholder="Search by CRN..." id="searchInput"/>
-    <button class="search-btn" onclick="performSearch()"><i class="fas fa-search"></i> Search</button>
+    <form class="search-form" method="get" action="/admin/search">
+      <input type="text" name="query" placeholder="Search by CRN..." id="searchInput" aria-label="Search by CRN"/>
+      <button class="search-btn" type="submit"><i class="fas fa-search"></i> Search</button>
+    </form>
+  </div>
+
+  <div class="filter-bar" aria-label="Quick filters">
+    <a class="filter-pill" th:classappend="${currentFilter == 'all'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='all')}"><i class="fas fa-layer-group"></i> All</a>
+    <a class="filter-pill" th:classappend="${currentFilter == 'pending'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='pending')}"><i class="fas fa-clock"></i> Pending</a>
+    <a class="filter-pill" th:classappend="${currentFilter == 'escalated'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='escalated')}"><i class="fas fa-triangle-exclamation"></i> Escalated</a>
+    <a class="filter-pill" th:classappend="${currentFilter == 'month'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='month')}"><i class="fas fa-calendar-days"></i> This Month</a>
   </div>
 
   <!-- COMPLAINTS TABLE -->
   <div class="table-container">
     <div class="table-header">
       <div class="table-title"><i class="fas fa-table"></i> <span th:text="${currentFilterLabel}">All Complaints</span></div>
+      <div class="table-meta">
+        <span><strong th:text="${#lists.size(complaints)}">0</strong> records shown</span>
+        <span th:if="${totalPages > 1}">Page <strong th:text="${currentPage}">1</strong> of <strong th:text="${totalPages}">1</strong></span>
+      </div>
     </div>
     <table>
       <thead>
@@ -472,8 +665,11 @@
         </tr>
         <tr th:if="${complaints.isEmpty()}">
           <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-light);">
-            <i class="fas fa-inbox" style="font-size: 32px; margin-bottom: 12px; display: block;"></i>
-            No complaints found
+            <div class="empty-state">
+              <i class="fas fa-inbox"></i>
+              <h3>No complaints found</h3>
+              <p>Try a different filter or search another CRN to continue.</p>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -499,16 +695,10 @@
 </div>
 
 <script>
-  function performSearch() {
-    const crn = document.getElementById('searchInput').value;
-    if (crn.trim()) {
-      window.location.href = '/admin/search?query=' + encodeURIComponent(crn);
-    }
-  }
-
   document.getElementById('searchInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
-      performSearch();
+      e.preventDefault();
+      this.form.submit();
     }
   });
 </script>
