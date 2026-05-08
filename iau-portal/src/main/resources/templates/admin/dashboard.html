@@ -319,6 +319,51 @@
       border-color: var(--primary);
     }
 
+    .sort-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+
+    .sort-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 8px;
+    }
+
+    .sort-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--gray-border);
+      background: rgba(255,255,255,0.9);
+      color: var(--text);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .sort-button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(13, 59, 110, 0.18);
+      box-shadow: 0 4px 12px rgba(13, 59, 110, 0.08);
+    }
+
+    .sort-button.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
     .table-meta {
       display: flex;
       justify-content: space-between;
@@ -623,6 +668,17 @@
     <a class="filter-pill" th:classappend="${currentFilter == 'month'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='month')}"><i class="fas fa-calendar-days"></i> This Month</a>
   </div>
 
+  <!-- SORT BAR -->
+  <div class="sort-bar" aria-label="Sort options">
+    <span class="sort-label"><i class="fas fa-arrow-down-up"></i> Sort By:</span>
+    <a class="sort-button" th:classappend="${currentSort == 'dateDesc'} ? ' active' : ''" th:href="@{/admin/dashboard(filter=${currentFilter},sort='dateDesc')}"><i class="fas fa-calendar"></i> Date (Newest)</a>
+    <a class="sort-button" th:classappend="${currentSort == 'dateAsc'} ? ' active' : ''" th:href="@{/admin/dashboard(filter=${currentFilter},sort='dateAsc')}"><i class="fas fa-calendar"></i> Date (Oldest)</a>
+    <a class="sort-button" th:classappend="${currentSort == 'categoryAsc'} ? ' active' : ''" th:href="@{/admin/dashboard(filter=${currentFilter},sort='categoryAsc')}"><i class="fas fa-tag"></i> Category (A-Z)</a>
+    <a class="sort-button" th:classappend="${currentSort == 'categoryDesc'} ? ' active' : ''" th:href="@{/admin/dashboard(filter=${currentFilter},sort='categoryDesc')}"><i class="fas fa-tag"></i> Category (Z-A)</a>
+    <a class="sort-button" th:classappend="${currentSort == 'statusAsc'} ? ' active' : ''" th:href="@{/admin/dashboard(filter=${currentFilter},sort='statusAsc')}"><i class="fas fa-list"></i> Status (A-Z)</a>
+    <a class="sort-button" th:classappend="${currentSort == 'statusDesc'} ? ' active' : ''" th:href="@{/admin/dashboard(filter=${currentFilter},sort='statusDesc')}"><i class="fas fa-list"></i> Status (Z-A)</a>
+  </div>
+
   <!-- COMPLAINTS TABLE -->
   <div class="table-container">
     <div class="table-header">
@@ -685,16 +741,16 @@
     <div class="pagination" th:if="${totalPages > 1}">
       <span>Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span></span>
       <div class="page-links">
-        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=0,filter=${currentFilter})}">&laquo;</a>
-        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=${currentPage - 2},filter=${currentFilter})}">&lsaquo;</a>
+        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=0,filter=${currentFilter},sort=${currentSort})}">&laquo;</a>
+        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=${currentPage - 2},filter=${currentFilter},sort=${currentSort})}">&lsaquo;</a>
         
         <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a th:if="${i != currentPage}" th:href="@{/admin/dashboard(page=${i - 1},filter=${currentFilter})}" th:text="${i}">1</a>
+          <a th:if="${i != currentPage}" th:href="@{/admin/dashboard(page=${i - 1},filter=${currentFilter},sort=${currentSort})}" th:text="${i}">1</a>
           <span th:if="${i == currentPage}" class="active" th:text="${i}">1</span>
         </th:block>
 
-        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${currentPage},filter=${currentFilter})}">&rsaquo;</a>
-        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${totalPages - 1},filter=${currentFilter})}">&raquo;</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${currentPage},filter=${currentFilter},sort=${currentSort})}">&rsaquo;</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${totalPages - 1},filter=${currentFilter},sort=${currentSort})}">&raquo;</a>
       </div>
     </div>
   </div>
