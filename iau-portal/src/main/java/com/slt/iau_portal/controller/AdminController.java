@@ -58,12 +58,14 @@ public class AdminController {
     public String dashboard(
             Model model,
             @RequestParam(defaultValue = "all") String filter,
-            @RequestParam(defaultValue = "0") int page) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "dateDesc") String sort) {
 
-        logger.info("Admin dashboard accessed");
+        logger.info("Admin dashboard accessed with filter={} sort={}", filter, sort);
         int maxPage = Math.max(0, page);
 
-        Pageable pageable = PageRequest.of(maxPage, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Sort sortOrder = buildSort(sort);
+        Pageable pageable = PageRequest.of(maxPage, 10, sortOrder);
         Page<Complaint> complaints = getComplaintsByFilter(filter, pageable);
         Map<Long, Reporter> reportersByComplaintId = getReportersByComplaintId(complaints.getContent());
         LocalDateTime monthStart = YearMonth.now().atDay(1).atStartOfDay();
@@ -77,6 +79,7 @@ public class AdminController {
         model.addAttribute("monthlyCount", complaintRepository.countByCreatedAtBetween(monthStart, monthEnd));
         model.addAttribute("currentFilter", filter);
         model.addAttribute("currentFilterLabel", getFilterLabel(filter));
+        model.addAttribute("currentSort", sort);
         model.addAttribute("currentPage", page + 1);
         model.addAttribute("totalPages", complaints.getTotalPages());
 
@@ -199,6 +202,17 @@ public class AdminController {
         }
 
         return reportersByComplaintId;
+    }
+
+    private Sort buildSort(String sortParam) {
+        return switch (sortParam) {
+            case "dateAsc" -> Sort.by(Sort.Direction.ASC, "createdAt");
+            case "categoryAsc" -> Sort.by(Sort.Direction.ASC, "category");
+            case "categoryDesc" -> Sort.by(Sort.Direction.DESC, "category");
+            case "statusAsc" -> Sort.by(Sort.Direction.ASC, "status");
+            case "statusDesc" -> Sort.by(Sort.Direction.DESC, "status");
+            default -> Sort.by(Sort.Direction.DESC, "createdAt"); // dateDesc
+        };
     }
 
     private String getFilterLabel(String filter) {
