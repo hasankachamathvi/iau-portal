@@ -544,30 +544,89 @@
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid var(--gray-border);
+      font-size: 13px;
+      color: var(--text-light);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .pagination-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .pagination-status {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .pagination-size {
       font-size: 12px;
       color: var(--text-light);
     }
 
     .page-links {
       display: flex;
-      gap: 4px;
+      gap: 6px;
+      align-items: center;
     }
 
-    .page-links a, .page-links span {
-      padding: 6px 12px;
+    .page-links a, .page-links span, .page-links button {
+      padding: 8px 10px;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.3s;
+      border: 1px solid transparent;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 32px;
     }
 
-    .page-links a:hover {
-      background: var(--gray-border);
+    .page-links a:hover:not(.disabled) {
+      background: var(--gray-bg);
+      border-color: var(--gray-border);
+      transform: translateY(-1px);
+    }
+
+    .page-links a.disabled, .page-links a:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .page-links .nav-button {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .page-links .nav-button:hover:not(.disabled) {
+      background: rgba(13, 59, 110, 0.1);
+      border-color: var(--primary);
     }
 
     .page-links .active {
       background: var(--primary);
       color: white;
       font-weight: 600;
+      border-color: var(--primary);
+    }
+
+    .page-links span.separator {
+      color: var(--gray-border);
+      cursor: default;
+      padding: 0 2px;
+    }
+
+    .page-links span.separator:hover {
+      background: none;
     }
 
     .empty-state {
@@ -782,18 +841,56 @@
 
     <!-- PAGINATION -->
     <div class="pagination" th:if="${totalPages > 1}">
-      <span>Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span></span>
-      <div class="page-links">
-        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=0,filter=${currentFilter},sort=${currentSort})}">&laquo;</a>
-        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=${currentPage - 2},filter=${currentFilter},sort=${currentSort})}">&lsaquo;</a>
+      <div class="pagination-info">
+        <div class="pagination-status">
+          Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span>
+        </div>
+        <div class="pagination-size">
+          <span th:text="${(currentPage - 1) * 10 + 1}">1</span>-<span th:text="${#lists.size(complaints) > 0 ? (currentPage - 1) * 10 + #lists.size(complaints) : 0}">10</span> of <span th:text="${totalComplaints}">100</span> complaints
+        </div>
+      </div>
+      <div class="page-links" role="navigation" aria-label="Pagination">
+        <!-- First page -->
+        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=0,filter=${currentFilter},sort=${currentSort})}" class="nav-button" title="Go to first page" aria-label="First page">
+          <i class="fas fa-angle-double-left"></i>
+        </a>
+        <a th:unless="${currentPage > 1}" class="nav-button disabled" title="Already on first page" aria-label="First page (disabled)">
+          <i class="fas fa-angle-double-left"></i>
+        </a>
+
+        <!-- Previous page -->
+        <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=${currentPage - 2},filter=${currentFilter},sort=${currentSort})}" class="nav-button" title="Go to previous page" aria-label="Previous page">
+          <i class="fas fa-angle-left"></i>
+        </a>
+        <a th:unless="${currentPage > 1}" class="nav-button disabled" title="No previous page" aria-label="Previous page (disabled)">
+          <i class="fas fa-angle-left"></i>
+        </a>
+
+        <span class="separator">|</span>
         
+        <!-- Page numbers -->
         <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
-          <a th:if="${i != currentPage}" th:href="@{/admin/dashboard(page=${i - 1},filter=${currentFilter},sort=${currentSort})}" th:text="${i}">1</a>
-          <span th:if="${i == currentPage}" class="active" th:text="${i}">1</span>
+          <a th:if="${i != currentPage}" th:href="@{/admin/dashboard(page=${i - 1},filter=${currentFilter},sort=${currentSort})}" th:text="${i}" th:title="|Go to page ${i}|" th:aria-label="|Go to page ${i}|">1</a>
+          <span th:if="${i == currentPage}" class="active" th:text="${i}" th:title="|Current page ${i}|" aria-current="page">1</span>
         </th:block>
 
-        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${currentPage},filter=${currentFilter},sort=${currentSort})}">&rsaquo;</a>
-        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${totalPages - 1},filter=${currentFilter},sort=${currentSort})}">&raquo;</a>
+        <span class="separator">|</span>
+
+        <!-- Next page -->
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${currentPage},filter=${currentFilter},sort=${currentSort})}" class="nav-button" title="Go to next page" aria-label="Next page">
+          <i class="fas fa-angle-right"></i>
+        </a>
+        <a th:unless="${currentPage < totalPages}" class="nav-button disabled" title="No next page" aria-label="Next page (disabled)">
+          <i class="fas fa-angle-right"></i>
+        </a>
+
+        <!-- Last page -->
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${totalPages - 1},filter=${currentFilter},sort=${currentSort})}" class="nav-button" title="Go to last page" aria-label="Last page">
+          <i class="fas fa-angle-double-right"></i>
+        </a>
+        <a th:unless="${currentPage < totalPages}" class="nav-button disabled" title="Already on last page" aria-label="Last page (disabled)">
+          <i class="fas fa-angle-double-right"></i>
+        </a>
       </div>
     </div>
   </div>
