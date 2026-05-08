@@ -5,6 +5,7 @@ import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ import com.slt.iau_portal.repository.SubjectRepository;
 public class AdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+    private static final List<String> VALID_STATUSES = List.of("PENDING", "UNDER_INVESTIGATION", "RESOLVED");
 
     @Autowired
     private ComplaintRepository complaintRepository;
@@ -80,7 +82,7 @@ public class AdminController {
     public String viewComplaint(@PathVariable String crn, Model model) {
         logger.info("Fetching complaint details for CRN: {}", crn);
 
-        Complaint complaint = complaintRepository.findByCrn(crn).orElse(null);
+        Complaint complaint = complaintRepository.findByCrnIgnoreCase(crn.trim()).orElse(null);
 
         if (complaint == null) {
             model.addAttribute("error", "Complaint not found");
@@ -102,9 +104,10 @@ public class AdminController {
     @PostMapping("/complaint/{id}/status")
     public String updateStatus(@PathVariable Long id, @RequestParam String status) {
         Complaint complaint = complaintRepository.findById(id).orElse(null);
+        String normalizedStatus = Optional.ofNullable(status).map(String::trim).orElse("").toUpperCase();
 
-        if (complaint != null) {
-            complaint.setStatus(status);
+        if (complaint != null && VALID_STATUSES.contains(normalizedStatus)) {
+            complaint.setStatus(normalizedStatus);
             complaintRepository.save(complaint);
         }
 
@@ -118,14 +121,15 @@ public class AdminController {
             Model model) {
 
         String searchValue = query != null && !query.isBlank() ? query : crn;
-        List<Complaint> complaints = searchValue == null || searchValue.isBlank()
-                ? List.of()
-                : complaintRepository.findByCrn(searchValue).stream().toList();
+        String normalizedSearchValue = searchValue == null ? "" : searchValue.trim();
+        List<Complaint> complaints = normalizedSearchValue.isBlank()
+            ? complaintRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdAt"))).getContent()
+            : complaintRepository.findByCrnIgnoreCase(normalizedSearchValue).stream().toList();
 
         Map<Long, Reporter> reportersByComplaintId = getReportersByComplaintId(complaints);
 
         model.addAttribute("complaints", complaints);
-        model.addAttribute("searchQuery", query);
+        model.addAttribute("searchQuery", normalizedSearchValue);
         model.addAttribute("reportersByComplaintId", reportersByComplaintId);
         model.addAttribute("totalComplaints", complaintRepository.count());
         model.addAttribute("pendingCount", complaintRepository.countByStatus("PENDING"));
@@ -133,8 +137,8 @@ public class AdminController {
         LocalDateTime monthStart = YearMonth.now().atDay(1).atStartOfDay();
         LocalDateTime monthEnd = YearMonth.now().plusMonths(1).atDay(1).atStartOfDay();
         model.addAttribute("monthlyCount", complaintRepository.countByCreatedAtBetween(monthStart, monthEnd));
-        model.addAttribute("currentFilter", "search");
-        model.addAttribute("currentFilterLabel", "Search Results");
+        model.addAttribute("currentFilter", normalizedSearchValue.isBlank() ? "all" : "search");
+        model.addAttribute("currentFilterLabel", normalizedSearchValue.isBlank() ? "All Complaints" : "Search Results");
         model.addAttribute("currentPage", 1);
         model.addAttribute("totalPages", 1);
 

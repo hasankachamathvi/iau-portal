@@ -15,6 +15,8 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
 
     Optional<Complaint> findByCrn(String crn);
 
+    Optional<Complaint> findByCrnIgnoreCase(String crn);
+
     Page<Complaint> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     Page<Complaint> findByStatusOrderByCreatedAtDesc(String status, Pageable pageable);

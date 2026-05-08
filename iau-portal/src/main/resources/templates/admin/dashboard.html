@@ -605,7 +605,7 @@
   <!-- SEARCH -->
   <div class="search-bar">
     <form class="search-form" method="get" action="/admin/search">
-      <input type="text" name="query" placeholder="Search by CRN..." id="searchInput" aria-label="Search by CRN"/>
+      <input type="text" name="query" placeholder="Search by CRN..." id="searchInput" aria-label="Search by CRN" th:value="${searchQuery}"/>
       <button class="search-btn" type="submit"><i class="fas fa-search"></i> Search</button>
     </form>
   </div>

@@ -116,12 +116,12 @@
       color: var(--accent);
     }
 
-    .badge-investigating {
+    .badge-under_investigation {
       background: rgba(13, 59, 110, 0.1);
       color: var(--primary);
     }
 
-    .badge-closed {
+    .badge-resolved {
       background: rgba(26, 122, 74, 0.1);
       color: var(--success);
     }
@@ -248,8 +248,8 @@
     <form method="post" th:action="@{/admin/complaint/{id}/status(id=${complaint.id})}" class="status-form">
       <select name="status">
         <option value="PENDING" th:selected="${complaint.status == 'PENDING'}">Pending</option>
-        <option value="INVESTIGATING" th:selected="${complaint.status == 'INVESTIGATING'}">Investigating</option>
-        <option value="CLOSED" th:selected="${complaint.status == 'CLOSED'}">Closed</option>
+        <option value="UNDER_INVESTIGATION" th:selected="${complaint.status == 'UNDER_INVESTIGATION'}">Under Investigation</option>
+        <option value="RESOLVED" th:selected="${complaint.status == 'RESOLVED'}">Resolved</option>
       </select>
       <button type="submit">Update Status</button>
     </form>
