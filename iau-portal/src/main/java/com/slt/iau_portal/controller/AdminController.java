@@ -30,6 +30,7 @@ import com.slt.iau_portal.repository.ComplaintRepository;
 import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
 import com.slt.iau_portal.repository.SubjectRepository;
+import com.slt.iau_portal.util.ExportUtil;
 
 @Controller
 @RequestMapping("/admin")
@@ -57,8 +58,9 @@ public class AdminController {
             @RequestParam(defaultValue = "0") int page) {
 
         logger.info("Admin dashboard accessed");
+        int maxPage = Math.max(0, page);
 
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(maxPage, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Complaint> complaints = getComplaintsByFilter(filter, pageable);
         Map<Long, Reporter> reportersByComplaintId = getReportersByComplaintId(complaints.getContent());
         LocalDateTime monthStart = YearMonth.now().atDay(1).atStartOfDay();
@@ -108,7 +110,9 @@ public class AdminController {
 
         if (complaint != null && VALID_STATUSES.contains(normalizedStatus)) {
             complaint.setStatus(normalizedStatus);
+            complaint.setUpdatedAt(LocalDateTime.now());
             complaintRepository.save(complaint);
+            logger.info("Complaint {} status updated to {}", id, normalizedStatus);
         }
 
         return "redirect:/admin/dashboard";
@@ -143,6 +147,23 @@ public class AdminController {
         model.addAttribute("totalPages", 1);
 
         return "admin/dashboard";
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<String> exportComplaints(
+            @RequestParam(defaultValue = "all") String filter) {
+        logger.info("Admin export requested with filter: {}", filter);
+        
+        Pageable pageable = PageRequest.of(0, 10000, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Complaint> complaints = getComplaintsByFilter(filter, pageable);
+        
+        String csvContent = ExportUtil.exportComplaintsToCSV(complaints.getContent());
+        String filename = "complaints_" + System.currentTimeMillis() + ".csv";
+        
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .contentType(MediaType.TEXT_PLAIN)
+                .body(csvContent);
     }
 
     private Page<Complaint> getComplaintsByFilter(String filter, Pageable pageable) {
