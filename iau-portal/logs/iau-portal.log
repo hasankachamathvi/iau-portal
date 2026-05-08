@@ -2,3 +2,21 @@
 2026-05-08 13:28:06 [main] INFO  c.s.i.IauPortalApplicationTests - No active profile set, falling back to 1 default profile: "default"
 2026-05-08 13:28:08 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
 2026-05-08 13:28:09 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 186 ms. Found 4 JPA repository interfaces.
+2026-05-08 13:28:13 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-08 13:28:13 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-08 13:28:13 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@361b3ca6
+2026-05-08 13:28:13 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-08 13:28:13 [main] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-08 13:28:13 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-08 13:28:16 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-08 13:28:16 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-08 13:28:18 [main] INFO  c.s.iau_portal.config.SecurityConfig - Initializing UserDetailsService with default admin user
+2026-05-08 13:28:18 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-05-08 13:28:19 [main] INFO  c.s.iau_portal.config.SecurityConfig - Configuring security filter chain
+2026-05-08 13:28:19 [main] INFO  c.s.iau_portal.config.SecurityConfig - Security filter chain configured successfully
+2026-05-08 13:28:19 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-08 13:28:19 [main] INFO  com.slt.iau_portal.config.WebConfig - Configuring CORS mappings
+2026-05-08 13:28:20 [main] INFO  c.s.i.IauPortalApplicationTests - Started IauPortalApplicationTests in 14.965 seconds (process running for 18.145)
+2026-05-08 13:28:22 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-08 13:28:22 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-08 13:28:22 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
