@@ -387,6 +387,44 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .table-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .table-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .export-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--accent);
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .export-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
 
     .table-title {
@@ -682,10 +720,15 @@
   <!-- COMPLAINTS TABLE -->
   <div class="table-container">
     <div class="table-header">
-      <div class="table-title"><i class="fas fa-table"></i> <span th:text="${currentFilterLabel}">All Complaints</span></div>
-      <div class="table-meta">
-        <span><strong th:text="${#lists.size(complaints)}">0</strong> records shown</span>
-        <span th:if="${totalPages > 1}">Page <strong th:text="${currentPage}">1</strong> of <strong th:text="${totalPages}">1</strong></span>
+      <div class="table-header-left">
+        <div class="table-title"><i class="fas fa-table"></i> <span th:text="${currentFilterLabel}">All Complaints</span></div>
+        <div class="table-meta">
+          <span><strong th:text="${#lists.size(complaints)}">0</strong> records shown</span>
+          <span th:if="${totalPages > 1}">Page <strong th:text="${currentPage}">1</strong> of <strong th:text="${totalPages}">1</strong></span>
+        </div>
+      </div>
+      <div class="table-header-right">
+        <a class="export-btn" th:href="@{/admin/export(filter=${currentFilter})}" title="Export current view as CSV"><i class="fas fa-download"></i> Export CSV</a>
       </div>
     </div>
     <table>
