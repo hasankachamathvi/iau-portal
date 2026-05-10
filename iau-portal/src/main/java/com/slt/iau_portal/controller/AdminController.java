@@ -2,10 +2,12 @@ package com.slt.iau_portal.controller;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,21 +69,30 @@ public class AdminController {
         Sort sortOrder = buildSort(sort);
         Pageable pageable = PageRequest.of(maxPage, 10, sortOrder);
         Page<Complaint> complaints = getComplaintsByFilter(filter, pageable);
+        List<Complaint> allComplaints = complaintRepository.findAll();
         Map<Long, Reporter> reportersByComplaintId = getReportersByComplaintId(complaints.getContent());
         LocalDateTime monthStart = YearMonth.now().atDay(1).atStartOfDay();
         LocalDateTime monthEnd = YearMonth.now().plusMonths(1).atDay(1).atStartOfDay();
+        List<ReportItem> statusReport = buildStatusReport(allComplaints);
+        List<ReportItem> categoryReport = buildCategoryReport(allComplaints);
+        List<ReportItem> monthlyTrend = buildMonthlyTrend();
 
         model.addAttribute("complaints", complaints.getContent());
         model.addAttribute("reportersByComplaintId", reportersByComplaintId);
         model.addAttribute("totalComplaints", complaintRepository.count());
         model.addAttribute("escalatedCount", complaintRepository.countByEscalatedTrue());
         model.addAttribute("pendingCount", complaintRepository.countByStatus("PENDING"));
+        model.addAttribute("underInvestigationCount", complaintRepository.countByStatus("UNDER_INVESTIGATION"));
+        model.addAttribute("resolvedCount", complaintRepository.countByStatus("RESOLVED"));
         model.addAttribute("monthlyCount", complaintRepository.countByCreatedAtBetween(monthStart, monthEnd));
         model.addAttribute("currentFilter", filter);
         model.addAttribute("currentFilterLabel", getFilterLabel(filter));
         model.addAttribute("currentSort", sort);
         model.addAttribute("currentPage", page + 1);
         model.addAttribute("totalPages", complaints.getTotalPages());
+        model.addAttribute("statusReport", statusReport);
+        model.addAttribute("categoryReport", categoryReport);
+        model.addAttribute("monthlyTrend", monthlyTrend);
 
         return "admin/dashboard";
     }
@@ -151,24 +162,37 @@ public class AdminController {
         model.addAttribute("currentFilterLabel", normalizedSearchValue.isBlank() ? "All Complaints" : "Search Results");
         model.addAttribute("currentPage", 1);
         model.addAttribute("totalPages", 1);
+        model.addAttribute("underInvestigationCount", complaintRepository.countByStatus("UNDER_INVESTIGATION"));
+        model.addAttribute("resolvedCount", complaintRepository.countByStatus("RESOLVED"));
+        model.addAttribute("statusReport", buildStatusReport(complaints));
+        model.addAttribute("categoryReport", buildCategoryReport(complaints));
+        model.addAttribute("monthlyTrend", buildMonthlyTrend());
 
         return "admin/dashboard";
     }
 
     @GetMapping("/export")
     public ResponseEntity<String> exportComplaints(
-            @RequestParam(defaultValue = "all") String filter) {
-        logger.info("Admin export requested with filter: {}", filter);
+            @RequestParam(defaultValue = "all") String filter,
+            @RequestParam(required = false) String query) {
+        logger.info("Admin export requested with filter: {} query={}", filter, query);
+
+        List<Complaint> complaints;
+        String normalizedQuery = query == null ? "" : query.trim();
+
+        if ("search".equalsIgnoreCase(filter) && !normalizedQuery.isBlank()) {
+            complaints = complaintRepository.findByCrnIgnoreCase(normalizedQuery).stream().toList();
+        } else {
+            Pageable pageable = PageRequest.of(0, 10000, Sort.by(Sort.Direction.DESC, "createdAt"));
+            complaints = getComplaintsByFilter(filter, pageable).getContent();
+        }
         
-        Pageable pageable = PageRequest.of(0, 10000, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Complaint> complaints = getComplaintsByFilter(filter, pageable);
-        
-        String csvContent = ExportUtil.exportComplaintsToCSV(complaints.getContent());
+        String csvContent = ExportUtil.exportComplaintsToCSV(complaints);
         String filename = "complaints_" + System.currentTimeMillis() + ".csv";
         
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-                .contentType(MediaType.TEXT_PLAIN)
+                .contentType(MediaType.parseMediaType("text/csv"))
                 .body(csvContent);
     }
 
@@ -233,5 +257,75 @@ public class AdminController {
         }
 
         return "All Complaints";
+    }
+
+    private List<ReportItem> buildStatusReport(List<Complaint> complaints) {
+        long total = Math.max(1, complaints.size());
+        return List.of(
+            buildReportItem("Pending", complaints.stream().filter(c -> "PENDING".equalsIgnoreCase(c.getStatus())).count(), total),
+            buildReportItem("Under Investigation", complaints.stream().filter(c -> "UNDER_INVESTIGATION".equalsIgnoreCase(c.getStatus())).count(), total),
+            buildReportItem("Resolved", complaints.stream().filter(c -> "RESOLVED".equalsIgnoreCase(c.getStatus())).count(), total),
+            buildReportItem("Escalated", complaints.stream().filter(c -> Boolean.TRUE.equals(c.getEscalated())).count(), total)
+        );
+    }
+
+    private List<ReportItem> buildCategoryReport(List<Complaint> complaints) {
+        long total = Math.max(1, complaints.size());
+        Map<String, Long> counts = complaints.stream()
+            .collect(Collectors.groupingBy(
+                complaint -> {
+                    String category = complaint.getCategory();
+                    return (category == null || category.isBlank()) ? "Unspecified" : category;
+                },
+                Collectors.counting()
+            ));
+
+        return counts.entrySet().stream()
+            .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+            .limit(5)
+            .map(entry -> buildReportItem(entry.getKey(), entry.getValue(), total))
+            .toList();
+    }
+
+    private List<ReportItem> buildMonthlyTrend() {
+        List<ReportItem> trend = new ArrayList<>();
+        YearMonth current = YearMonth.now();
+
+        for (int offset = 5; offset >= 0; offset--) {
+            YearMonth month = current.minusMonths(offset);
+            LocalDateTime start = month.atDay(1).atStartOfDay();
+            LocalDateTime end = month.plusMonths(1).atDay(1).atStartOfDay();
+            long count = complaintRepository.countByCreatedAtBetween(start, end);
+            trend.add(new ReportItem(month.toString(), count, 0));
+        }
+
+        long peak = Math.max(1, trend.stream().mapToLong(ReportItem::getCount).max().orElse(1));
+        for (ReportItem item : trend) {
+            item.setPercent(Math.round((item.getCount() * 100.0) / peak));
+        }
+
+        return trend;
+    }
+
+    private ReportItem buildReportItem(String label, long count, long total) {
+        long percent = Math.round((count * 100.0) / total);
+        return new ReportItem(label, count, percent);
+    }
+
+    public static class ReportItem {
+        private final String label;
+        private final long count;
+        private long percent;
+
+        public ReportItem(String label, long count, long percent) {
+            this.label = label;
+            this.count = count;
+            this.percent = percent;
+        }
+
+        public String getLabel() { return label; }
+        public long getCount() { return count; }
+        public long getPercent() { return percent; }
+        public void setPercent(long percent) { this.percent = percent; }
     }
 }
