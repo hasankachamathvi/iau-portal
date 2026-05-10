@@ -12,23 +12,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.security.SecureRandom;
 
 @Controller
 @RequestMapping("/complaint")
 public class ComplaintController {
 
     private static final Logger logger = LoggerFactory.getLogger(ComplaintController.class);
+    private static final String CAPTCHA_QUESTION_KEY = "complaintCaptchaQuestion";
+    private static final String CAPTCHA_ANSWER_KEY = "complaintCaptchaAnswer";
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     @Autowired
     private ComplaintService complaintService;
 
     @GetMapping
-    public String showForm(Model model) {
+    public String showForm(Model model, HttpSession session) {
         logger.info("Complaint form requested");
         model.addAttribute("form", new ComplaintFormDto());
+        prepareCaptcha(model, session);
         return "complaint-form";
     }
 
@@ -36,15 +43,30 @@ public class ComplaintController {
     public String submitComplaint(
             @Valid @ModelAttribute ComplaintFormDto form,
             BindingResult bindingResult,
-            Model model) {
+            Model model,
+            HttpSession session) {
         
         logger.info("Complaint submission received");
+
+        if (!form.isAnonymous()) {
+            if (form.getFullName() == null || form.getFullName().trim().isEmpty()) {
+                bindingResult.rejectValue("fullName", "fullName.required", "Full name is required for named complaints");
+            }
+
+            if (form.getEmail() == null || form.getEmail().trim().isEmpty()) {
+                bindingResult.rejectValue("email", "email.required", "Email address is required for named complaints");
+            }
+        }
+
+        validateCaptcha(form, bindingResult, session);
         
         // Check for validation errors
         if (bindingResult.hasErrors()) {
             logger.warn("Complaint form validation failed with {} errors", bindingResult.getErrorCount());
             model.addAttribute("form", form);
             model.addAttribute("errors", bindingResult.getAllErrors());
+            model.addAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            prepareCaptcha(model, session);
             return "complaint-form";
         }
 
@@ -86,6 +108,28 @@ public class ComplaintController {
         form.setLocation(ValidationUtil.sanitizeInput(form.getLocation()));
         form.setAdditionalNotes(ValidationUtil.sanitizeInput(form.getAdditionalNotes()));
         form.setWitnessNames(ValidationUtil.sanitizeInput(form.getWitnessNames()));
+    }
+
+    private void validateCaptcha(ComplaintFormDto form, BindingResult bindingResult, HttpSession session) {
+        String expectedAnswer = (String) session.getAttribute(CAPTCHA_ANSWER_KEY);
+        String providedAnswer = form.getCaptchaAnswer() == null ? "" : form.getCaptchaAnswer().trim();
+
+        if (expectedAnswer == null || expectedAnswer.isEmpty()) {
+            bindingResult.rejectValue("captchaAnswer", "captcha.expired", "Your verification challenge expired. Please try again.");
+            return;
+        }
+
+        if (!expectedAnswer.equals(providedAnswer)) {
+            bindingResult.rejectValue("captchaAnswer", "captcha.invalid", "The verification answer is incorrect.");
+        }
+    }
+
+    private void prepareCaptcha(Model model, HttpSession session) {
+        int first = RANDOM.nextInt(8) + 2;
+        int second = RANDOM.nextInt(8) + 2;
+
+        session.setAttribute(CAPTCHA_ANSWER_KEY, String.valueOf(first + second));
+        model.addAttribute(CAPTCHA_QUESTION_KEY, first + " + " + second + " = ?");
     }
 
     @GetMapping("/")
