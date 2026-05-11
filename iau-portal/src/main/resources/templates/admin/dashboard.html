@@ -48,6 +48,18 @@
       font-size: 18px;
       font-weight: 700;
       font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+
+    .navbar-brand svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+      flex-shrink: 0;
     }
 
     .navbar-actions {
@@ -832,7 +844,19 @@
 <body>
 
 <div class="navbar">
-  <div class="navbar-brand">🛡️ IAU Admin Panel</div>
+  <div class="navbar-brand">
+    <svg viewBox="0 0 24 24" role="img" aria-label="SLTMobitel shield logo">
+      <defs>
+        <linearGradient id="shieldGradientDashboard" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#5fb5ff"/>
+          <stop offset="100%" stop-color="#89d4ff"/>
+        </linearGradient>
+      </defs>
+      <path d="M12 2.5 4.5 5.3v5.2c0 4.8 3.2 9.1 7.5 11.1 4.3-2 7.5-6.3 7.5-11.1V5.3L12 2.5Z" fill="url(#shieldGradientDashboard)" stroke="#dff2ff" stroke-width="1.1"/>
+      <path d="M12 6.3c-2.1 0-3.9 1.6-3.9 3.6 0 1.4.8 2.6 2 3.2v3.8h3.8v-3.8c1.2-.6 2-1.8 2-3.2 0-2-1.8-3.6-3.9-3.6Z" fill="#1a5a9b" opacity="0.2"/>
+    </svg>
+    <span>SLTMobitel IAU Admin Panel</span>
+  </div>
   <div class="navbar-actions">
     <a href="/complaint" class="navbar-link"><i class="fas fa-arrow-left"></i> Back to Portal</a>
     <form method="post" action="/logout" style="display:inline;">
