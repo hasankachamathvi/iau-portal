@@ -826,19 +826,7 @@
 <body>
 
 <div class="navbar">
-  <div class="navbar-brand">
-    <svg viewBox="0 0 24 24" role="img" aria-label="SLTMobitel shield logo">
-      <defs>
-        <linearGradient id="shieldGradientDashboard" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#5fb5ff"/>
-          <stop offset="100%" stop-color="#89d4ff"/>
-        </linearGradient>
-      </defs>
-      <path d="M12 2.5 4.5 5.3v5.2c0 4.8 3.2 9.1 7.5 11.1 4.3-2 7.5-6.3 7.5-11.1V5.3L12 2.5Z" fill="url(#shieldGradientDashboard)" stroke="#dff2ff" stroke-width="1.1"/>
-      <path d="M12 6.3c-2.1 0-3.9 1.6-3.9 3.6 0 1.4.8 2.6 2 3.2v3.8h3.8v-3.8c1.2-.6 2-1.8 2-3.2 0-2-1.8-3.6-3.9-3.6Z" fill="#1a5a9b" opacity="0.2"/>
-    </svg>
-    <span>SLTMobitel IAU Admin Panel</span>
-  </div>
+  <div class="navbar-brand">🛡️ IAU Admin Panel</div>
   <div class="navbar-actions">
     <a href="/complaint" class="navbar-link"><i class="fas fa-arrow-left"></i> Back to Portal</a>
     <form method="post" action="/logout" style="display:inline;">
@@ -848,26 +836,25 @@
 </div>
 
 <div class="header">
-  <div class="navbar-brand">
-    <svg viewBox="0 0 24 24" role="img" aria-label="SLTMobitel shield logo">
-      <defs>
-        <linearGradient id="shieldGradientDashboard" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#5fb5ff"/>
-          <stop offset="100%" stop-color="#89d4ff"/>
-        </linearGradient>
-      </defs>
-      <path d="M12 2.5 4.5 5.3v5.2c0 4.8 3.2 9.1 7.5 11.1 4.3-2 7.5-6.3 7.5-11.1V5.3L12 2.5Z" fill="url(#shieldGradientDashboard)" stroke="#dff2ff" stroke-width="1.1"/>
-      <path d="M12 6.3c-2.1 0-3.9 1.6-3.9 3.6 0 1.4.8 2.6 2 3.2v3.8h3.8v-3.8c1.2-.6 2-1.8 2-3.2 0-2-1.8-3.6-3.9-3.6Z" fill="#1a5a9b" opacity="0.2"/>
-    </svg>
-  </div>
-  <div class="navbar-actions">
-    <a href="#" class="navbar-link">Link 1</a>
-    <a href="#" class="navbar-link">Link 2</a>
-  </div>
+  <h1>📊 Complaints Dashboard</h1>
+  <p>Monitor live complaint activity, review submissions by status, and drill into individual CRNs without leaving the admin console.</p>
+</div>
+
+<div class="container">
+  <div class="hero-panel">
+    <div class="hero-copy">
+      <div class="hero-kicker"><i class="fas fa-shield-alt"></i> Administration overview</div>
+      <h2>Track complaints with fewer clicks and a clearer signal.</h2>
+      <p>
+        Use the cards below to switch between slices of the queue, search a CRN directly, or open a complaint detail view for full reporter and evidence context.
+      </p>
+    </div>
+    <div class="hero-aside">
+      <div class="hero-chip">Current view<strong th:text="${currentFilterLabel}">All Complaints</strong></div>
+      <div class="hero-chip">Visible items<strong th:text="${#lists.size(complaints)}">0</strong></div>
     </div>
   </div>
 
-  <!-- REPORTING CENTER -->
   <div class="report-panel">
     <div class="report-header">
       <div>
@@ -926,7 +913,6 @@
     </div>
   </div>
 
-  <!-- STATS CARDS -->
   <div class="stats-grid">
     <a class="stat-card-link" th:classappend="${currentFilter == 'all'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='all')}">
       <div class="stat-card">
@@ -958,7 +944,6 @@
     </a>
   </div>
 
-  <!-- SEARCH -->
   <div class="search-bar">
     <form class="search-form" method="get" action="/admin/search">
       <input type="text" name="query" placeholder="Search by CRN..." id="searchInput" aria-label="Search by CRN" th:value="${searchQuery}"/>
@@ -973,7 +958,6 @@
     <a class="filter-pill" th:classappend="${currentFilter == 'month'} ? ' active' : ''" th:href="@{/admin/dashboard(filter='month')}"><i class="fas fa-calendar-days"></i> This Month</a>
   </div>
 
-  <!-- SORT BAR -->
   <div class="sort-bar" aria-label="Sort options">
     <span class="sort-label"><i class="fas fa-arrow-down-up"></i> Sort By:</span>
     <a class="sort-button" th:classappend="${currentSort == 'dateDesc'} ? ' active' : ''" th:href="@{/admin/dashboard(filter=${currentFilter},sort='dateDesc')}"><i class="fas fa-calendar"></i> Date (Newest)</a>
@@ -984,21 +968,60 @@
     <a class="sort-button" th:classappend="${currentSort == 'statusDesc'} ? ' active' : ''" th:href="@{/admin/dashboard(filter=${currentFilter},sort='statusDesc')}"><i class="fas fa-list"></i> Status (Z-A)</a>
   </div>
 
-  <!-- COMPLAINTS TABLE -->
   <div class="table-container">
-    <div class="navbar-brand">🛡️ IAU Admin Panel</div>
+    <div class="table-header">
+      <div class="table-header-left">
+        <div class="table-title"><i class="fas fa-table"></i> Complaint Ledger</div>
+        <div class="table-meta">
+          <span th:text="|Showing ${#lists.size(complaints)} complaints|"></span>
+          <span th:text="|Current filter: ${currentFilterLabel}|"></span>
+        </div>
+      </div>
+      <div class="table-header-right">
+        <a class="export-btn secondary" th:href="@{/admin/export(filter=${currentFilter}, query=${searchQuery})}"><i class="fas fa-file-csv"></i> CSV</a>
+      </div>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(complaints)}">
+      <thead>
+        <tr>
+          <th>CRN</th>
+          <th>Category</th>
+          <th>Reporter</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="complaint : ${complaints}" th:with="reporter=${reportersByComplaintId[complaint.id]}">
+          <td class="crn-cell" th:text="${complaint.crn}">CRN-0001</td>
+          <td th:text="${complaint.category != null ? complaint.category : 'Unspecified'}">Fraud</td>
+          <td>
+            <div th:text="${reporter != null ? (reporter.anonymousFlag ? 'Anonymous' : (reporter.fullName != null ? reporter.fullName : 'N/A')) : 'N/A'}">N/A</div>
+            <div style="font-size:12px;color:var(--text-light);" th:if="${reporter != null and reporter.employeeId != null}" th:text="${reporter.employeeId}"></div>
           </td>
           <td>
             <span class="badge" th:classappend="${'badge-' + complaint.status.toLowerCase()}" th:text="${complaint.status}">PENDING</span>
           </td>
+          <td th:text="${#temporals.format(complaint.createdAt, 'dd MMM yyyy HH:mm')}">01 Jan 2026 10:00</td>
           <td>
             <div class="action-buttons">
               <a th:href="@{/admin/complaint/{crn}(crn=${complaint.crn})}" class="btn btn-primary">
                 <i class="fas fa-eye"></i> View
               </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
     </table>
 
-    <!-- PAGINATION -->
+    <div class="empty-state" th:unless="${!#lists.isEmpty(complaints)}">
+      <i class="fas fa-inbox"></i>
+      <h3>No complaints found</h3>
+      <p>Try another filter or search term.</p>
+    </div>
+
     <div class="pagination" th:if="${totalPages > 1}">
       <div class="pagination-info">
         <div class="pagination-status">
@@ -1009,7 +1032,6 @@
         </div>
       </div>
       <div class="page-links" role="navigation" aria-label="Pagination">
-        <!-- First page -->
         <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=0,filter=${currentFilter},sort=${currentSort})}" class="nav-button" title="Go to first page" aria-label="First page">
           <i class="fas fa-angle-double-left"></i>
         </a>
@@ -1017,7 +1039,6 @@
           <i class="fas fa-angle-double-left"></i>
         </a>
 
-        <!-- Previous page -->
         <a th:if="${currentPage > 1}" th:href="@{/admin/dashboard(page=${currentPage - 2},filter=${currentFilter},sort=${currentSort})}" class="nav-button" title="Go to previous page" aria-label="Previous page">
           <i class="fas fa-angle-left"></i>
         </a>
@@ -1026,8 +1047,7 @@
         </a>
 
         <span class="separator">|</span>
-        
-        <!-- Page numbers -->
+
         <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
           <a th:if="${i != currentPage}" th:href="@{/admin/dashboard(page=${i - 1},filter=${currentFilter},sort=${currentSort})}" th:text="${i}" th:title="|Go to page ${i}|" th:aria-label="|Go to page ${i}|">1</a>
           <span th:if="${i == currentPage}" class="active" th:text="${i}" th:title="|Current page ${i}|" aria-current="page">1</span>
@@ -1035,7 +1055,6 @@
 
         <span class="separator">|</span>
 
-        <!-- Next page -->
         <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${currentPage},filter=${currentFilter},sort=${currentSort})}" class="nav-button" title="Go to next page" aria-label="Next page">
           <i class="fas fa-angle-right"></i>
         </a>
@@ -1043,7 +1062,6 @@
           <i class="fas fa-angle-right"></i>
         </a>
 
-        <!-- Last page -->
         <a th:if="${currentPage < totalPages}" th:href="@{/admin/dashboard(page=${totalPages - 1},filter=${currentFilter},sort=${currentSort})}" class="nav-button" title="Go to last page" aria-label="Last page">
           <i class="fas fa-angle-double-right"></i>
         </a>
