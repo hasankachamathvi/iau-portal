@@ -9,12 +9,12 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap');
 
     :root {
-      --primary: #0d3b6e;
-      --primary-dark: #0a2d52;
-      --accent: #3b82f6;
-      --success: #1a7a4a;
+      --primary: #0069b4;
+      --primary-dark: #004f8a;
+      --accent: #63c141;
+      --success: #4cab32;
       --danger: #c0392b;
-      --warning: #3b82f6;
+      --warning: #63c141;
       --gray-bg: #f4f6f9;
       --gray-border: #dde3ec;
       --white: #ffffff;
@@ -27,15 +27,15 @@
     body {
       font-family: 'Inter', sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 30%),
-        radial-gradient(circle at top right, rgba(13, 59, 110, 0.10), transparent 25%),
+        radial-gradient(circle at top left, rgba(0, 105, 180, 0.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(99, 193, 65, 0.11), transparent 25%),
         var(--gray-bg);
       color: var(--text);
       min-height: 100vh;
     }
 
     .navbar {
-      background: linear-gradient(135deg, var(--primary) 0%, #1a5276 100%);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #58bb3a 100%);
       padding: 16px 24px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       display: flex;
@@ -51,12 +51,14 @@
     }
 
     .navbar-logo {
-      height: 50px;
+      height: 46px;
       width: auto;
       display: block;
       flex-shrink: 0;
       object-fit: contain;
-      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
+      padding: 0;
+      background: transparent;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.18));
     }
 
     .navbar-brand-text {
@@ -67,8 +69,8 @@
     }
 
     .navbar-brand-text .title {
-      font-size: 19px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       color: white;
     }
 
@@ -105,7 +107,7 @@
     }
 
     .header {
-      background: linear-gradient(135deg, var(--primary) 0%, #1a5276 100%);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 58%, #58bb3a 100%);
       color: white;
       padding: 32px 24px;
       text-align: center;

@@ -8,9 +8,9 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
     :root {
-      --primary: #0d3b6e;
-      --primary-dark: #0a2d52;
-      --accent: #3b82f6;
+      --primary: #0069b4;
+      --primary-dark: #004f8a;
+      --accent: #63c141;
       --gray-bg: #f4f6f9;
       --gray-border: #dde3ec;
     }
@@ -19,7 +19,7 @@
 
     body {
       font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, var(--primary) 0%, #1a5276 100%);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 58%, #58bb3a 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -52,11 +52,11 @@
       width: 56px;
       height: 56px;
       border-radius: 18px;
-      background: linear-gradient(135deg, var(--primary-dark), #1a5276);
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 12px 24px rgba(13, 59, 110, 0.22);
+      box-shadow: 0 12px 24px rgba(0, 105, 180, 0.24);
       flex-shrink: 0;
     }
 
@@ -132,7 +132,7 @@
     .login-btn {
       width: 100%;
       padding: 12px;
-      background: linear-gradient(135deg, var(--primary) 0%, #1a5276 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
       color: white;
       border: none;
       border-radius: 8px;
@@ -145,7 +145,7 @@
 
     .login-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(13, 59, 110, 0.3);
+      box-shadow: 0 6px 20px rgba(0, 105, 180, 0.34);
     }
 
     .error-message {

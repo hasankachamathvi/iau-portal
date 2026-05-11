@@ -8,12 +8,12 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
     :root {
-      --blue: #1a5276;
-      --blue-dark: #0d3b6e;
-      --blue-mid: #2471a3;
-      --blue-light: #d6eaf8;
-      --green: #1a7a4a;
-      --green-light: #d5f5e3;
+      --blue: #0069b4;
+      --blue-dark: #004f8a;
+      --blue-mid: #1f8cd8;
+      --blue-light: #e6f3fc;
+      --green: #63c141;
+      --green-light: #e8f7de;
       --orange: #e8590c;
       --gray-bg: #f7f9fc;
       --text-dark: #0d1b2a;
@@ -48,7 +48,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 68px;
+      height: 88px;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -58,17 +58,21 @@
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       text-decoration: none;
     }
 
     .nav-logo-icon {
-      height: 72px;
-      width: auto;
+      width: 92px;
+      height: 46px;
+      padding: 0;
       display: block;
       flex-shrink: 0;
       object-fit: contain;
-      filter: drop-shadow(0 10px 18px rgba(13, 59, 110, 0.28));
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
     }
 
     .nav-logo-text {
@@ -77,7 +81,7 @@
     }
 
     .nav-logo-text .brand {
-      font-size: 19px;
+      font-size: 20px;
       font-weight: 800;
       color: var(--blue-dark);
       line-height: 1;
@@ -87,7 +91,7 @@
       font-size: 12px;
       color: var(--text-light);
       font-weight: 400;
-      margin-top: 4px;
+      margin-top: 5px;
     }
 
     .nav-links {
@@ -114,18 +118,18 @@
     }
 
     .nav-btn {
-      background: var(--blue);
+      background: linear-gradient(135deg, var(--blue) 0%, var(--green) 100%);
       color: white !important;
       padding: 9px 22px;
       border-radius: 8px;
       font-weight: 600 !important;
       font-size: 13px !important;
       transition: all 0.2s !important;
-      box-shadow: 0 3px 10px rgba(26, 82, 118, 0.3);
+      box-shadow: 0 3px 10px rgba(0, 105, 180, 0.28);
     }
 
     .nav-btn:hover {
-      background: var(--blue-dark) !important;
+      background: linear-gradient(135deg, var(--blue-dark) 0%, #57b93a 100%) !important;
       color: white !important;
       transform: translateY(-1px);
     }
@@ -143,14 +147,6 @@
     .hero-left {
       flex: 1;
       max-width: 760px;
-    }
-
-    .hero-right {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 320px;
     }
 
     .hero-image-card {
@@ -241,20 +237,20 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      background: linear-gradient(135deg, var(--blue) 0%, var(--green) 100%);
       color: white;
       padding: 15px 32px;
       border-radius: 12px;
       font-size: 15px;
       font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 6px 20px rgba(26, 82, 118, 0.35);
+      box-shadow: 0 6px 20px rgba(0, 105, 180, 0.32);
       transition: all 0.25s;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(26, 82, 118, 0.45);
+      box-shadow: 0 10px 28px rgba(0, 105, 180, 0.42);
     }
 
     .btn-primary .arrow {
