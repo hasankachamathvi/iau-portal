@@ -994,7 +994,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="complaint : ${complaints}" th:with="reporter=${reportersByComplaintId[complaint.id]}">
+        <tr th:each="complaint : ${complaints}" th:with="reporter=${reportersByComplaintId[complaint.id]}, statusText=${complaint.status != null ? complaint.status : 'PENDING'}, statusClass=${(complaint.status != null ? complaint.status : 'PENDING').toLowerCase()}">
           <td class="crn-cell" th:text="${complaint.crn}">CRN-0001</td>
           <td th:text="${complaint.category != null ? complaint.category : 'Unspecified'}">Fraud</td>
           <td>
@@ -1002,7 +1002,7 @@
             <div style="font-size:12px;color:var(--text-light);" th:if="${reporter != null and reporter.employeeId != null}" th:text="${reporter.employeeId}"></div>
           </td>
           <td>
-            <span class="badge" th:classappend="${'badge-' + complaint.status.toLowerCase()}" th:text="${complaint.status}">PENDING</span>
+            <span class="badge" th:classappend="${'badge-' + statusClass}" th:text="${statusText}">PENDING</span>
           </td>
           <td th:text="${#temporals.format(complaint.createdAt, 'dd MMM yyyy HH:mm')}">01 Jan 2026 10:00</td>
           <td>
