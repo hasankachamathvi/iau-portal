@@ -45,9 +45,38 @@
     }
 
     .navbar-brand {
-      font-size: 18px;
-      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .navbar-logo {
+      height: 50px;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
+    }
+
+    .navbar-brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
       font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar-brand-text .title {
+      font-size: 19px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .navbar-brand-text .subtitle {
+      margin-top: 3px;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.8);
     }
 
     .navbar-link {
@@ -826,7 +855,13 @@
 <body>
 
 <div class="navbar">
-  <div class="navbar-brand">🛡️ IAU Admin Panel</div>
+  <div class="navbar-brand">
+    <img class="navbar-logo" src="/images/sltlogo.jpg" alt="SLTMobitel logo">
+    <div class="navbar-brand-text">
+      <span class="title">SLTMobitel</span>
+      <span class="subtitle">Internal Affairs Unit</span>
+    </div>
+  </div>
   <div class="navbar-actions">
     <a href="/complaint" class="navbar-link"><i class="fas fa-arrow-left"></i> Back to Portal</a>
     <form method="post" action="/logout" style="display:inline;">

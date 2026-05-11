@@ -18,17 +18,25 @@ public class ExportUtil {
         
         // Write rows
         for (Complaint complaint : complaints) {
+            if (complaint == null) {
+                continue;
+            }
+
             csv.append(escapeCsvField(complaint.getCrn())).append(",");
             csv.append(escapeCsvField(complaint.getCategory())).append(",");
             csv.append(escapeCsvField(complaint.getStatus())).append(",");
-            csv.append(complaint.getEscalated() ? "Yes" : "No").append(",");
+            csv.append(Boolean.TRUE.equals(complaint.getEscalated()) ? "Yes" : "No").append(",");
             csv.append(escapeCsvField(complaint.getLocation())).append(",");
-            csv.append(complaint.getCreatedAt().format(DATE_FORMATTER)).append(",");
-            csv.append(complaint.getUpdatedAt().format(DATE_FORMATTER)).append(",");
+            csv.append(formatDateTime(complaint.getCreatedAt())).append(",");
+            csv.append(formatDateTime(complaint.getUpdatedAt())).append(",");
             csv.append(escapeCsvField(complaint.getDescription())).append("\n");
         }
         
         return csv.toString();
+    }
+
+    private static String formatDateTime(java.time.LocalDateTime dateTime) {
+        return dateTime == null ? "" : dateTime.format(DATE_FORMATTER);
     }
 
     private static String escapeCsvField(String field) {
