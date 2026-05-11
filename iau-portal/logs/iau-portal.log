@@ -13849,3 +13849,4 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 2026-05-11 20:48:05 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2026-05-11 20:48:05 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2026-05-11 20:48:05 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-05-11 20:52:56 [http-nio-8080-exec-3] INFO  c.s.i.controller.ComplaintController - Complaint form requested
