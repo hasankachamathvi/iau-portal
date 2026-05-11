@@ -48,24 +48,6 @@
       font-size: 18px;
       font-weight: 700;
       font-family: 'Poppins', sans-serif;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      line-height: 1;
-      letter-spacing: -0.01em;
-    }
-
-    .navbar-brand svg {
-      width: 22px;
-      height: 22px;
-      display: block;
-      flex-shrink: 0;
-    }
-
-    .navbar-actions {
-      display: flex;
-      gap: 16px;
-      align-items: center;
     }
 
     .navbar-link {
@@ -866,22 +848,22 @@
 </div>
 
 <div class="header">
-  <h1>📊 Complaints Dashboard</h1>
-  <p>Monitor live complaint activity, review submissions by status, and drill into individual CRNs without leaving the admin console.</p>
-</div>
-
-<div class="container">
-  <div class="hero-panel">
-    <div class="hero-copy">
-      <div class="hero-kicker"><i class="fas fa-shield-alt"></i> Administration overview</div>
-      <h2>Track complaints with fewer clicks and a clearer signal.</h2>
-      <p>
-        Use the cards below to switch between slices of the queue, search a CRN directly, or open a complaint detail view for full reporter and evidence context.
-      </p>
-    </div>
-    <div class="hero-aside">
-      <div class="hero-chip">Current view<strong th:text="${currentFilterLabel}">All Complaints</strong></div>
-      <div class="hero-chip">Visible items<strong th:text="${#lists.size(complaints)}">0</strong></div>
+  <div class="navbar-brand">
+    <svg viewBox="0 0 24 24" role="img" aria-label="SLTMobitel shield logo">
+      <defs>
+        <linearGradient id="shieldGradientDashboard" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#5fb5ff"/>
+          <stop offset="100%" stop-color="#89d4ff"/>
+        </linearGradient>
+      </defs>
+      <path d="M12 2.5 4.5 5.3v5.2c0 4.8 3.2 9.1 7.5 11.1 4.3-2 7.5-6.3 7.5-11.1V5.3L12 2.5Z" fill="url(#shieldGradientDashboard)" stroke="#dff2ff" stroke-width="1.1"/>
+      <path d="M12 6.3c-2.1 0-3.9 1.6-3.9 3.6 0 1.4.8 2.6 2 3.2v3.8h3.8v-3.8c1.2-.6 2-1.8 2-3.2 0-2-1.8-3.6-3.9-3.6Z" fill="#1a5a9b" opacity="0.2"/>
+    </svg>
+  </div>
+  <div class="navbar-actions">
+    <a href="#" class="navbar-link">Link 1</a>
+    <a href="#" class="navbar-link">Link 2</a>
+  </div>
     </div>
   </div>
 
@@ -1004,43 +986,7 @@
 
   <!-- COMPLAINTS TABLE -->
   <div class="table-container">
-    <div class="table-header">
-      <div class="table-header-left">
-        <div class="table-title"><i class="fas fa-table"></i> <span th:text="${currentFilterLabel}">All Complaints</span></div>
-        <div class="table-meta">
-          <span><strong th:text="${#lists.size(complaints)}">0</strong> records shown</span>
-          <span th:if="${totalPages > 1}">Page <strong th:text="${currentPage}">1</strong> of <strong th:text="${totalPages}">1</strong></span>
-        </div>
-      </div>
-      <div class="table-header-right">
-        <a class="export-btn" th:href="@{/admin/export(filter=${currentFilter})}" title="Export current view as CSV"><i class="fas fa-download"></i> Export CSV</a>
-      </div>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>CRN</th>
-          <th>Category</th>
-          <th>Date</th>
-          <th>Reporter</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="complaint : ${complaints}">
-          <td class="crn-cell" th:text="${complaint.crn}">IAU-2026-000001</td>
-          <td th:text="${complaint.category}">Fraud</td>
-          <td th:text="${#temporals.format(complaint.createdAt, 'MMM dd, yyyy')}">Jan 01, 2026</td>
-          <td>
-            <th:block th:with="reporter=${reportersByComplaintId[complaint.id]}">
-              <th:block th:if="${reporter != null and reporter.anonymousFlag}">
-                <i class="fas fa-user-secret"></i> Anonymous
-              </th:block>
-              <th:block th:unless="${reporter != null and reporter.anonymousFlag}">
-                <span th:text="${reporter != null and reporter.fullName != null and !#strings.isEmpty(reporter.fullName) ? reporter.fullName : 'Anonymous'}">Reporter Name</span>
-              </th:block>
-            </th:block>
+    <div class="navbar-brand">🛡️ IAU Admin Panel</div>
           </td>
           <td>
             <span class="badge" th:classappend="${'badge-' + complaint.status.toLowerCase()}" th:text="${complaint.status}">PENDING</span>
@@ -1050,19 +996,6 @@
               <a th:href="@{/admin/complaint/{crn}(crn=${complaint.crn})}" class="btn btn-primary">
                 <i class="fas fa-eye"></i> View
               </a>
-            </div>
-          </td>
-        </tr>
-        <tr th:if="${complaints.isEmpty()}">
-          <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-light);">
-            <div class="empty-state">
-              <i class="fas fa-inbox"></i>
-              <h3>No complaints found</h3>
-              <p>Try a different filter or search another CRN to continue.</p>
-            </div>
-          </td>
-        </tr>
-      </tbody>
     </table>
 
     <!-- PAGINATION -->
