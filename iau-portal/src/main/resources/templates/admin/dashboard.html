@@ -11,15 +11,16 @@
     :root {
       --primary: #0069b4;
       --primary-dark: #004f8a;
+      --primary-light: #1f8cd8;
       --accent: #4cab32;
       --success: #4cab32;
       --danger: #c0392b;
       --warning: #1f8cd8;
-      --gray-bg: #f4f6f9;
-      --gray-border: #dde3ec;
+      --gray-bg: #f4f7fb;
+      --gray-border: #d8e3ef;
       --white: #ffffff;
-      --text: #1a202c;
-      --text-light: #718096;
+      --text: #122033;
+      --text-light: #6f7f93;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,7 +36,7 @@
     }
 
     .navbar {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #1f8cd8 100%);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 62%, var(--primary-light) 100%);
       padding: 16px 24px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       display: flex;
@@ -107,7 +108,7 @@
     }
 
     .header {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 58%, #1f8cd8 100%);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 62%, var(--primary-light) 100%);
       color: white;
       padding: 32px 24px;
       text-align: center;
@@ -135,11 +136,11 @@
     }
 
     .hero-panel {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
-      border: 1px solid rgba(13, 59, 110, 0.08);
+      background: linear-gradient(135deg, #ffffff 0%, #f7fbfe 100%);
+      border: 1px solid rgba(0, 105, 180, 0.08);
       border-radius: 20px;
       padding: 24px;
-      box-shadow: 0 16px 40px rgba(13, 59, 110, 0.08);
+      box-shadow: 0 16px 40px rgba(0, 105, 180, 0.08);
       display: flex;
       justify-content: space-between;
       gap: 20px;
@@ -155,7 +156,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(13, 59, 110, 0.08);
+      background: rgba(0, 105, 180, 0.08);
       color: var(--primary);
       padding: 8px 12px;
       border-radius: 999px;
@@ -187,8 +188,8 @@
     }
 
     .hero-chip {
-      background: rgba(13, 59, 110, 0.05);
-      border: 1px solid rgba(13, 59, 110, 0.08);
+      background: rgba(0, 105, 180, 0.05);
+      border: 1px solid rgba(0, 105, 180, 0.08);
       color: var(--text);
       padding: 10px 12px;
       border-radius: 12px;
