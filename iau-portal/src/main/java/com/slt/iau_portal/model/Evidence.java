@@ -10,7 +10,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "evidence")
-public class Evidence {
+public class Evidence 
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
