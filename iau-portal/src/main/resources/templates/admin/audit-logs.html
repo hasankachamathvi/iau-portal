@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Audit Logs — Admin Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --primary: #0069b4;
+      --primary-dark: #004f8a;
+      --accent: #1f8cd8;
+      --gray-bg: #f4f7fb;
+      --gray-border: #d8e3ef;
+      --text: #122033;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: var(--gray-bg);
+      color: var(--text);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 62%, var(--accent) 100%);
+      color: white;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .toolbar form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .toolbar input {
+      flex: 1;
+      min-width: 240px;
+      padding: 12px 14px;
+      border: 1px solid var(--gray-border);
+      border-radius: 10px;
+    }
+
+    .btn {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 62%, var(--accent) 100%);
+    }
+
+    .btn.secondary {
+      background: white;
+      color: var(--primary-dark);
+      border: 1px solid var(--gray-border);
+    }
+
+    .panel {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--gray-border);
+      text-align: left;
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fbff;
+      color: var(--primary-dark);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    .meta {
+      margin-top: 10px;
+      color: #5d6b7e;
+      font-size: 13px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(0, 105, 180, 0.1);
+      color: var(--primary-dark);
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .page-links a,
+    .page-links span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--gray-border);
+      margin-right: 6px;
+      text-decoration: none;
+      color: var(--text);
+      background: white;
+    }
+
+    .page-links span.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>Audit Logs</h1>
+  <p>Submission, access, export, and evidence download activity.</p>
+</div>
+
+<div class="container">
+  <a href="/admin/dashboard" style="display:inline-block;margin-bottom:16px;color:var(--primary-dark);font-weight:600;text-decoration:none;">← Back to Dashboard</a>
+
+  <div class="toolbar">
+    <form method="get" action="/admin/audit-logs">
+      <input type="text" name="query" placeholder="Search by event, CRN, or actor" th:value="${searchQuery}"/>
+      <button class="btn" type="submit">Search</button>
+      <a class="btn secondary" href="/admin/audit-logs">Clear</a>
+    </form>
+  </div>
+
+  <div class="meta">
+    <span>Showing <strong th:text="${#lists.size(auditLogs)}">0</strong> of <strong th:text="${totalAuditLogs}">0</strong> events</span>
+    <span class="badge" th:text="|Total events: ${auditEventCount}|">Total events: 0</span>
+  </div>
+
+  <div class="panel" style="margin-top:16px;">
+    <table th:if="${!#lists.isEmpty(auditLogs)}">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Event</th>
+          <th>CRN</th>
+          <th>Actor</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="log : ${auditLogs}">
+          <td th:text="${#temporals.format(log.createdAt, 'dd MMM yyyy HH:mm:ss')}">18 May 2026 10:00:00</td>
+          <td><span class="badge" th:text="${log.eventType}">EVENT</span></td>
+          <td th:text="${log.complaintCrn != null ? log.complaintCrn : '-'}">-</td>
+          <td th:text="${log.actor != null ? log.actor : '-'}">-</td>
+          <td th:text="${log.details != null ? log.details : '-'}">-</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div th:unless="${!#lists.isEmpty(auditLogs)}" style="padding:24px; text-align:center; color:#5d6b7e;">
+      No audit logs found.
+    </div>
+
+    <div class="pagination" th:if="${totalPages > 1}">
+      <div>Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span></div>
+      <div class="page-links">
+        <a th:if="${currentPage > 1}" th:href="@{/admin/audit-logs(page=${currentPage - 2}, query=${searchQuery})}">‹</a>
+        <span th:unless="${currentPage > 1}">‹</span>
+        <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${i != currentPage}" th:href="@{/admin/audit-logs(page=${i - 1}, query=${searchQuery})}" th:text="${i}">1</a>
+          <span th:if="${i == currentPage}" class="active" th:text="${i}">1</span>
+        </th:block>
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/audit-logs(page=${currentPage}, query=${searchQuery})}">›</a>
+        <span th:unless="${currentPage < totalPages}">›</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

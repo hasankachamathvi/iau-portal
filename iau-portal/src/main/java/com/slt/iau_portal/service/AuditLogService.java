@@ -1,5 +1,7 @@
 package com.slt.iau_portal.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +21,19 @@ public class AuditLogService {
         log.setActor(actor);
         log.setDetails(details);
         auditLogRepository.save(log);
+    }
+
+    public Page<AuditLog> findLogs(String query, Pageable pageable) {
+        String normalizedQuery = query == null ? "" : query.trim();
+        if (normalizedQuery.isBlank()) {
+            return auditLogRepository.findAllByOrderByCreatedAtDesc(pageable);
+        }
+
+        return auditLogRepository.findByEventTypeContainingIgnoreCaseOrComplaintCrnContainingIgnoreCaseOrActorContainingIgnoreCaseOrderByCreatedAtDesc(
+            normalizedQuery,
+            normalizedQuery,
+            normalizedQuery,
+            pageable
+        );
     }
 }
