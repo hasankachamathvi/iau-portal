@@ -1,15 +1,26 @@
 package com.slt.iau_portal.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.slt.iau_portal.dto.ApiResponse;
 import com.slt.iau_portal.dto.ComplaintFormDto;
@@ -18,12 +29,10 @@ import com.slt.iau_portal.repository.ComplaintRepository;
 import com.slt.iau_portal.service.AuditLogService;
 import com.slt.iau_portal.service.ComplaintService;
 
-import java.util.Map;
-import java.util.Optional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/complaints")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class ComplaintApiController {
 
     private static final Logger logger = LoggerFactory.getLogger(ComplaintApiController.class);
@@ -61,15 +70,25 @@ public class ComplaintApiController {
     @GetMapping("/crn/{crn}")
     public ResponseEntity<ApiResponse<Complaint>> getComplaintByCrn(@PathVariable String crn) {
         logger.info("Fetching complaint via API - CRN: {}", crn);
-        Optional<Complaint> complaint = complaintRepository.findByCrn(crn);
-        
-        if (complaint.isPresent()) {
-            auditLogService.record("API_COMPLAINT_VIEWED", complaint.get().getCrn(), "API", "Complaint fetched by CRN");
-            return ResponseEntity.ok(ApiResponse.success("Complaint found", complaint.get()));
-        } else {
-            logger.warn("Complaint not found - CRN: {}", crn);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ApiResponse.error("Complaint not found", "No complaint with CRN: " + crn));
+        try {
+            Optional<Complaint> complaint = complaintRepository.findByCrn(crn);
+
+            if (complaint.isPresent()) {
+                auditLogService.record("API_COMPLAINT_VIEWED", complaint.get().getCrn(), "API", "Complaint fetched by CRN");
+                return ResponseEntity.ok(ApiResponse.success("Complaint found", complaint.get()));
+            } else {
+                logger.warn("Complaint not found - CRN: {}", crn);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.error("Complaint not found", "No complaint with CRN: " + crn));
+            }
+        } catch (DataAccessException dae) {
+            logger.error("Database error while fetching CRN {}", crn, dae);
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(ApiResponse.error("Service temporarily unavailable", "Database is unreachable"));
+        } catch (Exception e) {
+            logger.error("Unexpected error while fetching CRN {}", crn, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error("Unexpected error", e.getMessage()));
         }
     }
 
@@ -102,6 +121,24 @@ public class ComplaintApiController {
         auditLogService.record("API_COMPLAINT_LISTED", null, "API", "page=" + page + ", size=" + size);
 
         return ResponseEntity.ok(ApiResponse.success("Complaints retrieved", complaints));
+    }
+
+    /**
+     * Temporary test endpoint to return a synthetic complaint for UI testing.
+     * Not intended for production use.
+     */
+    @GetMapping("/test/{crn}")
+    public ResponseEntity<ApiResponse<Complaint>> testComplaint(@PathVariable String crn) {
+        Complaint c = new Complaint();
+        c.setCrn(crn);
+        c.setCategory("TEST");
+        c.setDescription("This is a synthetic test complaint generated for UI testing.");
+        c.setComplaintDate(LocalDate.now());
+        c.setLocation("Test Location");
+        c.setStatus("PENDING");
+        c.setCreatedAt(LocalDateTime.now());
+        c.setUpdatedAt(LocalDateTime.now());
+        return ResponseEntity.ok(ApiResponse.success("Test complaint", c));
     }
 
     /**

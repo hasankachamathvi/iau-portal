@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Error - IAU Complaint Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #004f8a 0%, #0069b4 62%, #4cab32 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .error-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #004f8a;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .error-code {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .error-details {
+            background: #f5f5f5;
+            border-left: 4px solid #0069b4;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: left;
+            margin-bottom: 30px;
+            word-break: break-word;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .error-details code {
+            font-family: 'Courier New', monospace;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #004f8a 0%, #0069b4 62%, #4cab32 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 105, 180, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #0069b4;
+            border: 2px solid #0069b4;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f5f5;
+        }
+
+        @media (max-width: 600px) {
+            .error-container {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .error-icon {
+                font-size: 60px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h1>Oops! Something Went Wrong</h1>
+        
+        
+        <div class="error-message">
+            <p>An unexpected error occurred. Please try again later.</p>
+            
+        </div>
+
+        
+
+        <div class="action-buttons">
+            <a href="/" class="btn btn-primary">
+                🏠 Back to Home
+            </a>
+            <a href="/complaint" class="btn btn-secondary">
+                📝 Report Complaint
+            </a>
+        </div>
+
+        <p style="color: #999; font-size: 12px; margin-top: 30px;">
+            If the problem persists, please contact support at: support@iau-portal.slt.lk
+        </p>
+    </div>
+</body>
+</html>
+
