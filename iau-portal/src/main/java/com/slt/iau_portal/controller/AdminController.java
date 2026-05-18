@@ -79,6 +79,9 @@ public class AdminController {
     @Autowired
     private AuditLogService auditLogService;
 
+    @Value("${evidence.encryption.key:}")
+    private String evidenceEncryptionKeyBase64;
+
     @GetMapping("/dashboard")
     public String dashboard(
             Model model,
@@ -304,12 +307,36 @@ public class AdminController {
             byte[] fileBytes = Files.readAllBytes(filePath);
             String contentType = evidence.getFileType() == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE : evidence.getFileType();
 
+            // Attempt to decrypt if encryption key is configured
+            String encKey = System.getProperty("evidence.encryption.key");
+            if ((encKey == null || encKey.isBlank()) && evidence != null) {
+                // try reading from Spring property fallback via env var
+                encKey = System.getenv("EVIDENCE_ENCRYPTION_KEY_BASE64");
+            }
+
+            byte[] payload = fileBytes;
+            if (encKey != null && !encKey.isBlank()) {
+                try {
+                    byte[] key = com.slt.iau_portal.util.EncryptionUtil.decodeKeyFromBase64(encKey);
+                    payload = com.slt.iau_portal.util.EncryptionUtil.decrypt(fileBytes, key);
+                } catch (Exception ex) {
+                    logger.warn("Failed to decrypt evidence {}, returning raw bytes", id, ex);
+                }
+            } else if (evidenceEncryptionKeyBase64 != null && !evidenceEncryptionKeyBase64.isBlank()) {
+                try {
+                    byte[] key = com.slt.iau_portal.util.EncryptionUtil.decodeKeyFromBase64(evidenceEncryptionKeyBase64);
+                    payload = com.slt.iau_portal.util.EncryptionUtil.decrypt(fileBytes, key);
+                } catch (Exception ex) {
+                    logger.warn("Failed to decrypt evidence {} with application key, returning raw bytes", id, ex);
+                }
+            }
+
             auditLogService.record("EVIDENCE_DOWNLOADED", evidence.getComplaint() != null ? evidence.getComplaint().getCrn() : null, "ADMIN", evidence.getFileName());
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + evidence.getFileName() + "\"")
                     .contentType(MediaType.parseMediaType(contentType))
-                    .body(fileBytes);
+                    .body(payload);
         } catch (Exception e) {
             logger.error("Failed to download evidence {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -53,6 +53,9 @@ public class ComplaintService {
 
     @Value("${upload.dir}")
     private String uploadDir;
+
+    @Value("${evidence.encryption.key:}")
+    private String evidenceEncryptionKeyBase64;
     
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
     private static final int MAX_FILES = 5;
@@ -179,8 +182,23 @@ public class ComplaintService {
                     // Generate unique filename to prevent overwrite
                     String uniqueFilename = System.currentTimeMillis() + "_" + sanitizeFilename(file.getOriginalFilename());
                     String filePath = uploadDir + File.separator + uniqueFilename;
-                    file.transferTo(new File(filePath));
-                    logger.info("File uploaded successfully: {}", uniqueFilename);
+
+                    byte[] bytes = file.getBytes();
+                    try {
+                        if (evidenceEncryptionKeyBase64 != null && !evidenceEncryptionKeyBase64.isBlank()) {
+                            byte[] key = com.slt.iau_portal.util.EncryptionUtil.decodeKeyFromBase64(evidenceEncryptionKeyBase64);
+                            byte[] encrypted = com.slt.iau_portal.util.EncryptionUtil.encrypt(bytes, key);
+                            java.nio.file.Files.write(java.nio.file.Paths.get(filePath), encrypted);
+                            logger.info("File uploaded and encrypted successfully: {}", uniqueFilename);
+                        } else {
+                            // fallback: write plaintext and log warning
+                            file.transferTo(new File(filePath));
+                            logger.warn("Evidence encryption key not configured; storing file in plaintext: {}", uniqueFilename);
+                        }
+                    } catch (Exception e) {
+                        logger.error("Failed to encrypt and save file: {}", uniqueFilename, e);
+                        throw new ComplaintProcessingException("Failed to upload/encrypt file: " + file.getOriginalFilename(), e);
+                    }
 
                     // Save evidence record
                     Evidence evidence = new Evidence();
