@@ -8,34 +8,35 @@
     :root{
       --primary:#0069b4;
       --primary-dark:#004f8a;
-      --success:#28a745;
-      --success-dark:#1f8d39;
+      --success:#2da44e;
+      --success-dark:#23823a;
       --info:#0ea5a4;
       --danger:#e02424;
       --accent-purple:#6c5ce7;
       --bg:#f4f7fb;
       --card-bg:#ffffff;
-      --muted:#dbe5f1;
+      --muted:#e6eef6;
       --text:#122033;
+      --shadow: 0 6px 24px rgba(16,24,40,0.06);
     }
 
     html,body{height:100%;margin:0;padding:0}
     body{font-family:Inter,Segoe UI,sans-serif;background:var(--bg);color:var(--text);padding:0;margin:0}
 
-    /* Make the container flush horizontally but keep a small internal gutter */
-    .container{width:100%;max-width:none;margin:0;padding:24px 0}
+    /* Full-bleed container: card spans most of viewport with small inner gutter */
+    .container{width:100%;max-width:none;margin:0;padding:18px 0}
 
-    /* Card that holds the lookup and result */
-    .box{background:var(--card-bg);padding:20px;border-radius:12px;border:1px solid var(--muted);width:calc(100% - 48px);box-sizing:border-box;margin:0 24px}
+    /* Card that holds the lookup and result — make it full width and comfortable */
+    .box{background:var(--card-bg);padding:26px;border-radius:12px;border:1px solid var(--muted);width:100%;box-sizing:border-box;margin:0;box-shadow:var(--shadow)}
 
-    /* Form layout: input grows, button stays compact */
+    /* Form layout: input grows, button stays compact and visually distinct */
     form.lookup{display:flex;gap:12px;align-items:center;margin-bottom:18px}
-    .input{padding:12px;border-radius:8px;border:1px solid var(--muted);flex:1;min-width:0}
+    .input{padding:14px 16px;border-radius:10px;border:1px solid #e9f0f7;flex:1;min-width:0;font-size:15px}
 
     /* Button system - primary, success, info, danger, outline */
-    .btn{display:inline-block;padding:10px 14px;border-radius:8px;border:none;font-weight:700;color:white;cursor:pointer}
-    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
-    .btn-success{background:linear-gradient(135deg,var(--success),var(--success-dark))}
+    .btn{display:inline-block;padding:10px 16px;border-radius:10px;border:none;font-weight:700;color:white;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 8px 24px rgba(0,105,180,0.12)}
+    .btn-success{background:linear-gradient(135deg,var(--success),var(--success-dark));box-shadow:0 8px 24px rgba(45,164,78,0.12);color:#fff}
     .btn-info{background:linear-gradient(135deg,var(--info),#078b86)}
     .btn-danger{background:linear-gradient(135deg,var(--danger),#c21717)}
     .btn-outline{background:transparent;color:var(--primary);padding:8px 12px;border-radius:8px;border:2px solid rgba(108,92,231,0.12)}
@@ -43,7 +44,7 @@
     .label{font-size:12px;color:#6f7f93;margin-bottom:6px}
     .field{margin-bottom:12px}
     .badge{display:inline-block;padding:6px 10px;border-radius:8px;font-weight:700}
-    a.back{display:inline-block;color:var(--accent-purple);margin:8px 24px}
+    a.back{display:inline-block;color:var(--accent-purple);margin:8px 12px}
   </style>
 </head>
 <body>
@@ -53,7 +54,7 @@
     <div class="box">
       <form class="lookup" method="get" action="/track">
         <input class="input" name="crn" placeholder="Enter Complaint Reference Number (CRN)" th:value="${param.crn}" />
-        <button class="btn-success" type="submit">Lookup</button>
+        <button class="btn btn-success" type="submit" style="color:#fff;padding:12px 18px;border-radius:10px;">Lookup</button>
       </form>
 
       <div th:if="${error}" style="color:#c0392b;font-weight:600">No complaint found for '<span th:text="${param.crn}"></span>'</div>
