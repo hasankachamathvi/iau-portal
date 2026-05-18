@@ -1,11 +1,11 @@
 package com.slt.iau_portal.controller;
 
-import java.time.LocalDateTime;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +14,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,24 +40,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
-
 import com.slt.iau_portal.model.AuditLog;
 import com.slt.iau_portal.model.Complaint;
 import com.slt.iau_portal.model.Evidence;
 import com.slt.iau_portal.model.Reporter;
 import com.slt.iau_portal.model.Subject;
 import com.slt.iau_portal.repository.AuditLogRepository;
-import com.slt.iau_portal.service.AuditLogService;
 import com.slt.iau_portal.repository.ComplaintRepository;
 import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
 import com.slt.iau_portal.repository.SubjectRepository;
+import com.slt.iau_portal.service.AuditLogService;
+import com.slt.iau_portal.service.EmailService;
 import com.slt.iau_portal.util.ExportUtil;
 
 @Controller
@@ -79,6 +79,9 @@ public class AdminController {
 
     @Autowired
     private AuditLogService auditLogService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Value("${evidence.encryption.key:}")
     private String evidenceEncryptionKeyBase64;
@@ -164,10 +167,23 @@ public class AdminController {
         String normalizedStatus = Optional.ofNullable(status).map(String::trim).orElse("").toUpperCase();
 
         if (complaint != null && VALID_STATUSES.contains(normalizedStatus)) {
+            String previousStatus = complaint.getStatus();
             complaint.setStatus(normalizedStatus);
             complaintRepository.save(complaint);
             logger.info("Complaint {} status updated to {}", id, normalizedStatus);
-            auditLogService.record("STATUS_UPDATED", complaint.getCrn(), "ADMIN", "status=" + normalizedStatus);
+
+            // Record audit with previous and new status
+            auditLogService.record("STATUS_UPDATED", complaint.getCrn(), "ADMIN", "from=" + previousStatus + " to=" + normalizedStatus);
+
+            // Notify reporter by email if not anonymous
+            try {
+                com.slt.iau_portal.model.Reporter reporter = reporterRepository.findByComplaintId(id);
+                if (reporter != null && Boolean.FALSE.equals(reporter.getAnonymousFlag()) && reporter.getEmail() != null && !reporter.getEmail().isBlank()) {
+                    emailService.sendStatusUpdateEmail(reporter.getEmail(), complaint.getCrn(), normalizedStatus);
+                }
+            } catch (Exception e) {
+                logger.warn("Failed to send status update notification for complaint {}", id, e);
+            }
         }
 
         return "redirect:/admin/dashboard";

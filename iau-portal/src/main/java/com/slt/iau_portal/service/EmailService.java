@@ -36,4 +36,29 @@ public class EmailService {
             System.out.println("[EMAIL ERROR] Failed to send: " + e.getMessage());
         }
     }
+
+    public void sendStatusUpdateEmail(String toEmail, String crn, String newStatus) {
+        if (mailSender == null) {
+            System.out.println("[EMAIL] Skipped status update (mail not configured). CRN: " + crn + " status: " + newStatus);
+            return;
+        }
+
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(toEmail);
+            message.setSubject("IAU Complaint Portal - Status Update (CRN: " + crn + ")");
+            message.setText("Dear User,\n\n" +
+                    "The status of your complaint has been updated.\n\n" +
+                    "Complaint Reference Number (CRN): " + crn + "\n" +
+                    "New Status: " + newStatus + "\n\n" +
+                    "You can use this CRN to view the complaint details and track progress.\n\n" +
+                    "Best regards,\n" +
+                    "Internal Affairs Unit (IAU)");
+            message.setFrom("noreply@iau-portal.local");
+            mailSender.send(message);
+            System.out.println("[EMAIL] Status update sent to: " + toEmail + " | CRN: " + crn + " | status: " + newStatus);
+        } catch (Exception e) {
+            System.out.println("[EMAIL ERROR] Failed to send status update: " + e.getMessage());
+        }
+    }
 }
