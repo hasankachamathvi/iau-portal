@@ -185,7 +185,8 @@
     .track-result-body { color:var(--text-mid); font-size:15px; line-height:1.8 }
 
     /* align track card to left and make it use more horizontal space */
-    .track-card { background:white; border-radius:14px; padding:28px 36px; box-shadow: 0 16px 40px rgba(2,24,64,0.05); border:1px solid #eef5fb; max-width:1400px; width: calc(100% - 6%); margin: 18px 0 18px 0; }
+    /* make track card full-width within the section to remove side whitespace */
+    .track-card { background:white; border-radius:14px; padding:28px 36px; box-shadow: 0 12px 30px rgba(2,24,64,0.05); border:1px solid #eef5fb; max-width:none; width:100%; margin: 12px 0; box-sizing: border-box; }
 
     .hero-brand {
       min-height: 240px;
@@ -339,6 +340,20 @@
       padding: 48px 3%;
       max-width: 1400px;
       margin: 0 auto;
+    }
+
+    /* make the Track section full-width (remove centering) */
+    .section#track {
+      max-width: none;
+      margin: 0;
+      padding: 32px 3%;
+    }
+
+    .section#track .track-card {
+      width: 100%;
+      margin: 12px 0 0 0;
+      max-width: none;
+      box-sizing: border-box;
     }
 
     .section-label {
