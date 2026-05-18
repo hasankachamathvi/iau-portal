@@ -43,6 +43,7 @@ public class AdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
     private static final List<String> VALID_STATUSES = List.of("PENDING", "UNDER_INVESTIGATION", "RESOLVED");
+    private static final int PAGE_SIZE = 10;
 
     @Autowired
     private ComplaintRepository complaintRepository;
@@ -64,11 +65,19 @@ public class AdminController {
             @RequestParam(defaultValue = "dateDesc") String sort) {
 
         logger.info("Admin dashboard accessed with filter={} sort={}", filter, sort);
-        int maxPage = Math.max(0, page);
+        int requestedPage = Math.max(0, page);
 
         Sort sortOrder = buildSort(sort);
-        Pageable pageable = PageRequest.of(maxPage, 10, sortOrder);
+        Pageable pageable = PageRequest.of(requestedPage, PAGE_SIZE, sortOrder);
         Page<Complaint> complaints = getComplaintsByFilter(filter, pageable);
+        int totalPages = Math.max(1, complaints.getTotalPages());
+
+        if (requestedPage >= totalPages) {
+            requestedPage = totalPages - 1;
+            pageable = PageRequest.of(requestedPage, PAGE_SIZE, sortOrder);
+            complaints = getComplaintsByFilter(filter, pageable);
+        }
+
         List<Complaint> allComplaints = complaintRepository.findAll();
         Map<Long, Reporter> reportersByComplaintId = getReportersByComplaintId(complaints.getContent());
         LocalDateTime monthStart = YearMonth.now().atDay(1).atStartOfDay();
@@ -88,8 +97,9 @@ public class AdminController {
         model.addAttribute("currentFilter", filter);
         model.addAttribute("currentFilterLabel", getFilterLabel(filter));
         model.addAttribute("currentSort", sort);
-        model.addAttribute("currentPage", page + 1);
-        model.addAttribute("totalPages", complaints.getTotalPages());
+        model.addAttribute("currentPage", requestedPage + 1);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("pageResultCount", complaints.getTotalElements());
         model.addAttribute("statusReport", statusReport);
         model.addAttribute("categoryReport", categoryReport);
         model.addAttribute("monthlyTrend", monthlyTrend);
@@ -162,6 +172,7 @@ public class AdminController {
         model.addAttribute("currentFilterLabel", normalizedSearchValue.isBlank() ? "All Complaints" : "Search Results");
         model.addAttribute("currentPage", 1);
         model.addAttribute("totalPages", 1);
+        model.addAttribute("pageResultCount", complaints.size());
         model.addAttribute("underInvestigationCount", complaintRepository.countByStatus("UNDER_INVESTIGATION"));
         model.addAttribute("resolvedCount", complaintRepository.countByStatus("RESOLVED"));
         model.addAttribute("statusReport", buildStatusReport(complaints));

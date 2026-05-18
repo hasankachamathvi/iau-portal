@@ -1066,7 +1066,7 @@
           Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span>
         </div>
         <div class="pagination-size">
-          <span th:text="${(currentPage - 1) * 10 + 1}">1</span>-<span th:text="${#lists.size(complaints) > 0 ? (currentPage - 1) * 10 + #lists.size(complaints) : 0}">10</span> of <span th:text="${totalComplaints}">100</span> complaints
+          <span th:text="${(currentPage - 1) * 10 + 1}">1</span>-<span th:text="${#lists.size(complaints) > 0 ? (currentPage - 1) * 10 + #lists.size(complaints) : 0}">10</span> of <span th:text="${pageResultCount != null ? pageResultCount : totalComplaints}">100</span> complaints
         </div>
       </div>
       <div class="page-links" role="navigation" aria-label="Pagination">

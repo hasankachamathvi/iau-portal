@@ -258,10 +258,10 @@
 </div>
 
 <script>
-  function copyCRN() {
+  function copyCRN(event) {
     const crn = document.getElementById('crn').textContent;
     navigator.clipboard.writeText(crn).then(() => {
-      const btn = event.target.closest('button');
+      const btn = event.currentTarget;
       const originalText = btn.innerHTML;
       btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
       setTimeout(() => {

@@ -220,6 +220,10 @@
         </div>
       </div>
       <div class="field">
+        <div class="field-label">Last Updated</div>
+        <div class="field-value" th:text="${complaint.updatedAt != null ? #temporals.format(complaint.updatedAt, 'dd MMM yyyy HH:mm') : 'N/A'}"></div>
+      </div>
+      <div class="field">
         <div class="field-label">Escalated</div>
         <div class="field-value">
           <span th:if="${complaint.escalated}" class="badge badge-escalated">⚡ Yes (Senior Management)</span>
