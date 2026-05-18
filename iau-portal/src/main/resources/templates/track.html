@@ -5,26 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Track Complaint — IAU Portal</title>
   <style>
-    body{font-family:Inter,Segoe UI,sans-serif;background:#f4f7fb;color:#122033;padding:0;margin:0}
-    /* full-width container with small side padding so the card aligns with other sections */
-    .container{width:100%;max-width:none;margin:0;padding:24px 3%}
-    .box{background:white;padding:20px;border-radius:12px;border:1px solid #e2e8f0;width:100%;box-sizing:border-box;margin:0}
-    .input{padding:10px;border-radius:8px;border:1px solid #dbe5f1;width:60%}
-    .btn{background:#0069b4;color:white;padding:10px 14px;border-radius:8px;border:none}
+    :root{
+      --primary:#0069b4;
+      --primary-dark:#004f8a;
+      --success:#28a745;
+      --success-dark:#1f8d39;
+      --info:#0ea5a4;
+      --danger:#e02424;
+      --accent-purple:#6c5ce7;
+      --bg:#f4f7fb;
+      --card-bg:#ffffff;
+      --muted:#dbe5f1;
+      --text:#122033;
+    }
+
+    html,body{height:100%;margin:0;padding:0}
+    body{font-family:Inter,Segoe UI,sans-serif;background:var(--bg);color:var(--text);padding:0;margin:0}
+
+    /* Make the container flush horizontally but keep a small internal gutter */
+    .container{width:100%;max-width:none;margin:0;padding:24px 0}
+
+    /* Card that holds the lookup and result */
+    .box{background:var(--card-bg);padding:20px;border-radius:12px;border:1px solid var(--muted);width:calc(100% - 48px);box-sizing:border-box;margin:0 24px}
+
+    /* Form layout: input grows, button stays compact */
+    form.lookup{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+    .input{padding:12px;border-radius:8px;border:1px solid var(--muted);flex:1;min-width:0}
+
+    /* Button system - primary, success, info, danger, outline */
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;border:none;font-weight:700;color:white;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+    .btn-success{background:linear-gradient(135deg,var(--success),var(--success-dark))}
+    .btn-info{background:linear-gradient(135deg,var(--info),#078b86)}
+    .btn-danger{background:linear-gradient(135deg,var(--danger),#c21717)}
+    .btn-outline{background:transparent;color:var(--primary);padding:8px 12px;border-radius:8px;border:2px solid rgba(108,92,231,0.12)}
+
     .label{font-size:12px;color:#6f7f93;margin-bottom:6px}
     .field{margin-bottom:12px}
     .badge{display:inline-block;padding:6px 10px;border-radius:8px;font-weight:700}
-    a.back{display:inline-block;color:#4b2a9d;margin:8px 0}
+    a.back{display:inline-block;color:var(--accent-purple);margin:8px 24px}
   </style>
 </head>
 <body>
   <div class="container">
-    <a href="/">← Back</a>
-    <h1>Track Complaint</h1>
+    <a href="/" class="back">← Back</a>
+    <h1 style="padding:0 24px">Track Complaint</h1>
     <div class="box">
-      <form method="get" action="/track" style="display:flex;gap:8px;align-items:center;margin-bottom:16px">
+      <form class="lookup" method="get" action="/track">
         <input class="input" name="crn" placeholder="Enter Complaint Reference Number (CRN)" th:value="${param.crn}" />
-        <button class="btn" type="submit">Lookup</button>
+        <button class="btn-success" type="submit">Lookup</button>
       </form>
 
       <div th:if="${error}" style="color:#c0392b;font-weight:600">No complaint found for '<span th:text="${param.crn}"></span>'</div>

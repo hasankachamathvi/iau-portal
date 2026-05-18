@@ -11,9 +11,14 @@
       --blue: #0069b4;
       --blue-dark: #004f8a;
       --blue-mid: #1f8cd8;
+      --info: #0ea5a4;
+      --accent-purple: #6c5ce7;
+      --success: #28a745;
+      --danger: #e02424;
       --blue-light: #e6f3fc;
       --green: #4cab32;
       --green-light: #e6f5df;
+      --muted-bg: #f1f5f9;
       --gray-bg: #f4f7fb;
       --text-dark: #122033;
       --text-mid: #4d5d72;
@@ -117,20 +122,22 @@
     }
 
     .nav-btn {
-      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
-      color: white !important;
-      padding: 9px 22px;
+      background: transparent;
+      color: var(--accent-purple) !important;
+      padding: 8px 18px;
       border-radius: 8px;
-      font-weight: 600 !important;
+      font-weight: 700 !important;
       font-size: 13px !important;
-      transition: all 0.2s !important;
-      box-shadow: 0 3px 10px rgba(0, 105, 180, 0.28);
+      transition: all 0.18s !important;
+      border: 2px solid rgba(108,92,231,0.12);
+      box-shadow: none;
     }
 
     .nav-btn:hover {
-      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%) !important;
-      color: white !important;
+      background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(108,92,231,0.08));
+      color: var(--accent-purple) !important;
       transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(108,92,231,0.08);
     }
 
     .hero {
@@ -293,11 +300,11 @@
     }
 
     /* green button used for Track */
-    .btn-green {
+    .btn-success {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(135deg, #2fa84f 0%, #1f8d39 100%);
+      background: linear-gradient(135deg, var(--success) 0%, #1f8d39 100%);
       color: white;
       padding: 14px 28px;
       border-radius: 12px;
@@ -308,7 +315,15 @@
       transition: transform 0.15s, box-shadow 0.15s;
     }
 
-    .btn-green:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(31,138,57,0.24); }
+    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(31,138,57,0.24); }
+
+    .btn-info {
+      display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--info),#078b86);color:white;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;box-shadow:0 6px 18px rgba(14,165,164,0.12);
+    }
+
+    .btn-danger {display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--danger),#b71c1c);color:white;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;box-shadow:0 6px 18px rgba(224,36,36,0.12);} 
+
+    .btn-outline { background: transparent; color: var(--blue); border: 1px solid rgba(0,81,140,0.08); padding:10px 18px; border-radius:10px; font-weight:700 }
 
     .hero-stats {
       display: flex;
@@ -651,7 +666,7 @@
 
       <div class="hero-actions">
         <a href="/complaint" class="btn-primary">Report a Complaint <span class="arrow">→</span></a>
-        <a href="#track" class="btn-green">Track Complaint</a>
+        <a href="#track" class="btn-success">Track Complaint</a>
       </div>
 
       <div class="hero-stats">
@@ -741,7 +756,7 @@
     <div class="track-container">
       <form class="track-form" method="get" action="/track">
         <input name="crn" class="track-input" placeholder="Enter your CRN (e.g. CRN123456)" />
-        <button type="submit" class="track-btn">Track</button>
+        <button type="submit" class="btn-success">Track</button>
       </form>
     </div>
     <div style="display:flex;justify-content:center;">
