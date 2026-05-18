@@ -142,17 +142,5 @@ public class ComplaintController {
         return "redirect:/complaint"; 
     }
 
-    @GetMapping("/track")
-    public String track(@org.springframework.web.bind.annotation.RequestParam(required = false) String crn, Model model) {
-        if (crn != null && !crn.isBlank()) {
-            var complaint = complaintRepository.findByCrnIgnoreCase(crn.trim()).orElse(null);
-            if (complaint == null) {
-                model.addAttribute("error", "not_found");
-            } else {
-                model.addAttribute("complaint", complaint);
-            }
-        }
-
-        return "track";
-    }
+    // Public complaint tracking endpoint removed. Use admin interfaces for complaint details.
 }
