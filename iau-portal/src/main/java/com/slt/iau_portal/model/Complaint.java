@@ -32,6 +32,7 @@ public class Complaint {
     private String location;
     private Boolean reportedBefore = false;
     private Boolean escalated = false;
+    private Boolean ciabocEscalated = false;
     private String status = "PENDING";
 
     @Column(updatable = false)
@@ -62,6 +63,9 @@ public class Complaint {
 
     public Boolean getEscalated() { return escalated; }
     public void setEscalated(Boolean escalated) { this.escalated = escalated; }
+
+    public Boolean getCiabocEscalated() { return ciabocEscalated; }
+    public void setCiabocEscalated(Boolean ciabocEscalated) { this.ciabocEscalated = ciabocEscalated; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

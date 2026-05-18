@@ -1,6 +1,9 @@
 package com.slt.iau_portal.controller;
 
 import java.time.LocalDateTime;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,6 +35,7 @@ import com.slt.iau_portal.model.Complaint;
 import com.slt.iau_portal.model.Evidence;
 import com.slt.iau_portal.model.Reporter;
 import com.slt.iau_portal.model.Subject;
+import com.slt.iau_portal.service.AuditLogService;
 import com.slt.iau_portal.repository.ComplaintRepository;
 import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
@@ -56,6 +61,9 @@ public class AdminController {
 
     @Autowired
     private EvidenceRepository evidenceRepository;
+
+    @Autowired
+    private AuditLogService auditLogService;
 
     @GetMapping("/dashboard")
     public String dashboard(
@@ -127,6 +135,8 @@ public class AdminController {
         model.addAttribute("subjects", subjects == null ? List.of() : subjects);
         model.addAttribute("evidence", evidence == null ? List.of() : evidence);
 
+        auditLogService.record("COMPLAINT_VIEWED", complaint.getCrn(), "ADMIN", "Viewed complaint detail page");
+
         return "admin/complaint-detail";
     }
 
@@ -137,9 +147,9 @@ public class AdminController {
 
         if (complaint != null && VALID_STATUSES.contains(normalizedStatus)) {
             complaint.setStatus(normalizedStatus);
-            complaint.setUpdatedAt(LocalDateTime.now());
             complaintRepository.save(complaint);
             logger.info("Complaint {} status updated to {}", id, normalizedStatus);
+            auditLogService.record("STATUS_UPDATED", complaint.getCrn(), "ADMIN", "status=" + normalizedStatus);
         }
 
         return "redirect:/admin/dashboard";
@@ -205,6 +215,31 @@ public class AdminController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
                 .contentType(MediaType.parseMediaType("text/csv"))
                 .body(csvContent);
+    }
+
+    @GetMapping("/evidence/{id}/download")
+    public ResponseEntity<byte[]> downloadEvidence(@PathVariable Long id) {
+        Evidence evidence = evidenceRepository.findById(id).orElse(null);
+
+        if (evidence == null || evidence.getFilePath() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        try {
+            Path filePath = Paths.get(evidence.getFilePath());
+            byte[] fileBytes = Files.readAllBytes(filePath);
+            String contentType = evidence.getFileType() == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE : evidence.getFileType();
+
+            auditLogService.record("EVIDENCE_DOWNLOADED", evidence.getComplaint() != null ? evidence.getComplaint().getCrn() : null, "ADMIN", evidence.getFileName());
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + evidence.getFileName() + "\"")
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .body(fileBytes);
+        } catch (Exception e) {
+            logger.error("Failed to download evidence {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     private Page<Complaint> getComplaintsByFilter(String filter, Pageable pageable) {

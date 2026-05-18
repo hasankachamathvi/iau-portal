@@ -15,6 +15,7 @@ import com.slt.iau_portal.dto.ApiResponse;
 import com.slt.iau_portal.dto.ComplaintFormDto;
 import com.slt.iau_portal.model.Complaint;
 import com.slt.iau_portal.repository.ComplaintRepository;
+import com.slt.iau_portal.service.AuditLogService;
 import com.slt.iau_portal.service.ComplaintService;
 
 import java.util.Map;
@@ -33,6 +34,9 @@ public class ComplaintApiController {
     @Autowired
     private ComplaintRepository complaintRepository;
 
+    @Autowired
+    private AuditLogService auditLogService;
+
     /**
      * Submit a new complaint via API
      */
@@ -41,6 +45,7 @@ public class ComplaintApiController {
         logger.info("API complaint submission received - Category: {}", form.getCategory());
         try {
             String crn = complaintService.processComplaint(form);
+            auditLogService.record("API_COMPLAINT_SUBMITTED", crn, "API", "category=" + form.getCategory());
             return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Complaint submitted successfully", crn));
         } catch (Exception e) {
@@ -59,6 +64,7 @@ public class ComplaintApiController {
         Optional<Complaint> complaint = complaintRepository.findByCrn(crn);
         
         if (complaint.isPresent()) {
+            auditLogService.record("API_COMPLAINT_VIEWED", complaint.get().getCrn(), "API", "Complaint fetched by CRN");
             return ResponseEntity.ok(ApiResponse.success("Complaint found", complaint.get()));
         } else {
             logger.warn("Complaint not found - CRN: {}", crn);
@@ -93,6 +99,8 @@ public class ComplaintApiController {
             complaints = complaintRepository.findAll(pageable);
         }
 
+        auditLogService.record("API_COMPLAINT_LISTED", null, "API", "page=" + page + ", size=" + size);
+
         return ResponseEntity.ok(ApiResponse.success("Complaints retrieved", complaints));
     }
 
@@ -108,6 +116,8 @@ public class ComplaintApiController {
         stats.put("pending", complaintRepository.countByStatus("PENDING"));
         stats.put("under_investigation", complaintRepository.countByStatus("UNDER_INVESTIGATION"));
         stats.put("resolved", complaintRepository.countByStatus("RESOLVED"));
+
+        auditLogService.record("API_STATISTICS_VIEWED", null, "API", "Complaint statistics retrieved");
 
         return ResponseEntity.ok(ApiResponse.success("Statistics retrieved", stats));
     }

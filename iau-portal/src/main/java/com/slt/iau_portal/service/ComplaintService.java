@@ -21,6 +21,7 @@ import com.slt.iau_portal.repository.ComplaintRepository;
 import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
 import com.slt.iau_portal.repository.SubjectRepository;
+import com.slt.iau_portal.service.AuditLogService;
 import com.slt.iau_portal.util.CrnGenerator;
 import com.slt.iau_portal.util.ValidationUtil;
 
@@ -47,6 +48,9 @@ public class ComplaintService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private AuditLogService auditLogService;
+
     @Value("${upload.dir}")
     private String uploadDir;
     
@@ -68,6 +72,7 @@ public class ComplaintService {
             complaint.setLocation(form.getLocation());
             complaint.setReportedBefore(form.isReportedBefore());
             complaint.setEscalated(form.isSeniorManagement());
+            complaint.setCiabocEscalated(shouldEscalateToCiaboc(form));
             complaint.setStatus("PENDING");
             complaintRepository.save(complaint);
             logger.info("Complaint saved with ID: {}", complaint.getId());
@@ -113,6 +118,13 @@ public class ComplaintService {
                     logger.warn("Failed to send confirmation email to: {} - {}", form.getEmail(), e.getMessage());
                 }
             }
+
+            auditLogService.record(
+                "COMPLAINT_SUBMITTED",
+                crn,
+                form.isAnonymous() ? "ANONYMOUS" : form.getEmail(),
+                "category=" + form.getCategory() + ", escalated=" + complaint.getEscalated() + ", ciabocEscalated=" + complaint.getCiabocEscalated()
+            );
 
             logger.info("Complaint processing completed successfully. CRN: {}", crn);
             return crn;
@@ -214,5 +226,23 @@ public class ComplaintService {
         
         logger.warn("Unsupported file type attempted: {}", contentType);
         return false;
+    }
+
+    private boolean shouldEscalateToCiaboc(ComplaintFormDto form) {
+        if (form.isSeniorManagement()) {
+            return true;
+        }
+
+        String subjectRole = form.getSubjectRole() == null ? "" : form.getSubjectRole().toLowerCase();
+        String subjectOrganization = form.getSubjectOrganization() == null ? "" : form.getSubjectOrganization().toLowerCase();
+        String subjectRelationship = form.getSubjectRelationship() == null ? "" : form.getSubjectRelationship().toLowerCase();
+        String subjectName = form.getSubjectName() == null ? "" : form.getSubjectName().toLowerCase();
+
+        return subjectRole.contains("iau")
+            || subjectOrganization.contains("iau")
+            || subjectRelationship.contains("iau")
+            || subjectName.contains("iau")
+            || subjectRole.contains("internal affairs")
+            || subjectOrganization.contains("internal affairs");
     }
 }
