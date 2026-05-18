@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,10 +33,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
+
+import com.slt.iau_portal.model.AuditLog;
 import com.slt.iau_portal.model.Complaint;
 import com.slt.iau_portal.model.Evidence;
 import com.slt.iau_portal.model.Reporter;
 import com.slt.iau_portal.model.Subject;
+import com.slt.iau_portal.repository.AuditLogRepository;
 import com.slt.iau_portal.service.AuditLogService;
 import com.slt.iau_portal.repository.ComplaintRepository;
 import com.slt.iau_portal.repository.EvidenceRepository;
@@ -61,6 +72,9 @@ public class AdminController {
 
     @Autowired
     private EvidenceRepository evidenceRepository;
+
+    @Autowired
+    private AuditLogRepository auditLogRepository;
 
     @Autowired
     private AuditLogService auditLogService;
@@ -217,6 +231,62 @@ public class AdminController {
                 .body(csvContent);
     }
 
+    @GetMapping("/export/pdf")
+    public ResponseEntity<byte[]> exportComplaintsPdf(
+            @RequestParam(defaultValue = "all") String filter,
+            @RequestParam(required = false) String query) {
+        logger.info("Admin PDF export requested with filter: {} query={}", filter, query);
+
+        List<Complaint> complaints;
+        String normalizedQuery = query == null ? "" : query.trim();
+
+        if ("search".equalsIgnoreCase(filter) && !normalizedQuery.isBlank()) {
+            complaints = complaintRepository.findByCrnIgnoreCase(normalizedQuery).stream().toList();
+        } else {
+            Pageable pageable = PageRequest.of(0, 10000, Sort.by(Sort.Direction.DESC, "createdAt"));
+            complaints = getComplaintsByFilter(filter, pageable).getContent();
+        }
+
+        byte[] pdfBytes = buildComplaintsPdf(complaints, filter, normalizedQuery);
+        String filename = "complaints_" + System.currentTimeMillis() + ".pdf";
+
+        auditLogService.record("EXPORT_PDF", null, "ADMIN", "filter=" + filter + ", query=" + normalizedQuery);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
+    }
+
+    @GetMapping("/audit-logs")
+    public String viewAuditLogs(
+            Model model,
+            @RequestParam(required = false) String query,
+            @RequestParam(defaultValue = "0") int page) {
+
+        int requestedPage = Math.max(0, page);
+        Pageable pageable = PageRequest.of(requestedPage, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<AuditLog> logPage = auditLogService.findLogs(query, pageable);
+        int totalPages = Math.max(1, logPage.getTotalPages());
+
+        if (requestedPage >= totalPages) {
+            requestedPage = totalPages - 1;
+            pageable = PageRequest.of(requestedPage, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createdAt"));
+            logPage = auditLogService.findLogs(query, pageable);
+        }
+
+        model.addAttribute("auditLogs", logPage.getContent());
+        model.addAttribute("searchQuery", query == null ? "" : query.trim());
+        model.addAttribute("currentPage", requestedPage + 1);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalAuditLogs", logPage.getTotalElements());
+        model.addAttribute("auditEventCount", auditLogRepository.count());
+
+        auditLogService.record("AUDIT_LOG_VIEWED", null, "ADMIN", "Viewed audit log page");
+
+        return "admin/audit-logs";
+    }
+
     @GetMapping("/evidence/{id}/download")
     public ResponseEntity<byte[]> downloadEvidence(@PathVariable Long id) {
         Evidence evidence = evidenceRepository.findById(id).orElse(null);
@@ -240,6 +310,61 @@ public class AdminController {
             logger.error("Failed to download evidence {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    private byte[] buildComplaintsPdf(List<Complaint> complaints, String filter, String query) {
+        try (PDDocument document = new PDDocument(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            PDPage page = new PDPage(PDRectangle.A4);
+            document.addPage(page);
+
+            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                contentStream.beginText();
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 16);
+                contentStream.newLineAtOffset(50, 780);
+                contentStream.showText("SLTMobitel IAU Complaint Ledger");
+                contentStream.newLineAtOffset(0, -24);
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10);
+                contentStream.showText("Filter: " + filter + (query == null || query.isBlank() ? "" : " | Query: " + query));
+                contentStream.newLineAtOffset(0, -18);
+
+                int lineCount = 0;
+                for (Complaint complaint : complaints) {
+                    String line = String.format("%s | %s | %s | %s | %s",
+                        safeText(complaint.getCrn()),
+                        safeText(complaint.getCategory()),
+                        safeText(complaint.getStatus()),
+                        safeText(complaint.getLocation()),
+                        complaint.getCreatedAt() == null ? "" : complaint.getCreatedAt().toString());
+
+                    contentStream.showText(truncatePdfLine(line));
+                    contentStream.newLineAtOffset(0, -14);
+                    lineCount++;
+
+                    if (lineCount >= 42) {
+                        break;
+                    }
+                }
+
+                contentStream.endText();
+            }
+
+            document.save(outputStream);
+            return outputStream.toByteArray();
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to generate PDF export", e);
+        }
+    }
+
+    private String safeText(String value) {
+        return value == null ? "" : value.replace("\n", " ").replace("\r", " ");
+    }
+
+    private String truncatePdfLine(String value) {
+        if (value.length() <= 120) {
+            return value;
+        }
+
+        return value.substring(0, 117) + "...";
     }
 
     private Page<Complaint> getComplaintsByFilter(String filter, Pageable pageable) {
