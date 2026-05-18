@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Complaint — IAU Portal</title>
+  <style>
+    body{font-family:Inter,Segoe UI,sans-serif;background:#f4f7fb;color:#122033;padding:24px}
+    .container{max-width:720px;margin:0 auto}
+    .box{background:white;padding:20px;border-radius:12px;border:1px solid #e2e8f0}
+    .input{padding:10px;border-radius:8px;border:1px solid #dbe5f1;width:320px}
+    .btn{background:#0069b4;color:white;padding:10px 14px;border-radius:8px;border:none}
+    .label{font-size:12px;color:#6f7f93;margin-bottom:6px}
+    .field{margin-bottom:12px}
+    .badge{display:inline-block;padding:6px 10px;border-radius:8px;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/">← Back</a>
+    <h1>Track Complaint</h1>
+    <div class="box">
+      <form method="get" action="/track" style="display:flex;gap:8px;align-items:center;margin-bottom:16px">
+        <input class="input" name="crn" placeholder="Enter Complaint Reference Number (CRN)" th:value="${param.crn}" />
+        <button class="btn" type="submit">Lookup</button>
+      </form>
+
+      <div th:if="${error}" style="color:#c0392b;font-weight:600">No complaint found for '<span th:text="${param.crn}"></span>'</div>
+
+      <div th:if="${complaint}">
+        <div class="field"><div class="label">CRN</div><div><strong th:text="${complaint.crn}"></strong></div></div>
+        <div class="field"><div class="label">Category</div><div th:text="${complaint.category}"></div></div>
+        <div class="field"><div class="label">Status</div>
+          <div>
+            <span class="badge" th:classappend="' badge-' + ${complaint.status.toLowerCase()}" th:text="${complaint.status}"></span>
+          </div>
+        </div>
+        <div class="field"><div class="label">Filed</div><div th:text="${#temporals.format(complaint.createdAt,'dd MMM yyyy HH:mm')}"></div></div>
+        <div class="field"><div class="label">Last Updated</div><div th:text="${complaint.updatedAt != null ? #temporals.format(complaint.updatedAt,'dd MMM yyyy HH:mm') : 'N/A'}"></div></div>
+        <div class="field"><a th:href="@{'/admin/complaint/' + ${complaint.crn}}">View details (admin only)</a></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

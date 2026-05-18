@@ -1781,3 +1781,4 @@ Caused by: java.net.ConnectException: Connection refused: getsockopt
 2026-05-18 15:34:19 [http-nio-8080-exec-4] INFO  c.s.i.controller.ComplaintController - Complaint form requested
 2026-05-18 15:36:36 [http-nio-8080-exec-8] INFO  c.s.i.controller.ComplaintController - Complaint submission received
 2026-05-18 15:36:36 [http-nio-8080-exec-8] WARN  c.s.i.controller.ComplaintController - Complaint form validation failed with 4 errors
+2026-05-18 15:48:50 [http-nio-8080-exec-10] INFO  c.s.i.controller.ComplaintController - Complaint form requested

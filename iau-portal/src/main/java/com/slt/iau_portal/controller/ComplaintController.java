@@ -1,9 +1,9 @@
 package com.slt.iau_portal.controller;
 
-import com.slt.iau_portal.dto.ComplaintFormDto;
-import com.slt.iau_portal.exception.ComplaintProcessingException;
-import com.slt.iau_portal.service.ComplaintService;
-import com.slt.iau_portal.util.ValidationUtil;
+import java.security.SecureRandom;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.slt.iau_portal.dto.ComplaintFormDto;
+import com.slt.iau_portal.exception.ComplaintProcessingException;
+import com.slt.iau_portal.service.ComplaintService;
+import com.slt.iau_portal.util.ValidationUtil;
+
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.security.SecureRandom;
 
 @Controller
 @RequestMapping("/complaint")
@@ -30,6 +32,9 @@ public class ComplaintController {
 
     @Autowired
     private ComplaintService complaintService;
+
+    @Autowired
+    private com.slt.iau_portal.repository.ComplaintRepository complaintRepository;
 
     @GetMapping
     public String showForm(Model model, HttpSession session) {
@@ -135,5 +140,19 @@ public class ComplaintController {
     @GetMapping("/")
     public String home() { 
         return "redirect:/complaint"; 
+    }
+
+    @GetMapping("/track")
+    public String track(@org.springframework.web.bind.annotation.RequestParam(required = false) String crn, Model model) {
+        if (crn != null && !crn.isBlank()) {
+            var complaint = complaintRepository.findByCrnIgnoreCase(crn.trim()).orElse(null);
+            if (complaint == null) {
+                model.addAttribute("error", "not_found");
+            } else {
+                model.addAttribute("complaint", complaint);
+            }
+        }
+
+        return "track";
     }
 }
