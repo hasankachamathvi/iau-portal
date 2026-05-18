@@ -259,14 +259,15 @@ public class AdminController {
     }
 
     @GetMapping("/audit-logs")
-    public String viewAuditLogs(
+        public String viewAuditLogs(
             Model model,
             @RequestParam(required = false) String query,
+            @RequestParam(required = false) String eventType,
             @RequestParam(defaultValue = "0") int page) {
 
         int requestedPage = Math.max(0, page);
         Pageable pageable = PageRequest.of(requestedPage, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<AuditLog> logPage = auditLogService.findLogs(query, pageable);
+        Page<AuditLog> logPage = auditLogService.findLogs(query, eventType, pageable);
         int totalPages = Math.max(1, logPage.getTotalPages());
 
         if (requestedPage >= totalPages) {
@@ -277,6 +278,9 @@ public class AdminController {
 
         model.addAttribute("auditLogs", logPage.getContent());
         model.addAttribute("searchQuery", query == null ? "" : query.trim());
+        java.util.List<String> eventTypes = auditLogService.getDistinctEventTypes();
+        model.addAttribute("eventTypes", eventTypes);
+        model.addAttribute("selectedEventType", eventType == null ? "all" : eventType);
         model.addAttribute("currentPage", requestedPage + 1);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalAuditLogs", logPage.getTotalElements());

@@ -1,6 +1,8 @@
 package com.slt.iau_portal.repository;
 
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,11 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
 		String actor,
 		Pageable pageable
 	);
+
+	@Query("SELECT DISTINCT a.eventType FROM AuditLog a ORDER BY a.eventType")
+	List<String> findDistinctEventTypes();
+
+	Page<AuditLog> findByEventTypeIgnoreCaseOrderByCreatedAtDesc(String eventType, Pageable pageable);
 
 	List<AuditLog> findTop200ByOrderByCreatedAtDesc();
 }

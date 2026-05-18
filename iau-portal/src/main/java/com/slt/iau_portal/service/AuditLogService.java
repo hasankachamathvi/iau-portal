@@ -22,18 +22,36 @@ public class AuditLogService {
         log.setDetails(details);
         auditLogRepository.save(log);
     }
-
     public Page<AuditLog> findLogs(String query, Pageable pageable) {
+        return findLogs(query, null, pageable);
+    }
+
+    public Page<AuditLog> findLogs(String query, String eventType, Pageable pageable) {
         String normalizedQuery = query == null ? "" : query.trim();
-        if (normalizedQuery.isBlank()) {
+        String normalizedEvent = eventType == null ? "" : eventType.trim();
+
+        boolean hasEventFilter = !normalizedEvent.isBlank() && !"all".equalsIgnoreCase(normalizedEvent);
+
+        if (!hasEventFilter && normalizedQuery.isBlank()) {
             return auditLogRepository.findAllByOrderByCreatedAtDesc(pageable);
         }
 
+        if (hasEventFilter && normalizedQuery.isBlank()) {
+            return auditLogRepository.findByEventTypeIgnoreCaseOrderByCreatedAtDesc(normalizedEvent, pageable);
+        }
+
+        // Fallback: perform general search across fields
+        String effectiveQuery = normalizedQuery.isBlank() ? normalizedEvent : normalizedQuery;
+
         return auditLogRepository.findByEventTypeContainingIgnoreCaseOrComplaintCrnContainingIgnoreCaseOrActorContainingIgnoreCaseOrderByCreatedAtDesc(
-            normalizedQuery,
-            normalizedQuery,
-            normalizedQuery,
+            effectiveQuery,
+            effectiveQuery,
+            effectiveQuery,
             pageable
         );
+    }
+
+    public java.util.List<String> getDistinctEventTypes() {
+        return auditLogRepository.findDistinctEventTypes();
     }
 }
