@@ -3754,3 +3754,695 @@ Action:
 
 Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
 
+2026-05-18 20:49:21 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 12532 (f:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in f:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 20:49:21 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 20:49:21 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-18 20:49:21 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-18 20:49:22 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 20:49:22 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 156 ms. Found 5 JPA repository interfaces.
+2026-05-18 20:49:23 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 20:49:23 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 20:49:23 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 20:49:23 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 2429 ms
+2026-05-18 20:49:24 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 20:49:24 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-18 20:49:25 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2ae09c67
+2026-05-18 20:49:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-18 20:49:25 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 20:49:25 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 20:49:27 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 20:49:27 [restartedMain] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-18 20:49:29 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Initializing UserDetailsService with default admin user
+2026-05-18 20:49:29 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-05-18 20:49:29 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Configuring security filter chain
+2026-05-18 20:49:29 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Security filter chain configured successfully
+2026-05-18 20:49:29 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 20:49:29 [restartedMain] INFO  com.slt.iau_portal.config.WebConfig - Configuring CORS mappings
+2026-05-18 20:49:30 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-18 20:49:30 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Started IauPortalApplication in 9.978 seconds (process running for 10.759)
+2026-05-18 20:50:09 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-18 20:50:09 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-05-18 20:50:09 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-05-18 21:05:00 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9m4s808ms802µs300ns).
+2026-05-18 21:05:18 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 31 class path changes (0 additions, 31 deletions, 0 modifications)
+2026-05-18 21:05:18 [Thread-1] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-18 21:05:18 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-05-18 21:05:18 [Thread-1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:05:18 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-18 21:05:18 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-05-18 21:05:19 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 12532 (F:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in f:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 21:05:19 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 21:05:20 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 21:05:20 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
+2026-05-18 21:05:21 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 21:05:21 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 21:05:21 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 21:05:21 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1829 ms
+2026-05-18 21:05:26 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 21:05:26 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-05-18 21:05:26 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@168b51cb
+2026-05-18 21:05:26 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-05-18 21:05:26 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 21:05:26 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 21:05:27 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:05:27 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 21:05:27 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 15240 (F:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in F:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 21:05:27 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 21:05:27 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-18 21:05:27 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-18 21:05:28 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-05-18 21:05:28 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-18 21:05:28 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Started IauPortalApplication in 9.36 seconds (process running for 968.976)
+2026-05-18 21:05:28 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - AnyNestedCondition 3 matched 0 did not; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) matched; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) matched; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured)
+      - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2026-05-18 21:05:29 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 21:05:29 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 113 ms. Found 5 JPA repository interfaces.
+2026-05-18 21:05:29 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 31 class path changes (31 additions, 0 deletions, 0 modifications)
+2026-05-18 21:05:29 [Thread-5] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-18 21:05:29 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-05-18 21:05:29 [Thread-5] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:05:29 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-05-18 21:05:29 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-05-18 21:05:29 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 12532 (f:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in f:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 21:05:29 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 21:05:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 21:05:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 49 ms. Found 5 JPA repository interfaces.
+2026-05-18 21:05:30 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 21:05:30 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 21:05:30 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 21:05:30 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 842 ms
+2026-05-18 21:05:30 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 21:05:30 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-05-18 21:05:30 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@73547b4e
+2026-05-18 21:05:30 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-05-18 21:05:30 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 21:05:30 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 21:05:31 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 21:05:31 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 21:05:31 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 21:05:31 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 3259 ms
+2026-05-18 21:05:31 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:05:31 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Initializing UserDetailsService with default admin user
+2026-05-18 21:05:32 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-05-18 21:05:32 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Configuring security filter chain
+2026-05-18 21:05:32 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Security filter chain configured successfully
+2026-05-18 21:05:32 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 21:05:32 [restartedMain] INFO  com.slt.iau_portal.config.WebConfig - Configuring CORS mappings
+2026-05-18 21:05:32 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 21:05:32 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-18 21:05:32 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-18 21:05:32 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Started IauPortalApplication in 3.128 seconds (process running for 973.378)
+2026-05-18 21:05:32 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' userDetailsService (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+         - found 'session' scope (OnWebApplicationCondition)
+         - AnyNestedCondition 3 matched 0 did not; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) matched; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) matched; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2026-05-18 21:05:33 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@ec8f694
+2026-05-18 21:05:33 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-18 21:05:33 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 21:05:33 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 21:05:36 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:05:36 [restartedMain] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-18 21:05:37 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Initializing UserDetailsService with default admin user
+2026-05-18 21:05:38 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-05-18 21:05:38 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Configuring security filter chain
+2026-05-18 21:05:38 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Security filter chain configured successfully
+2026-05-18 21:05:38 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 21:05:38 [restartedMain] INFO  com.slt.iau_portal.config.WebConfig - Configuring CORS mappings
+2026-05-18 21:05:38 [restartedMain] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-05-18 21:05:38 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:05:38 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-18 21:05:38 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-05-18 21:05:39 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-18 21:05:39 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2026-05-18 21:06:18 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 21316 (F:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in F:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 21:06:18 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 21:06:18 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-18 21:06:18 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-18 21:06:20 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 21:06:20 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 173 ms. Found 5 JPA repository interfaces.
+2026-05-18 21:06:22 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 21:06:22 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 21:06:22 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 21:06:22 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 3304 ms
+2026-05-18 21:06:23 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 21:06:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-18 21:06:23 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6848b48e
+2026-05-18 21:06:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-18 21:06:23 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 21:06:23 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 21:06:25 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:06:26 [restartedMain] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-18 21:06:27 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Initializing UserDetailsService with default admin user
+2026-05-18 21:06:27 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-05-18 21:06:27 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Configuring security filter chain
+2026-05-18 21:06:27 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Security filter chain configured successfully
+2026-05-18 21:06:28 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 21:06:28 [restartedMain] INFO  com.slt.iau_portal.config.WebConfig - Configuring CORS mappings
+2026-05-18 21:06:28 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-18 21:06:28 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Started IauPortalApplication in 10.61 seconds (process running for 11.686)
+2026-05-18 21:06:56 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-18 21:06:56 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-05-18 21:06:56 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 8 ms
+2026-05-18 21:09:41 [http-nio-8080-exec-3] INFO  c.s.i.controller.ComplaintController - Complaint form requested
+2026-05-18 21:09:55 [http-nio-8080-exec-9] INFO  c.s.i.controller.AdminController - Admin dashboard accessed with filter=all sort=dateDesc
+2026-05-18 21:13:59 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 32 class path changes (0 additions, 31 deletions, 1 modification)
+2026-05-18 21:13:59 [Thread-1] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-18 21:13:59 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-05-18 21:13:59 [Thread-1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:13:59 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-18 21:13:59 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-05-18 21:13:59 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 21316 (F:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in F:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 21:13:59 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 21:14:00 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 21:14:00 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
+2026-05-18 21:14:01 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 21:14:01 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 21:14:01 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 21:14:01 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1447 ms
+2026-05-18 21:14:02 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 21:14:02 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-05-18 21:14:02 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1a3a061b
+2026-05-18 21:14:02 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-05-18 21:14:02 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 21:14:02 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 21:14:03 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:14:03 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 21:14:03 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-05-18 21:14:03 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-18 21:14:03 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Started IauPortalApplication in 4.192 seconds (process running for 466.991)
+2026-05-18 21:14:03 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - AnyNestedCondition 3 matched 0 did not; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) matched; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) matched; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured)
+      - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2026-05-18 21:14:05 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 31 class path changes (31 additions, 0 deletions, 0 modifications)
+2026-05-18 21:14:05 [Thread-5] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-18 21:14:05 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-05-18 21:14:05 [Thread-5] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:14:05 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-05-18 21:14:05 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-05-18 21:14:05 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 21316 (F:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in F:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 21:14:05 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 21:14:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 21:14:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 26 ms. Found 5 JPA repository interfaces.
+2026-05-18 21:14:05 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 21:14:05 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 21:14:05 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 21:14:05 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 378 ms
+2026-05-18 21:14:05 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 21:14:05 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-05-18 21:14:05 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3e51441
+2026-05-18 21:14:05 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-05-18 21:14:05 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 21:14:05 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 21:14:06 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:14:07 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Initializing UserDetailsService with default admin user
+2026-05-18 21:14:07 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-05-18 21:14:07 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Configuring security filter chain
+2026-05-18 21:14:07 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Security filter chain configured successfully
+2026-05-18 21:14:08 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 21:14:08 [restartedMain] INFO  com.slt.iau_portal.config.WebConfig - Configuring CORS mappings
+2026-05-18 21:14:08 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-18 21:14:08 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Started IauPortalApplication in 2.812 seconds (process running for 471.199)
+2026-05-18 21:14:08 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' userDetailsService (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+         - found 'session' scope (OnWebApplicationCondition)
+         - AnyNestedCondition 3 matched 0 did not; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) matched; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) matched; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2026-05-18 21:14:31 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 25004 (F:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in F:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 21:14:31 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 21:14:31 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-18 21:14:31 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-18 21:14:32 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 21:14:32 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 62 ms. Found 5 JPA repository interfaces.
+2026-05-18 21:14:33 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 21:14:33 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 21:14:33 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 21:14:33 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1967 ms
+2026-05-18 21:14:34 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 21:14:34 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-18 21:14:34 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1fc01b8d
+2026-05-18 21:14:34 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-18 21:14:34 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 21:14:34 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 21:14:36 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:14:36 [restartedMain] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-18 21:14:37 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Initializing UserDetailsService with default admin user
+2026-05-18 21:14:38 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-05-18 21:14:38 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Configuring security filter chain
+2026-05-18 21:14:38 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Security filter chain configured successfully
+2026-05-18 21:14:38 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 21:14:38 [restartedMain] INFO  com.slt.iau_portal.config.WebConfig - Configuring CORS mappings
+2026-05-18 21:14:39 [restartedMain] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-05-18 21:14:39 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:14:39 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-05-18 21:14:39 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-05-18 21:14:39 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-18 21:14:39 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2026-05-18 21:15:10 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Starting IauPortalApplication using Java 22.0.1 with PID 4884 (F:\New folder (4)\iau-portal\iau-portal\target\classes started by ASUS in F:\New folder (4)\iau-portal\iau-portal)
+2026-05-18 21:15:10 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - No active profile set, falling back to 1 default profile: "default"
+2026-05-18 21:15:10 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-18 21:15:10 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-18 21:15:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-18 21:15:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 61 ms. Found 5 JPA repository interfaces.
+2026-05-18 21:15:12 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-05-18 21:15:12 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-05-18 21:15:12 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-18 21:15:12 [restartedMain] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1642 ms
+2026-05-18 21:15:12 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-18 21:15:13 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-05-18 21:15:13 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6848b48e
+2026-05-18 21:15:13 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-05-18 21:15:13 [restartedMain] WARN  org.hibernate.orm.core - HHH000511: The 5.7.36 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-05-18 21:15:13 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-18 21:15:14 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-18 21:15:14 [restartedMain] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-18 21:15:15 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Initializing UserDetailsService with default admin user
+2026-05-18 21:15:16 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2026-05-18 21:15:16 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Configuring security filter chain
+2026-05-18 21:15:16 [restartedMain] INFO  c.s.iau_portal.config.SecurityConfig - Security filter chain configured successfully
+2026-05-18 21:15:16 [restartedMain] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page template: index
+2026-05-18 21:15:16 [restartedMain] INFO  com.slt.iau_portal.config.WebConfig - Configuring CORS mappings
+2026-05-18 21:15:16 [restartedMain] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-05-18 21:15:16 [restartedMain] INFO  c.s.iau_portal.IauPortalApplication - Started IauPortalApplication in 6.635 seconds (process running for 7.15)
+2026-05-18 21:15:36 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-18 21:15:36 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-05-18 21:15:36 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 9 ms
+2026-05-18 21:15:46 [http-nio-8080-exec-3] INFO  c.s.i.controller.ComplaintController - Complaint form requested
+2026-05-18 21:16:11 [http-nio-8080-exec-8] ERROR org.thymeleaf.TemplateEngine - [THYMELEAF][http-nio-8080-exec-8] Exception processing template "track": Exception evaluating SpringEL expression: "#dates.format(complaint.createdAt, 'yyyy-MM-dd HH:mm')" (template: "track" - line 40, col 54)
+org.thymeleaf.exceptions.TemplateProcessingException: Exception evaluating SpringEL expression: "#dates.format(complaint.createdAt, 'yyyy-MM-dd HH:mm')" (template: "track" - line 40, col 54)
+	at org.thymeleaf.spring6.expression.SPELVariableExpressionEvaluator.evaluate(SPELVariableExpressionEvaluator.java:302)
+	at org.thymeleaf.standard.expression.VariableExpression.executeVariableExpression(VariableExpression.java:166)
+	at org.thymeleaf.standard.expression.SimpleExpression.executeSimple(SimpleExpression.java:66)
+	at org.thymeleaf.standard.expression.Expression.execute(Expression.java:109)
+	at org.thymeleaf.standard.expression.Expression.execute(Expression.java:138)
+	at org.thymeleaf.standard.processor.AbstractStandardExpressionAttributeTagProcessor.doProcess(AbstractStandardExpressionAttributeTagProcessor.java:144)
+	at org.thymeleaf.processor.element.AbstractAttributeTagProcessor.doProcess(AbstractAttributeTagProcessor.java:74)
+	at org.thymeleaf.processor.element.AbstractElementTagProcessor.process(AbstractElementTagProcessor.java:95)
+	at org.thymeleaf.util.ProcessorConfigurationUtils$ElementTagProcessorWrapper.process(ProcessorConfigurationUtils.java:633)
+	at org.thymeleaf.engine.ProcessorTemplateHandler.handleOpenElement(ProcessorTemplateHandler.java:1314)
+	at org.thymeleaf.engine.OpenElementTag.beHandled(OpenElementTag.java:205)
+	at org.thymeleaf.engine.TemplateModel.process(TemplateModel.java:136)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:592)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1103)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1077)
+	at org.thymeleaf.spring6.view.ThymeleafView.renderFragment(ThymeleafView.java:374)
+	at org.thymeleaf.spring6.view.ThymeleafView.render(ThymeleafView.java:193)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1305)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1042)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:980)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:235)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:376)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:181)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:153)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:131)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:245)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:239)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:110)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:96)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:237)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:195)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:317)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:355)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:272)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+Caused by: org.springframework.expression.spel.SpelEvaluationException: EL1004E: Method call: Method format(java.time.LocalDateTime,java.lang.String) cannot be found on type org.thymeleaf.expression.Dates
+	at org.springframework.expression.spel.ast.MethodReference.getValueInternal(MethodReference.java:214)
+	at org.springframework.expression.spel.ast.MethodReference$MethodValueRef.getValue(MethodReference.java:453)
+	at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:97)
+	at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:114)
+	at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:330)
+	at org.thymeleaf.spring6.expression.SPELVariableExpressionEvaluator.evaluate(SPELVariableExpressionEvaluator.java:275)
+	... 99 common frames omitted
+2026-05-18 21:16:11 [http-nio-8080-exec-8] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.thymeleaf.exceptions.TemplateProcessingException: Exception evaluating SpringEL expression: "#dates.format(complaint.createdAt, 'yyyy-MM-dd HH:mm')" (template: "track" - line 40, col 54)] with root cause
+org.springframework.expression.spel.SpelEvaluationException: EL1004E: Method call: Method format(java.time.LocalDateTime,java.lang.String) cannot be found on type org.thymeleaf.expression.Dates
+	at org.springframework.expression.spel.ast.MethodReference.getValueInternal(MethodReference.java:214)
+	at org.springframework.expression.spel.ast.MethodReference$MethodValueRef.getValue(MethodReference.java:453)
+	at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:97)
+	at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:114)
+	at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:330)
+	at org.thymeleaf.spring6.expression.SPELVariableExpressionEvaluator.evaluate(SPELVariableExpressionEvaluator.java:275)
+	at org.thymeleaf.standard.expression.VariableExpression.executeVariableExpression(VariableExpression.java:166)
+	at org.thymeleaf.standard.expression.SimpleExpression.executeSimple(SimpleExpression.java:66)
+	at org.thymeleaf.standard.expression.Expression.execute(Expression.java:109)
+	at org.thymeleaf.standard.expression.Expression.execute(Expression.java:138)
+	at org.thymeleaf.standard.processor.AbstractStandardExpressionAttributeTagProcessor.doProcess(AbstractStandardExpressionAttributeTagProcessor.java:144)
+	at org.thymeleaf.processor.element.AbstractAttributeTagProcessor.doProcess(AbstractAttributeTagProcessor.java:74)
+	at org.thymeleaf.processor.element.AbstractElementTagProcessor.process(AbstractElementTagProcessor.java:95)
+	at org.thymeleaf.util.ProcessorConfigurationUtils$ElementTagProcessorWrapper.process(ProcessorConfigurationUtils.java:633)
+	at org.thymeleaf.engine.ProcessorTemplateHandler.handleOpenElement(ProcessorTemplateHandler.java:1314)
+	at org.thymeleaf.engine.OpenElementTag.beHandled(OpenElementTag.java:205)
+	at org.thymeleaf.engine.TemplateModel.process(TemplateModel.java:136)
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:592)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1103)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1077)
+	at org.thymeleaf.spring6.view.ThymeleafView.renderFragment(ThymeleafView.java:374)
+	at org.thymeleaf.spring6.view.ThymeleafView.render(ThymeleafView.java:193)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1305)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1042)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:980)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:235)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:376)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:181)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:153)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:131)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:245)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:239)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:110)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:96)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:237)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:195)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:317)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:355)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:272)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1801)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:1570)

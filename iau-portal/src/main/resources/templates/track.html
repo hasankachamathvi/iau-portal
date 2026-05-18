@@ -6,17 +6,42 @@
   <title>Track Complaint — IAU Portal</title>
   <style>
     body{font-family:Inter,Segoe UI,sans-serif;background:#f6f9fc;color:#122033;padding:24px}
-    .box{background:#fff;padding:24px;border-radius:10px;border:1px solid #e6eef6;max-width:900px;margin:20px auto}
-    .notice{font-size:16px;color:#334155}
+    .container{max-width:980px;margin:20px auto}
+    .card{background:#fff;padding:24px;border-radius:10px;border:1px solid #e6eef6}
     .muted{color:#6b7280;font-size:13px}
+    .form-row{display:flex;gap:8px;margin-top:12px}
+    input[type=text]{flex:1;padding:10px;border:1px solid #d1e3f2;border-radius:6px}
+    button{background:#0f172a;color:#fff;padding:10px 14px;border:none;border-radius:6px}
+    .result{margin-top:18px;padding:16px;border-radius:8px;border:1px solid #e6eef6;background:#fbfdff}
+    .label{color:#64748b;font-size:13px}
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>Track Complaint</h1>
-    <p class="notice" th:text="${message}">Complaint tracking is temporarily unavailable. Please contact support.</p>
-    <div th:if="${crn}">
-      <p class="muted">Requested CRN: <strong th:text="${crn}"></strong></p>
+  <div class="container">
+    <div class="card">
+      <h1>Track Complaint</h1>
+      <p class="muted" th:text="${message}">Enter your complaint reference number (CRN) to track its status.</p>
+
+      <form method="get" action="/track">
+        <div class="form-row">
+          <input type="text" name="crn" placeholder="Enter CRN (e.g. IAU-2026-000001)" th:value="${crn}" />
+          <button type="submit">Track</button>
+        </div>
+      </form>
+
+      <div th:if="${crn}" class="muted" style="margin-top:12px">Requested CRN: <strong th:text="${crn}"></strong></div>
+
+      <div th:if="${found}" class="result">
+        <p><strong th:text="${complaint.crn}"></strong></p>
+        <p><span class="label">Status:</span> <span th:text="${complaint.status}"></span></p>
+        <p><span class="label">Category:</span> <span th:text="${complaint.category}"></span></p>
+        <p><span class="label">Complaint date:</span> <span th:text="${complaint.complaintDate}"></span></p>
+        <p><span class="label">Location:</span> <span th:text="${complaint.location}"></span></p>
+        <p><span class="label">Created:</span> <span th:text="${#dates.format(complaint.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+        <p><span class="label">Last updated:</span> <span th:text="${#dates.format(complaint.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+      </div>
+
+      <div th:if="${found == false}" style="margin-top:12px;color:#b91c1c" th:text="${message}"></div>
     </div>
   </div>
 </body>

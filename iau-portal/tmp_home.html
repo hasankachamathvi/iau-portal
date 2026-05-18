@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+﻿<!DOCTYPE html>
+<html>
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -746,25 +746,7 @@
   </div>
 </div>
 
-<div class="section" id="track">
-  <div class="track-card">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
-      <div style="flex:1;min-width:280px">
-        <div class="section-label">Track</div>
-        <h2 class="section-title">Track your complaint</h2>
-        <p class="section-desc">Enter the Complaint Reference Number (CRN) you received after submitting a complaint to view its current status.</p>
-      </div>
-
-      <div style="flex:1;min-width:320px">
-          <form id="home-track-form" class="track-form" method="get" action="/track">
-            <input id="home-track-crn" class="track-input" type="text" name="crn" placeholder="Enter CRN (e.g. IAU-2026-000001)" />
-            <button id="home-track-btn" class="track-btn" type="submit">Track</button>
-          </form>
-          <div id="home-track-result" class="track-result-card" style="display:none;"> <!-- inline results will be shown here --> </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Public tracker removed - placeholder section removed -->
 
 <div class="cta-section">
   <div class="cta-box">
@@ -798,53 +780,4 @@
 </div>
 
 </body>
-<script>
-  (function(){
-    const form = document.getElementById('home-track-form');
-    const input = document.getElementById('home-track-crn');
-    const result = document.getElementById('home-track-result');
-
-    function showMessage(html, type){
-      result.style.display = 'block';
-      result.innerHTML = html;
-      if(type === 'error') result.style.borderColor = '#f8d7da';
-      else result.style.borderColor = '#e6eef6';
-    }
-
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      const crn = (input.value || '').trim();
-      if(!crn){
-        showMessage('<div style="color:#b91c1c">Please enter a CRN.</div>','error');
-        return;
-      }
-
-      showMessage('<div>Looking up CRN <strong>'+crn+'</strong>…</div>');
-
-      fetch('/api/v1/complaints/crn/' + encodeURIComponent(crn), { method: 'GET', headers: { 'Accept': 'application/json' } })
-        .then(resp => resp.json())
-        .then(json => {
-          if(json && json.success && json.data){
-            const c = json.data;
-            const html = `
-              <div style="font-weight:800;font-size:18px;margin-bottom:6px">${c.crn}</div>
-              <div><strong>Status:</strong> ${c.status || 'N/A'}</div>
-              <div><strong>Category:</strong> ${c.category || 'N/A'}</div>
-              <div><strong>Complaint date:</strong> ${c.complaintDate || 'N/A'}</div>
-              <div><strong>Location:</strong> ${c.location || 'N/A'}</div>
-              <div style="margin-top:8px;color:#6b7280;font-size:13px"><strong>Last updated:</strong> ${c.updatedAt ? c.updatedAt.replace('T',' ') : 'N/A'}</div>
-            `;
-            showMessage(html,'ok');
-          } else {
-            const msg = (json && json.message) ? json.message : 'No complaint found.';
-            showMessage('<div style="color:#b91c1c">'+msg+'</div>','error');
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          showMessage('<div style="color:#b91c1c">Lookup failed. Try again later.</div>','error');
-        });
-    });
-  })();
-</script>
 </html>
