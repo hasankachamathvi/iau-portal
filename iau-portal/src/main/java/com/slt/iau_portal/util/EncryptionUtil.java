@@ -1,6 +1,8 @@
 package com.slt.iau_portal.util;
 
 import java.security.SecureRandom;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -51,14 +53,6 @@ public class EncryptionUtil {
         if (base64Key == null) return null;
         return Base64.getDecoder().decode(base64Key);
     }
-}
-package com.slt.iau_portal.util;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-
-public class EncryptionUtil {
 
     /**
      * Hash sensitive data for audit logging
