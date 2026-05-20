@@ -202,6 +202,30 @@ body {
 .track-card a,
 .report-panel a { color: var(--blue); font-weight: 600; }
 
+/* Ensure readable dark text on light/white panels and form surfaces */
+/* This overrides templates that set light text variables but render on white backgrounds */
+.card, .form-card, .hero-panel, .summary-section, .file-item, .file-list, .file-upload, .track-card, .track-result-card, .cta-box {
+  color: #072033 !important;
+}
+
+.form-card, .hero-panel, .summary-section, .file-item, .file-list {
+  background: #ffffff !important;
+  border-color: rgba(7,32,51,0.06) !important;
+}
+
+/* Form fields should show dark text on light backgrounds */
+input, select, textarea, .track-input, .form-group input, .form-group textarea {
+  color: #072033 !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #475569 !important; /* darker, more readable muted hint */
+}
+
+.input-hint, .char-count, .summary-label, .feature-desc, .cta-badge, .cta-badges span, .muted {
+  color: #475569 !important; /* muted darker gray */
+}
+
 /* Login card header gradient */
 .login-header {
   background: linear-gradient(135deg, var(--login-header-start) 0%, var(--login-header-end) 100%);
@@ -301,7 +325,7 @@ th {
 td {
   padding: 13px 16px;
   border-bottom: 1px solid var(--card-border);
-  color: var(--text-mid);
+  color: #475569; /* higher-contrast table body text */
   font-size: 14px;
 }
 tr:last-child td { border-bottom: none; }
@@ -334,4 +358,19 @@ tr:hover td { background: rgba(255, 255, 255, 0.02); }
 .footer a:hover { text-decoration: underline; }
 
 /* ─── Utility ────────────────────────────────────────── */
-.muted { color: var(--text-light); }
+.muted { color: #475569; }
+
+/* Emergency overrides: ensure readable dark text on light/white panels and badges */
+.form-card, .progress-container, .steps-grid, .step-badge, .step-badge *, .file-list, .file-item, .summary-section, .stat-card, .report-card, .hero-panel {
+  color: #072033 !important;
+}
+
+/* Make step badges readable */
+.step-badge {
+  background: #ffffff !important;
+  border: 1px solid rgba(7,32,51,0.06) !important;
+  color: #072033 !important;
+}
+
+/* Ensure progress bar label is visible */
+.progress-label, .progress-fill, .step-number { color: #072033 !important; }
