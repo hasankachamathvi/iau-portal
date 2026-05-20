@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Background */
+  --bg-start: #0a1628;
+  --bg-end: #0d1f3c;
+  --bg-mid: #0f2347;
+
+  /* Primary brand — blue/indigo (matches login card header gradient) */
+  --primary: #4f8ef7;
+  --primary-dark: #2563eb;
+  --primary-light: #6fa3f9;
+
+  /* Accent green (SLT Mobitel brand green) */
+  --green: #22c55e;
+  --green-dark: #16a34a;
+  --green-light: rgba(34, 197, 94, 0.08);
+
+  /* Teal / cyan accent */
+  --info: #06b6d4;
+  --info-light: rgba(6, 182, 212, 0.1);
+
+  /* Semantic */
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --accent-purple: #7c3aed;
+
+  /* Blue shades */
+  --blue: #4f8ef7;
+  --blue-dark: #2563eb;
+  --blue-mid: #3b82f6;
+  --blue-light: rgba(79, 142, 247, 0.10);
+
+  /* Text */
+  --text-dark: #e8eef8;
+  --text-mid: rgba(232, 238, 248, 0.85);
+  --text-light: rgba(232, 238, 248, 0.55);
+
+  /* Card / panel surfaces */
+  --card-bg: rgba(15, 30, 60, 0.75);
+  --card-bg-solid: #111e3a;
+  --card-border: rgba(255, 255, 255, 0.07);
+  --card-text: #e8eef8;
+
+  /* Muted / utility */
+  --muted-bg: rgba(255, 255, 255, 0.03);
+  --gray-border: rgba(255, 255, 255, 0.07);
+
+  /* White text used on white-on-dark elements */
+  --on-white: #0a1628;
+  --white: #ffffff;
+
+  /* Navbar — white bar with brand colors (matches your header screenshot) */
+  --nav-bg: #ffffff;
+  --nav-text: #0a1628;
+  --nav-link-muted: rgba(10, 22, 40, 0.45);
+  --brand-color: #22c55e;          /* SLT Mobitel green */
+  --brand-blue: #2563eb;
+
+  /* Shadows */
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 56px rgba(0, 0, 0, 0.55);
+
+  /* Login card gradient (green → blue, matches screenshot) */
+  --login-header-start: #16a34a;
+  --login-header-end: #2563eb;
+}
+
+/* ─── Reset ──────────────────────────────────────────── */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 50%, var(--bg-end) 100%);
+  color: var(--text-dark);
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ─── Navbar ─────────────────────────────────────────── */
+.navbar {
+  background: var(--nav-bg);
+  color: var(--nav-text);
+  padding: 12px 3%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+}
+
+.nav-logo-icon        { height: 46px; width: auto; display: block; }
+.nav-logo-text .brand { color: var(--brand-color); font-weight: 800; }
+.nav-links a          { color: var(--nav-link-muted); text-decoration: none; font-weight: 500; transition: color .2s; }
+.nav-links a.active,
+.nav-links a:hover    { color: var(--brand-color); }
+.nav-btn {
+  border: 2px solid rgba(34, 197, 94, 0.25);
+  background: transparent;
+  color: var(--brand-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+.nav-btn:hover { background: var(--green-light); }
+
+/* ─── Buttons ────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 8px 28px rgba(37, 99, 235, 0.30);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(37, 99, 235, 0.40); }
+
+.btn-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--success) 0%, var(--green-dark) 100%);
+  color: var(--white);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform .2s;
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
+}
+.btn-success:hover { transform: translateY(-2px); }
+
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: transform .2s;
+}
+.btn-google:hover { transform: translateY(-2px); }
+
+.btn-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-mid);
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: border-color .2s, background .2s;
+}
+.btn-admin:hover { border-color: var(--blue); background: var(--blue-light); }
+
+/* ─── Cards / Panels ─────────────────────────────────── */
+.card,
+.track-card,
+.track-result-card,
+.step-card,
+.cta-box,
+.report-panel,
+.stat-card,
+.table-container,
+.hero-panel,
+.cta-badge {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  color: var(--card-text);
+  backdrop-filter: blur(12px);
+}
+
+.card h1, .card h2, .card h3,
+.report-panel h4,
+.step-card h3,
+.cta-box h2 { color: var(--text-dark); }
+
+.card a,
+.track-card a,
+.report-panel a { color: var(--blue); font-weight: 600; }
+
+/* Login card header gradient */
+.login-header {
+  background: linear-gradient(135deg, var(--login-header-start) 0%, var(--login-header-end) 100%);
+  border-radius: 16px 16px 0 0;
+  padding: 24px;
+  text-align: center;
+  color: var(--white);
+}
+
+/* ─── Stat / Metric cards ────────────────────────────── */
+.stat-card {
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.stat-card .stat-label {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+/* ─── Feature list items (login page left side) ──────── */
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(79, 142, 247, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--blue);
+}
+
+.feature-title { font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+.feature-desc  { font-size: 14px; color: var(--text-light); }
+
+/* ─── Section layout ─────────────────────────────────── */
+.section { padding: 48px 3%; max-width: 1400px; margin: 0 auto; }
+
+/* ─── Form inputs ────────────────────────────────────── */
+.track-input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dark);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.15);
+}
+
+input::placeholder { color: var(--text-light); }
+
+/* ─── Table ──────────────────────────────────────────── */
+.table-container { border-radius: 14px; overflow: hidden; }
+
+table { width: 100%; border-collapse: collapse; }
+th {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--card-border);
+}
+td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--card-border);
+  color: var(--text-mid);
+  font-size: 14px;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+/* ─── Badges ─────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-success { background: rgba(34, 197, 94, 0.15);  color: #4ade80; }
+.badge-danger  { background: rgba(239, 68, 68, 0.15);  color: #f87171; }
+.badge-info    { background: rgba(6, 182, 212, 0.15);  color: #22d3ee; }
+.badge-blue    { background: rgba(79, 142, 247, 0.15); color: #93c5fd; }
+.badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+/* ─── Footer ─────────────────────────────────────────── */
+.footer {
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid var(--card-border);
+  color: var(--text-light);
+  font-size: 13px;
+  padding: 20px 3%;
+  text-align: center;
+}
+.footer a { color: var(--blue); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* ─── Utility ────────────────────────────────────────── */
+.muted { color: var(--text-light); }
