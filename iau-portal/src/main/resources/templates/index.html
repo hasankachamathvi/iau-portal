@@ -8,24 +8,27 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
     :root {
-      --blue: #0069b4;
-      --blue-dark: #004f8a;
-      --blue-mid: #1f8cd8;
-      --info: #0ea5a4;
+      /* New dark navy + teal/green theme */
+      --bg-start: #041730;
+      --bg-end: #06304a;
+      --blue: #19e6b3; /* primary teal for highlights */
+      --blue-dark: #0fae86;
+      --blue-mid: #12c39a;
+      --info: #06b6d4;
       --accent-purple: #6c5ce7;
-      --success: #28a745;
+      --success: #14b8a6;
       --danger: #e02424;
-      --blue-light: #e6f3fc;
-      --green: #4cab32;
-      --green-light: #e6f5df;
-      --muted-bg: #f1f5f9;
-      --gray-bg: #f4f7fb;
-      --text-dark: #122033;
-      --text-mid: #4d5d72;
-      --text-light: #6f7f93;
+      --blue-light: rgba(25,230,179,0.08);
+      --green: #10b981;
+      --green-light: rgba(16,185,129,0.06);
+      --muted-bg: rgba(255,255,255,0.02);
+      --gray-bg: linear-gradient(90deg,var(--bg-start),var(--bg-end));
+      --text-dark: #e6f7f6;
+      --text-mid: rgba(230,247,246,0.9);
+      --text-light: rgba(230,247,246,0.7);
       --white: #ffffff;
-      --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-      --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.13);
+      --shadow: 0 8px 24px rgba(2,8,23,0.6);
+      --shadow-lg: 0 12px 48px rgba(2,8,23,0.7);
     }
 
     * {

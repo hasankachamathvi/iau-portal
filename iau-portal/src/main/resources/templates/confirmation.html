@@ -9,18 +9,23 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap');
 
     :root {
-      --primary: #0069b4;
-      --primary-light: #1f8cd8;
-      --success: #4cab32;
-      --gray-bg: #f4f7fb;
+      --bg-start: #041730;
+      --bg-end: #06304a;
+      --primary: #19e6b3;
+      --primary-light: #12c39a;
+      --success: #14b8a6;
+      --gray-bg: rgba(255,255,255,0.02);
+      --card-bg: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.06);
+      --text: #e6f7f6;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #f4f8fd 0%, #e7f3df 100%);
-      color: #1a202c;
+      background: linear-gradient(90deg,#041730 0%,#06304a 100%);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       align-items: center;

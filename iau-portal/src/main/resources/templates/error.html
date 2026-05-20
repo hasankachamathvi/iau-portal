@@ -13,7 +13,8 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #004f8a 0%, #0069b4 62%, #4cab32 100%);
+            background: linear-gradient(90deg,#041730 0%,#06304a 100%);
+            color: #e6f7f6;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,13 +23,14 @@
         }
 
         .error-container {
-            background: white;
+            background: rgba(255,255,255,0.04);
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(2,8,23,0.6);
             max-width: 600px;
             width: 100%;
             padding: 60px 40px;
             text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
         }
 
         .error-icon {
@@ -37,27 +39,27 @@
         }
 
         h1 {
-            color: #004f8a;
+            color: #19e6b3;
             font-size: 32px;
             margin-bottom: 10px;
         }
 
         .error-code {
-            color: #999;
+            color: rgba(255,255,255,0.7);
             font-size: 14px;
             margin-bottom: 20px;
         }
 
         .error-message {
-            color: #555;
+            color: rgba(230,247,246,0.9);
             font-size: 16px;
             line-height: 1.6;
             margin-bottom: 30px;
         }
 
         .error-details {
-            background: #f5f5f5;
-            border-left: 4px solid #0069b4;
+            background: rgba(255,255,255,0.02);
+            border-left: 4px solid #19e6b3;
             padding: 15px;
             border-radius: 4px;
             text-align: left;
@@ -65,11 +67,12 @@
             word-break: break-word;
             max-height: 200px;
             overflow-y: auto;
+            color: rgba(230,247,246,0.85);
         }
 
         .error-details code {
             font-family: 'Courier New', monospace;
-            color: #666;
+            color: rgba(255,255,255,0.8);
             font-size: 12px;
         }
 
@@ -93,23 +96,23 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #004f8a 0%, #0069b4 62%, #4cab32 100%);
+            background: linear-gradient(135deg,#19e6b3 0%,#0fae86 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 105, 180, 0.3);
+            box-shadow: 0 10px 20px rgba(2,8,23,0.6);
         }
 
         .btn-secondary {
-            background: white;
-            color: #0069b4;
-            border: 2px solid #0069b4;
+            background: rgba(255,255,255,0.04);
+            color: #19e6b3;
+            border: 2px solid rgba(25,230,179,0.18);
         }
 
         .btn-secondary:hover {
-            background: #f5f5f5;
+            background: rgba(255,255,255,0.06);
         }
 
         @media (max-width: 600px) {
