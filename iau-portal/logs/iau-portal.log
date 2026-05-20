@@ -5538,3 +5538,4 @@ java.io.EOFException
 2026-05-20 22:12:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Before cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
 2026-05-20 22:12:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After  cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
 2026-05-20 22:12:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-05-20 22:12:39 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection conn14: url=jdbc:h2:mem:iau_dev user=SA is alive
