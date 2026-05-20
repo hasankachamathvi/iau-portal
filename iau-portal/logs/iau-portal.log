@@ -5204,3 +5204,34 @@ Unconditional classes:
 2026-05-20 21:58:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Before cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
 2026-05-20 21:58:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After  cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
 2026-05-20 21:58:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-05-20 21:59:17 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection conn8: url=jdbc:h2:mem:iau_dev user=SA: (connection has passed maxLifetime)
+2026-05-20 21:59:17 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (1e5f52c3-0712-4792-83e9-7415224b8ae8)
+2026-05-20 21:59:17 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (1e5f52c3-0712-4792-83e9-7415224b8ae8)
+2026-05-20 21:59:17 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn13: url=jdbc:h2:mem:iau_dev user=SA
+2026-05-20 21:59:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Before cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
+2026-05-20 21:59:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After  cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
+2026-05-20 21:59:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-05-20 21:59:29 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection conn9: url=jdbc:h2:mem:iau_dev user=SA is alive
+2026-05-20 21:59:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Before cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
+2026-05-20 21:59:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After  cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
+2026-05-20 21:59:50 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-05-20 21:59:59 [HikariPool-1:connection-closer] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Closing connection conn9: url=jdbc:h2:mem:iau_dev user=SA: (connection has passed maxLifetime)
+2026-05-20 21:59:59 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Attempting to create/setup new connection (2d18568b-c10d-4e71-a004-d6286c59546a)
+2026-05-20 21:59:59 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Established new connection (2d18568b-c10d-4e71-a004-d6286c59546a)
+2026-05-20 21:59:59 [HikariPool-1:connection-adder] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn14: url=jdbc:h2:mem:iau_dev user=SA
+2026-05-20 22:00:03 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection conn10: url=jdbc:h2:mem:iau_dev user=SA is alive
+2026-05-20 22:00:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Before cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
+2026-05-20 22:00:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After  cleanup stats (total=5/10, idle=5/5, active=0, waiting=0)
+2026-05-20 22:00:20 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
+2026-05-20 22:00:21 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection conn11: url=jdbc:h2:mem:iau_dev user=SA is alive
+2026-05-20 22:00:22 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/", parameters={}
+2026-05-20 22:00:22 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.slt.iau_portal.controller.HomeController#home()
+2026-05-20 22:00:22 [http-nio-8080-exec-8] DEBUG o.s.w.s.v.ContentNegotiatingViewResolver - Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7]
+2026-05-20 22:00:22 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-05-20 22:00:22 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/images/sltlogo.jpg", parameters={}
+2026-05-20 22:00:22 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/img.jpg", parameters={}
+2026-05-20 22:00:22 [http-nio-8080-exec-10] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-20 22:00:22 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-05-20 22:00:22 [http-nio-8080-exec-9] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-20 22:00:22 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-05-20 22:00:32 [HikariPool-1:housekeeper] DEBUG com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - keepalive: connection conn12: url=jdbc:h2:mem:iau_dev user=SA is alive
