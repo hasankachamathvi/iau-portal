@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Users — Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <style>
+    body { font-family: Inter, sans-serif; background: linear-gradient(90deg,#041730 0%,#06304a 100%); color: #e6f7f6; }
+    .container { max-width: 1100px; margin: 28px auto; padding: 18px; }
+    .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; }
+    th { color: rgba(230,247,246,0.72); font-size: 12px; text-transform: uppercase; }
+    .muted { color: rgba(230,247,246,0.66); font-weight: 800; }
+    .btn { padding: 8px 12px; border-radius: 8px; background: rgba(25,230,179,0.12); color: #e6f7f6; text-decoration: none; border: 1px solid rgba(25,230,179,0.25); font-weight: 800; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Users Who Filed Complaints</h1>
+    <div class="card">
+      <div class="muted">Showing users who are associated with submitted complaints.</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Employee ID</th>
+            <th>Anonymous</th>
+            <th>Complaint CRN</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="r : ${reporters}">
+            <td th:text="${r.anonymousFlag} ? 'Anonymous' : (r.fullName != null ? r.fullName : 'N/A')">Anonymous</td>
+            <td th:text="${r.anonymousFlag} ? 'Hidden' : (r.email != null ? r.email : '')">Hidden</td>
+            <td th:text="${r.anonymousFlag} ? '-' : (r.phone != null ? r.phone : '')">-</td>
+            <td th:text="${r.employeeId}"></td>
+            <td th:text="${r.anonymousFlag} ? 'Yes' : 'No'"></td>
+            <td th:text="${r.complaint != null ? r.complaint.crn : 'N/A'}"></td>
+            <td>
+              <a th:if="${r.complaint != null}" th:href="@{/admin/complaint/{crn}(crn=${r.complaint.crn})}" class="btn">View</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

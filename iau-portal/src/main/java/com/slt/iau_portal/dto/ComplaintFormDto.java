@@ -4,19 +4,21 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
-import jakarta.validation.constraints.*;
+
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 public class ComplaintFormDto {
 
     private boolean anonymous;
     
-    @Size(min = 3, max = 100, message = "Full name must be between 3 and 100 characters")
     private String fullName;
     
-    @Email(message = "Please provide a valid email address")
     private String email;
     
-    @Pattern(regexp = "^[+]?[0-9]{10,15}$|^$", message = "Please provide a valid phone number")
     private String phone;
     
     private String employeeId;
@@ -65,9 +67,6 @@ public class ComplaintFormDto {
     
     @AssertTrue(message = "You must consent to the data processing")
     private boolean consentChecked;
-
-    @NotBlank(message = "Please solve the verification challenge")
-    private String captchaAnswer;
 
     public boolean isAnonymous() { return anonymous; }
     public void setAnonymous(boolean anonymous) { this.anonymous = anonymous; }
@@ -128,7 +127,4 @@ public class ComplaintFormDto {
 
     public boolean isConsentChecked() { return consentChecked; }
     public void setConsentChecked(boolean consentChecked) { this.consentChecked = consentChecked; }
-
-    public String getCaptchaAnswer() { return captchaAnswer; }
-    public void setCaptchaAnswer(String captchaAnswer) { this.captchaAnswer = captchaAnswer; }
 }

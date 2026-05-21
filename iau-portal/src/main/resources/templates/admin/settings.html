@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings — Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <style>
+    body { font-family: Inter, sans-serif; background: linear-gradient(90deg,#041730 0%,#06304a 100%); color: #e6f7f6; }
+    .container { max-width: 900px; margin: 28px auto; padding: 18px; }
+    .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px; }
+    label { display:block; margin-top:12px; font-weight:800; }
+    input[type="text"], textarea { width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.06); color:#e6f7f6; }
+    .btn { padding:8px 12px; border-radius:8px; background: rgba(25,230,179,0.12); color:#e6f7f6; border:1px solid rgba(25,230,179,0.25); font-weight:800; margin-top:12px; display:inline-block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Settings</h1>
+    <div class="card">
+      <form method="post" th:action="@{/admin/settings}">
+        <label>Email Notifications</label>
+        <select name="emailNotifications">
+          <option value="true" th:selected="${emailNotifications}">Enabled</option>
+          <option value="false" th:selected="${!emailNotifications}">Disabled</option>
+        </select>
+
+        <label>Evidence Encryption Key (base64)</label>
+        <textarea name="evidenceEncryptionKeyBase64" rows="3" th:text="${evidenceEncryptionKey}"></textarea>
+
+        <div>
+          <button class="btn" type="submit">Save Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

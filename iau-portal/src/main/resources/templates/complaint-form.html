@@ -22,7 +22,7 @@
       --gray-border: rgba(7,32,51,0.06);
       --white: #ffffff;
       --text: #072033; /* dark navy for main text */
-      --text-light: rgba(7,32,51,0.7); /* readable muted text */
+      --text-light: rgba(7,32,51,0.88); /* stronger muted text for readability */
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,33 +35,37 @@
     }
 
     .navbar {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 62%, var(--primary-light) 100%);
-      padding: 16px 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background: white;
+      border-bottom: 1px solid #dbe5f1;
+      padding: 0 3%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 88px;
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     }
 
     .navbar-content {
-      max-width: 1200px;
+      width: 100%;
+      max-width: 1400px;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: white;
     }
 
     .navbar-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 18px;
-      font-weight: 700;
-      font-family: 'Poppins', sans-serif;
+      gap: 18px;
+      text-decoration: none;
     }
 
     .navbar-brand img {
+      width: 92px;
       height: 46px;
       width: auto;
       display: block;
@@ -75,35 +79,44 @@
     .navbar-brand-text {
       display: flex;
       flex-direction: column;
-      line-height: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .navbar-brand-text .title {
       font-size: 20px;
       font-weight: 800;
-      color: white;
+      color: var(--primary-dark);
+      line-height: 1;
     }
 
     .navbar-brand-text .subtitle {
-      margin-top: 3px;
       font-size: 12px;
+      color: var(--text-light);
       font-weight: 400;
-      color: rgba(255,255,255,0.8);
+      margin-top: 5px;
     }
 
     .navbar-links {
       display: flex;
-      gap: 20px;
-      font-size: 14px;
+      gap: 32px;
+      list-style: none;
     }
 
     .navbar-links a {
-      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
       text-decoration: none;
-      transition: color 0.3s;
+      transition: color 0.2s;
     }
 
-    .navbar-links a:hover { color: white; }
+    .navbar-links a:hover { color: var(--primary); }
+
+    .navbar-links a.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
 
     .header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -123,8 +136,9 @@
 
     .header p {
       font-size: 15px;
-      opacity: 0.95;
-      line-height: 1.5;
+      opacity: 0.98;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.96);
     }
 
     .container {
@@ -145,7 +159,7 @@
     .progress-label {
       font-size: 12px;
       font-weight: 700;
-      color: var(--text-light);
+      color: var(--text);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 12px;
@@ -382,7 +396,7 @@
 
     .file-upload-text { font-weight: 600; color: var(--primary); margin-bottom: 4px; }
 
-    .file-upload-hint { font-size: 12px; color: var(--text-light); }
+    .file-upload-hint { font-size: 12px; color: var(--text); }
 
     .file-list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--gray-border); }
 
@@ -400,7 +414,7 @@
 
     .file-item-name { font-weight: 500; color: var(--text); }
 
-    .file-item-size { font-size: 11px; color: var(--text-light); }
+    .file-item-size { font-size: 11px; color: var(--text); }
 
     .file-remove-btn {
       background: var(--danger);
@@ -443,28 +457,6 @@
       margin-top: 18px;
     }
 
-    .captcha-question {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--primary);
-      margin: 8px 0 12px;
-    }
-
-    .captcha-hint {
-      font-size: 12px;
-      color: var(--text-light);
-      margin-top: 8px;
-    }
-
-    .declaration-box p { font-size: 13px; line-height: 1.6; margin: 0; }
-
-    .declaration-box ul { margin-left: 20px; margin-top: 10px; font-size: 13px; line-height: 1.6; }
-
-    .summary-section {
-      background: var(--gray-bg);
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 16px;
     }
 
     .summary-title { font-weight: 700; color: var(--primary); margin-bottom: 12px; font-size: 14px; }
@@ -479,7 +471,7 @@
 
     .summary-item:last-child { border-bottom: none; }
 
-    .summary-label { font-weight: 600; color: var(--text-light); }
+    .summary-label { font-weight: 600; color: var(--text); }
 
     .summary-value { color: var(--text); font-weight: 500; }
 
@@ -517,7 +509,7 @@
       box-shadow: 0 6px 20px rgba(0, 105, 180, 0.4);
     }
 
-    .btn-primary:disabled { background: var(--text-light); cursor: not-allowed; transform: none; }
+    .btn-primary:disabled { background: rgba(7,32,51,0.35); cursor: not-allowed; transform: none; }
 
     .btn-secondary {
       background: white;
@@ -577,6 +569,10 @@
 <div class="header">
   <h1>Report Corruption Securely</h1>
   <p>Help us maintain integrity and accountability. Your report helps fight fraud, corruption, and misconduct.</p>
+</div>
+
+<div style="max-width:1200px;margin:0 auto;padding:0 24px 12px;">
+  <a href="/" class="back-link" style="display:inline-block;margin-top:-8px;">← Back to Home</a>
 </div>
 
 <div class="container">
@@ -758,12 +754,6 @@
         <div class="checkbox-item">
           <input type="checkbox" id="consentChecked" name="consentChecked" th:field="*{consentChecked}" required/>
           <label for="consentChecked" class="checkbox-label"><strong>I consent to investigation and follow-up</strong><br><span style="font-size: 12px; color: var(--text-light);">The IAU may contact me for additional information if needed</span></label>
-        </div>
-        <div class="captcha-box">
-          <label for="captchaAnswer">Human Verification <span class="required">*</span></label>
-          <div class="captcha-question" th:text="${captchaQuestion}">3 + 4 = ?</div>
-          <input type="text" id="captchaAnswer" name="captchaAnswer" th:field="*{captchaAnswer}" placeholder="Enter the answer" inputmode="numeric" autocomplete="off"/>
-          <div class="captcha-hint">This simple check helps block automated submissions.</div>
         </div>
       </div>
     </div>
@@ -950,16 +940,9 @@
     if (currentStep === 5) {
       const declarationChecked = document.getElementById('declarationChecked');
       const consentChecked = document.getElementById('consentChecked');
-      const captchaAnswer = document.getElementById('captchaAnswer');
 
       if (!declarationChecked.checked || !consentChecked.checked) {
         alert('Please confirm both declarations before continuing to submission.');
-        return false;
-      }
-
-      if (!captchaAnswer.value || !captchaAnswer.value.trim()) {
-        alert('Please complete the human verification challenge before continuing.');
-        captchaAnswer.focus();
         return false;
       }
     }
@@ -1024,16 +1007,12 @@
   document.getElementById('complaintForm').addEventListener('submit', function(e) {
     const declarationChecked = document.getElementById('declarationChecked');
     const consentChecked = document.getElementById('consentChecked');
-    const captchaAnswer = document.getElementById('captchaAnswer');
 
-    if (!declarationChecked.checked || !consentChecked.checked || !captchaAnswer.value.trim()) {
+    if (!declarationChecked.checked || !consentChecked.checked) {
       e.preventDefault();
-      alert('Please complete the declaration and verification steps before submitting your complaint.');
+      alert('Please complete the declaration steps before submitting your complaint.');
       currentStep = 5;
       showStep(5);
-      if (!captchaAnswer.value.trim()) {
-        captchaAnswer.focus();
-      }
       return;
     }
 

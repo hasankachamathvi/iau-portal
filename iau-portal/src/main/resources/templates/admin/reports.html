@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reports — Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <style>
+    body { font-family: Inter, sans-serif; background: linear-gradient(90deg,#041730 0%,#06304a 100%); color: #e6f7f6; }
+    .container { max-width: 1200px; margin: 28px auto; padding: 18px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    th { color: rgba(230,247,246,0.72); text-transform: uppercase; font-size: 12px; }
+    .toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+    .metrics { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
+    .metric { flex:1 1 200px; min-width:180px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.06); padding:14px; border-radius:12px; }
+    .metric .label { font-size:13px; color:rgba(230,247,246,0.78); font-weight:700; }
+    .metric .value { font-size:22px; font-weight:800; margin-top:6px; color: #fff; }
+    .back-link { text-decoration:none; color: #e6f7f6; padding:8px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); font-weight:700; }
+    .charts-row { display:flex; gap:18px; flex-wrap:wrap; }
+    .chart-card { flex:1 1 520px; min-width:320px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="toolbar">
+      <h1 style="margin:0">Reports</h1>
+      <a href="/admin/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="label">Total Complaints</div>
+        <div class="value" th:text="${totalComplaints != null ? totalComplaints : 0}">0</div>
+      </div>
+      <div class="metric">
+        <div class="label">Pending</div>
+        <div class="value" th:text="${pendingCount != null ? pendingCount : 0}">0</div>
+      </div>
+      <div class="metric">
+        <div class="label">Escalated</div>
+        <div class="value" th:text="${escalatedCount != null ? escalatedCount : 0}">0</div>
+      </div>
+      <div class="metric">
+        <div class="label">Resolved</div>
+        <div class="value" th:text="${resolvedCount != null ? resolvedCount : 0}">0</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="card chart-card">
+        <h3>Category Distribution (Top 5)</h3>
+        <div style="width:100%;height:360px;display:flex;align-items:center;justify-content:center;">
+          <canvas id="categoryPie" style="max-width:100%;max-height:100%;width:100%;height:100%;"></canvas>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <h3>Most Complained About (Bar)</h3>
+        <div style="width:100%;height:360px;">
+          <canvas id="categoryBar" style="max-width:100%;max-height:100%;width:100%;height:100%;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:18px"></div>
+
+    <div class="card">
+      <h3>Top Ten Recent Complaints</h3>
+      <table>
+        <thead>
+          <tr><th>CRN</th><th>Category</th><th>Status</th><th>Created</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr th:each="c : ${topTenComplaints}">
+            <td th:text="${c.crn}"></td>
+            <td th:text="${c.category}"></td>
+            <td th:text="${c.status}"></td>
+            <td th:text="${c.createdAt != null ? #temporals.format(c.createdAt, 'dd MMM yyyy') : ''}"></td>
+            <td><a th:href="@{/admin/complaint/{crn}(crn=${c.crn})}" class="btn">View</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      const catLabels = /*[[${catLabels}]]*/ [];
+      const catCounts = /*[[${catCounts}]]*/ [];
+
+      const ctxPie = document.getElementById('categoryPie').getContext('2d');
+      new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+          labels: catLabels,
+          datasets: [{ data: catCounts, backgroundColor: ['#10b981','#3b82f6','#f59e0b','#ef4444','#8b5cf6'] }]
+        }
+      });
+
+      const ctxBar = document.getElementById('categoryBar').getContext('2d');
+      new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: catLabels,
+          datasets: [{ label: 'Count', data: catCounts, backgroundColor: '#10b981' }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+      });
+      /*]]>*/
+    </script>
+  </div>
+</body>
+</html>

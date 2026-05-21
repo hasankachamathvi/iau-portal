@@ -1,7 +1,5 @@
 package com.slt.iau_portal.controller;
 
-import java.security.SecureRandom;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,6 @@ import jakarta.validation.Valid;
 public class ComplaintController {
 
     private static final Logger logger = LoggerFactory.getLogger(ComplaintController.class);
-    private static final String CAPTCHA_QUESTION_KEY = "complaintCaptchaQuestion";
-    private static final String CAPTCHA_ANSWER_KEY = "complaintCaptchaAnswer";
-    private static final SecureRandom RANDOM = new SecureRandom();
 
     @Autowired
     private ComplaintService complaintService;
@@ -40,7 +35,6 @@ public class ComplaintController {
     public String showForm(Model model, HttpSession session) {
         logger.info("Complaint form requested");
         model.addAttribute("form", new ComplaintFormDto());
-        prepareCaptcha(model, session);
         return "complaint-form";
     }
 
@@ -63,15 +57,12 @@ public class ComplaintController {
             }
         }
 
-        validateCaptcha(form, bindingResult, session);
-        
         // Check for validation errors
         if (bindingResult.hasErrors()) {
             logger.warn("Complaint form validation failed with {} errors", bindingResult.getErrorCount());
             model.addAttribute("form", form);
             model.addAttribute("errors", bindingResult.getAllErrors());
             model.addAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
-            prepareCaptcha(model, session);
             return "complaint-form";
         }
 
@@ -113,28 +104,6 @@ public class ComplaintController {
         form.setLocation(ValidationUtil.sanitizeInput(form.getLocation()));
         form.setAdditionalNotes(ValidationUtil.sanitizeInput(form.getAdditionalNotes()));
         form.setWitnessNames(ValidationUtil.sanitizeInput(form.getWitnessNames()));
-    }
-
-    private void validateCaptcha(ComplaintFormDto form, BindingResult bindingResult, HttpSession session) {
-        String expectedAnswer = (String) session.getAttribute(CAPTCHA_ANSWER_KEY);
-        String providedAnswer = form.getCaptchaAnswer() == null ? "" : form.getCaptchaAnswer().trim();
-
-        if (expectedAnswer == null || expectedAnswer.isEmpty()) {
-            bindingResult.rejectValue("captchaAnswer", "captcha.expired", "Your verification challenge expired. Please try again.");
-            return;
-        }
-
-        if (!expectedAnswer.equals(providedAnswer)) {
-            bindingResult.rejectValue("captchaAnswer", "captcha.invalid", "The verification answer is incorrect.");
-        }
-    }
-
-    private void prepareCaptcha(Model model, HttpSession session) {
-        int first = RANDOM.nextInt(8) + 2;
-        int second = RANDOM.nextInt(8) + 2;
-
-        session.setAttribute(CAPTCHA_ANSWER_KEY, String.valueOf(first + second));
-        model.addAttribute(CAPTCHA_QUESTION_KEY, first + " + " + second + " = ?");
     }
 
     @GetMapping("/")

@@ -13,9 +13,10 @@
       --primary: #19e6b3;
       --primary-dark: #0fae86;
       --accent: #12c39a;
-      --gray-bg: rgba(255,255,255,0.02);
-      --gray-border: rgba(255,255,255,0.06);
-      --text: #e6f7f6;
+      --gray-bg: rgba(255,255,255,0.05);
+      --gray-border: rgba(255,255,255,0.10);
+      --text: rgba(230,247,246,0.96);
+      --text-light: rgba(230,247,246,0.72);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,22 +28,67 @@
     }
 
     .header {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 62%, var(--accent) 100%);
+      background: linear-gradient(135deg, #0b1f3b 0%, #114e8a 55%, #11bfa5 100%);
       color: white;
       padding: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
     }
 
     .container {
       max-width: 1180px;
       margin: 0 auto;
-      padding: 24px;
+      padding: 24px 24px 36px;
+    }
+
+    .top-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(230,247,246,0.92);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      transition: all .2s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(255,255,255,0.10);
+      transform: translateY(-1px);
+    }
+
+    .page-note {
+      color: var(--text-light);
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .toolbar {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin: 20px 0;
+      margin: 12px 0 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 14px;
     }
 
     .toolbar form {
@@ -56,8 +102,22 @@
       flex: 1;
       min-width: 240px;
       padding: 12px 14px;
-      border: 1px solid var(--gray-border);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 10px;
+      background: rgba(4,23,48,0.55);
+      color: var(--text);
+    }
+
+    .toolbar input::placeholder {
+      color: rgba(230,247,246,0.45);
+    }
+
+    .toolbar select {
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      background: rgba(4,23,48,0.55);
+      color: var(--text);
     }
 
     .btn {
@@ -71,16 +131,18 @@
     }
 
     .btn.secondary {
-      background: white;
-      color: var(--primary-dark);
-      border: 1px solid var(--gray-border);
+      background: rgba(255,255,255,0.06);
+      color: rgba(230,247,246,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
     }
 
     .panel {
-      background: white;
-      border-radius: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.18);
       overflow: hidden;
+      backdrop-filter: blur(10px);
     }
 
     table {
@@ -90,23 +152,27 @@
 
     th, td {
       padding: 14px 16px;
-      border-bottom: 1px solid var(--gray-border);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       text-align: left;
       font-size: 13px;
       vertical-align: top;
     }
 
     th {
-      background: #f8fbff;
-      color: var(--primary-dark);
+      background: rgba(255,255,255,0.04);
+      color: rgba(230,247,246,0.82);
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: .03em;
     }
 
+    td {
+      color: var(--text);
+    }
+
     .meta {
       margin-top: 10px;
-      color: #5d6b7e;
+      color: var(--text-light);
       font-size: 13px;
       display: flex;
       gap: 10px;
@@ -121,7 +187,7 @@
       font-size: 11px;
       font-weight: 700;
       background: rgba(0, 105, 180, 0.1);
-      color: var(--primary-dark);
+      color: #8ef1b2;
     }
 
     .pagination {
@@ -141,11 +207,11 @@
       min-width: 36px;
       height: 36px;
       border-radius: 8px;
-      border: 1px solid var(--gray-border);
+      border: 1px solid rgba(255,255,255,0.10);
       margin-right: 6px;
       text-decoration: none;
       color: var(--text);
-      background: white;
+      background: rgba(255,255,255,0.06);
     }
 
     .page-links span.active {
@@ -153,23 +219,34 @@
       color: white;
       border-color: var(--primary);
     }
+
+    .empty-state {
+      padding: 28px 24px;
+      text-align: center;
+      color: var(--text-light);
+    }
   </style>
   <link rel="stylesheet" href="/css/theme.css">
 </head>
 <body>
 <div class="header">
-  <h1>Audit Logs</h1>
-  <p>Submission, access, export, and evidence download activity.</p>
+  <div class="header-inner">
+    <h1>Audit Logs</h1>
+    <p>Submission, access, export, and evidence download activity.</p>
+  </div>
 </div>
 
 <div class="container">
-  <a href="/admin/dashboard" style="display:inline-block;margin-bottom:16px;color:var(--primary-dark);font-weight:600;text-decoration:none;">← Back to Dashboard</a>
+  <div class="top-actions">
+    <a href="/admin/dashboard" class="back-link">← Back to Dashboard</a>
+    <div class="page-note">Monitor admin actions and evidence access in one place.</div>
+  </div>
 
-    <div class="toolbar">
+  <div class="toolbar">
     <form method="get" action="/admin/audit-logs">
       <input type="text" name="query" placeholder="Search by event, CRN, or actor" th:value="${searchQuery}"/>
 
-      <select name="eventType" style="padding:12px;border:1px solid var(--gray-border);border-radius:10px;">
+      <select name="eventType">
         <option value="all" th:selected="${selectedEventType == null || selectedEventType == 'all'}">All events</option>
         <option th:each="et : ${eventTypes}" th:value="${et}" th:text="${et}" th:selected="${et == selectedEventType}">EVENT</option>
       </select>
@@ -206,7 +283,7 @@
       </tbody>
     </table>
 
-    <div th:unless="${!#lists.isEmpty(auditLogs)}" style="padding:24px; text-align:center; color:#5d6b7e;">
+    <div th:unless="${!#lists.isEmpty(auditLogs)}" class="empty-state">
       No audit logs found.
     </div>
 

@@ -4,36 +4,54 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Login — IAU Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
     :root {
-      /* New dark teal theme */
       --bg-start: #041730;
       --bg-end: #06304a;
       --primary: #19e6b3;
       --primary-dark: #0fae86;
       --primary-light: #12c39a;
       --accent: #10b981;
-      --gray-bg: rgba(255,255,255,0.02);
-      --gray-border: rgba(255,255,255,0.06);
+      --gray-bg: rgba(255,255,255,0.05);
+      --gray-border: rgba(255,255,255,0.10);
+      --text: rgba(230,247,246,0.95);
+      --text-light: rgba(230,247,246,0.72);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 62%, var(--primary-light) 100%);
+      background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 24px;
+      color: var(--text);
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(25,230,179,0.16), transparent 30%), radial-gradient(circle at bottom right, rgba(15,174,134,0.14), transparent 28%);
+      pointer-events: none;
     }
 
     .login-container {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+      backdrop-filter: blur(12px);
       width: 100%;
       max-width: 400px;
       padding: 40px;
@@ -50,6 +68,21 @@
       justify-content: center;
       gap: 12px;
       margin-bottom: 18px;
+    }
+
+    .login-brand-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(25,230,179,0.16) 0%, rgba(15,174,134,0.14) 100%);
+      border: 1px solid rgba(25,230,179,0.20);
+      color: var(--primary);
+      box-shadow: 0 8px 22px rgba(15,174,134,0.14);
+      flex-shrink: 0;
+      font-size: 22px;
     }
 
     .login-brand-icon {
@@ -78,7 +111,7 @@
       display: block;
       font-size: 17px;
       font-weight: 800;
-      color: var(--primary-dark);
+      color: var(--text);
       line-height: 1;
     }
 
@@ -87,20 +120,20 @@
       margin-top: 4px;
       font-size: 12px;
       letter-spacing: 0.04em;
-      color: #718096;
+      color: var(--text-light);
       font-weight: 500;
     }
 
     .login-header h1 {
       font-size: 28px;
-      color: var(--primary-dark);
+      color: var(--text);
       margin-bottom: 8px;
       font-weight: 700;
     }
 
     .login-header p {
       font-size: 14px;
-      color: #718096;
+      color: var(--text-light);
     }
 
     .form-group {
@@ -111,7 +144,7 @@
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
-      color: #1a202c;
+      color: var(--text);
       font-size: 14px;
     }
 
@@ -119,18 +152,25 @@
     input[type="password"] {
       width: 100%;
       padding: 12px 14px;
-      border: 1.5px solid var(--gray-border);
+      border: 1.5px solid rgba(255,255,255,0.12);
       border-radius: 8px;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       transition: all 0.3s;
+      background: rgba(4,23,48,0.56);
+      color: var(--text);
+    }
+
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+      color: rgba(230,247,246,0.45);
     }
 
     input[type="text"]:focus,
     input[type="password"]:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(0, 105, 180, 0.12);
+      box-shadow: 0 0 0 3px rgba(25,230,179,0.16);
     }
 
     .login-btn {
@@ -149,27 +189,28 @@
 
     .login-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 105, 180, 0.32);
+      box-shadow: 0 6px 20px rgba(15,174,134,0.32);
     }
 
     .error-message {
-      background: #fdecea;
-      color: #c0392b;
+      background: rgba(224,36,36,0.12);
+      color: #ffb4b4;
       padding: 12px;
       border-radius: 8px;
       margin-bottom: 16px;
       font-size: 13px;
-      border: 1px solid #c0392b;
+      border: 1px solid rgba(224,36,36,0.32);
     }
 
     .info-box {
-      background: var(--gray-bg);
+      background: rgba(255,255,255,0.06);
       padding: 12px;
       border-radius: 8px;
       font-size: 12px;
-      color: #718096;
+      color: var(--text-light);
       margin-top: 24px;
       line-height: 1.6;
+      border: 1px solid rgba(255,255,255,0.10);
     }
 
     .back-link {
@@ -194,7 +235,14 @@
 
 <div class="login-container">
   <div class="login-header">
-    <h1>🛡️ Admin Login</h1>
+    <div class="login-brand">
+      <img src="/images/sltlogo.jpg" alt="SLT Logo" style="width:72px;height:46px;object-fit:contain;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);"/>
+      <div class="login-brand-text">
+        <span class="brand">Admin Login</span>
+        <span class="sub">Internal Affairs Unit Portal</span>
+      </div>
+    </div>
+    <h1>Secure Access</h1>
     <p>Internal Affairs Unit Portal</p>
   </div>
 
@@ -205,7 +253,7 @@
   </th:block>
 
   <th:block th:if="${param.logout}">
-    <div style="background: #e6f5df; color: #4cab32; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; border: 1px solid #4cab32;">
+    <div style="background: rgba(74,203,50,0.12); color: #8ef1b2; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; border: 1px solid rgba(74,203,50,0.26);">
       ✅ Logged out successfully.
     </div>
   </th:block>
@@ -224,11 +272,13 @@
     <button type="submit" class="login-btn">Sign In</button>
   </form>
 
+  
   <div class="info-box">
     <strong>Demo Credentials:</strong><br/>
-    Username: <code style="background: white; padding: 2px 4px; border-radius: 3px;">admin</code><br/>
-    Password: <code style="background: white; padding: 2px 4px; border-radius: 3px;">admin123</code>
+    Username: <code style="background: rgba(255,255,255,0.12); color: var(--text); padding: 2px 4px; border-radius: 3px;">admin</code><br/>
+    Password: <code style="background: rgba(255,255,255,0.12); color: var(--text); padding: 2px 4px; border-radius: 3px;">admin123</code>
   </div>
+  
 
   <div class="back-link">
     <a href="/">← Back to Complaint Portal</a>

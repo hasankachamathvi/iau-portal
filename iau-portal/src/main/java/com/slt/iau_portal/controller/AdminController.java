@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -529,6 +530,64 @@ public class AdminController {
     private ReportItem buildReportItem(String label, long count, long total) {
         long percent = Math.round((count * 100.0) / total);
         return new ReportItem(label, count, percent);
+    }
+
+    @GetMapping("/users")
+    public String users(Model model) {
+        List<Reporter> reporters = reporterRepository.findAll();
+        model.addAttribute("reporters", reporters == null ? List.of() : reporters);
+        auditLogService.record("USERS_VIEWED", null, "ADMIN", "Viewed users page");
+        return "admin/users";
+    }
+
+    @GetMapping("/reports")
+    public String reports(Model model) {
+        List<Complaint> allComplaints = complaintRepository.findAll();
+
+        Map<String, Long> counts = allComplaints.stream()
+            .collect(Collectors.groupingBy(c -> {
+                String cat = c.getCategory();
+                return (cat == null || cat.isBlank()) ? "Unspecified" : cat;
+            }, Collectors.counting()));
+
+        List<Map.Entry<String, Long>> topCategories = counts.entrySet().stream()
+            .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+            .limit(10)
+            .collect(Collectors.toList());
+
+        List<ReportItem> categoryReport = buildCategoryReport(allComplaints);
+        model.addAttribute("categoryReport", categoryReport);
+        List<String> catLabels = categoryReport.stream().map(ReportItem::getLabel).toList();
+        List<Long> catCounts = categoryReport.stream().map(ReportItem::getCount).toList();
+        model.addAttribute("catLabels", catLabels);
+        model.addAttribute("catCounts", catCounts);
+        model.addAttribute("statusReport", buildStatusReport(allComplaints));
+        model.addAttribute("topCategories", topCategories);
+        model.addAttribute("topTenComplaints", allComplaints.stream().sorted(Comparator.comparing(Complaint::getCreatedAt).reversed()).limit(10).collect(Collectors.toList()));
+
+        auditLogService.record("REPORTS_VIEWED", null, "ADMIN", "Viewed reports page");
+        return "admin/reports";
+    }
+
+    @GetMapping("/settings")
+    public String settings(Model model) {
+        // simple placeholders for UI
+        model.addAttribute("emailNotifications", true);
+        model.addAttribute("evidenceEncryptionKey", System.getProperty("EVIDENCE_ENCRYPTION_KEY_BASE64", ""));
+        auditLogService.record("SETTINGS_VIEWED", null, "ADMIN", "Viewed settings page");
+        return "admin/settings";
+    }
+
+    @PostMapping("/settings")
+    public String saveSettings(@RequestParam(required = false, defaultValue = "") String evidenceEncryptionKeyBase64,
+                               @RequestParam(required = false, defaultValue = "false") boolean emailNotifications,
+                               Model model) {
+        if (evidenceEncryptionKeyBase64 != null && !evidenceEncryptionKeyBase64.isBlank()) {
+            System.setProperty("EVIDENCE_ENCRYPTION_KEY_BASE64", evidenceEncryptionKeyBase64);
+        }
+        // we only record an audit entry and redirect back to settings
+        auditLogService.record("SETTINGS_SAVED", null, "ADMIN", "emailNotifications=" + emailNotifications);
+        return "redirect:/admin/settings";
     }
 
     public static class ReportItem {

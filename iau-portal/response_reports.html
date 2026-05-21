@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reports — Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <style>
+    body { font-family: Inter, sans-serif; background: linear-gradient(90deg,#041730 0%,#06304a 100%); color: #e6f7f6; }
+    .container { max-width: 1200px; margin: 28px auto; padding: 18px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    th { color: rgba(230,247,246,0.72); text-transform: uppercase; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reports</h1>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Category Distribution (Top 5)</h3>
+        <canvas id="categoryPie" width="400" height="300"></canvas>
+      </div>
+
+      <div class="card">
+        <h3>Most Complained About (Bar)</h3>
+        <canvas id="categoryBar" width="400" height="300"></canvas>
+      </div>
+    </div>
+
+    <div style="height:18px"></div>
+
+    <div class="card">
+      <h3>Top Ten Recent Complaints</h3>
+      <table>
+        <thead>
+          <tr><th>CRN</th><th>Category</th><th>Status</th><th>Created</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>IAU-2026-000003</td>
+            <td>Fraud</td>
+            <td>PENDING</td>
+            <td>04 May 2026</td>
+            <td><a href="/admin/complaint/IAU-2026-000003" class="btn">View</a></td>
+          </tr>
+          <tr>
+            <td>IAU-2026-000002</td>
+            <td>Fraud</td>
+            <td>PENDING</td>
+            <td>04 May 2026</td>
+            <td><a href="/admin/complaint/IAU-2026-000002" class="btn">View</a></td>
+          </tr>
+          <tr>
+            <td>IAU-2026-000001</td>
+            <td>Fraud</td>
+            <td>PENDING</td>
+            <td>04 May 2026</td>
+            <td><a href="/admin/complaint/IAU-2026-000001" class="btn">View</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      /*<![CDATA[*/
+      const catLabels = ["Fraud"];
+      const catCounts = [3];
+
+      const ctxPie = document.getElementById('categoryPie').getContext('2d');
+      new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+          labels: catLabels,
+          datasets: [{ data: catCounts, backgroundColor: ['#10b981','#3b82f6','#f59e0b','#ef4444','#8b5cf6'] }]
+        }
+      });
+
+      const ctxBar = document.getElementById('categoryBar').getContext('2d');
+      new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: catLabels,
+          datasets: [{ label: 'Count', data: catCounts, backgroundColor: '#10b981' }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+      });
+      /*]]>*/
+    </script>
+  </div>
+</body>
+</html>
