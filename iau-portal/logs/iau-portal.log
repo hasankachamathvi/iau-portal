@@ -36384,3 +36384,4 @@ org.springframework.web.HttpRequestMethodNotSupportedException: Request method '
 2026-05-21 05:57:36 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2026-05-21 05:57:36 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
 2026-05-21 05:58:42 [http-nio-8080-exec-9] INFO  c.s.i.controller.AdminController - Admin dashboard accessed with filter=all sort=dateDesc
+2026-05-21 09:18:35 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h14m31s357ms856µs200ns).
