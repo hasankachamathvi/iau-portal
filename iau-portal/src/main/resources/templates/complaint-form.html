@@ -550,21 +550,28 @@
 </head>
 <body>
 
-<div class="navbar">
-  <div class="navbar-content">
-    <a href="/" class="navbar-brand" aria-label="SLTMobitel Internal Affairs Unit home">
-      <img src="/images/sltlogo.jpg" alt="SLTMobitel logo">
-      <div class="navbar-brand-text">
-        <span class="title">SLTMobitel</span>
-        <span class="subtitle">Internal Affairs Unit</span>
-      </div>
-    </a>
-    <div class="navbar-links">
-      <a href="/">Home</a>
-      <a href="/admin/dashboard">Admin</a>
+<nav class="navbar">
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="primary-nav" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <a href="/" class="nav-logo">
+    <img class="nav-logo-icon" src="/images/sltlogo.jpg" alt="SLTMobitel logo">
+    <div class="nav-logo-text">
+      
     </div>
-  </div>
-</div>
+  </a>
+
+  <ul id="primary-nav" class="nav-links" aria-label="Primary navigation">
+
+    <li><a href="/" class="active">Home</a></li>
+    <li><a href="#how-it-works">How it Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#track">Track</a></li>
+    <li><a href="/login">Admin</a></li>
+    <li><a href="/complaint" class="nav-btn">Report Now</a></li>
+  </ul>
+</nav>
 
 <div class="header">
   <h1>Report Corruption Securely</h1>
