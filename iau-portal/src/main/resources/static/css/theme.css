@@ -33,15 +33,15 @@
   --blue-light: rgba(79, 142, 247, 0.10);
 
   /* Text */
-  --text-dark: #e8eef8;
-  --text-mid: rgba(232, 238, 248, 0.85);
-  --text-light: rgba(232, 238, 248, 0.55);
+  --text-dark: #ffffff;
+  --text-mid: rgba(255, 255, 255, 0.92);
+  --text-light: rgba(255, 255, 255, 0.75);
 
   /* Card / panel surfaces */
   --card-bg: rgba(15, 30, 60, 0.75);
   --card-bg-solid: #111e3a;
   --card-border: rgba(255, 255, 255, 0.07);
-  --card-text: #e8eef8;
+  --card-text: #ffffff;
 
   /* Muted / utility */
   --muted-bg: rgba(255, 255, 255, 0.03);
