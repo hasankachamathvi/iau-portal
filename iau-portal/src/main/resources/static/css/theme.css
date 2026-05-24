@@ -374,3 +374,56 @@ tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
 /* Ensure progress bar label is visible */
 .progress-label, .progress-fill, .step-number { color: #072033 !important; }
+
+/* ─── Admin Login (auth page) ───────────────────────────────────────── */
+.auth-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+.auth-left {
+  flex: 1 1 540px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: #ffffff;
+}
+
+.auth-inner {
+  width: 100%;
+  max-width: 420px;
+}
+
+.brand-row { margin-bottom: 18px; }
+.brand-logo { height: 36px; width: auto; display: block; }
+.auth-title { font-size: 36px; margin: 8px 0 6px; color: #0b1f2b; font-weight: 800; }
+.auth-sub { color: #6b7280; margin-bottom: 20px; }
+
+.auth-error { background: #fff1f0; color: #9f1239; padding: 10px 12px; border-radius: 8px; border: 1px solid #fecaca; margin-bottom: 14px; }
+.auth-success { background: #ecfdf5; color: #065f46; padding: 10px 12px; border-radius: 8px; border: 1px solid #bbf7d0; margin-bottom: 14px; }
+
+.auth-form .form-group { margin-bottom: 18px; }
+.auth-form label { display:block; margin-bottom:8px; color:#0b1f2b; font-weight:600; }
+.auth-form input { width:100%; padding:12px 14px; border:1px solid rgba(7,32,51,0.06); border-radius:8px; background:#fff; color:#072033; }
+
+.form-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:6px; }
+.form-row .checkbox { font-weight:500; color:#475569; }
+.form-row .forgot { color:#6b46c1; text-decoration:none; font-weight:600; }
+.form-row .forgot:hover { text-decoration:underline; }
+
+.auth-submit { width:100%; padding:12px; border-radius:8px; background: linear-gradient(135deg,#6b46c1 0%, #7c3aed 100%); color:#fff; border:none; font-weight:700; margin-top:14px; }
+
+.or-sep { height:18px; }
+.btn-google { margin-top:6px; padding:10px 12px; border-radius:8px; border:1px solid rgba(7,32,51,0.06); background:#fff; color:#072033; font-weight:700; width:100%; }
+
+.muted.center { text-align:center; color:#6b7280; }
+
+.auth-right { flex: 0 0 520px; display:flex; align-items:center; justify-content:center; background: linear-gradient(180deg,#caa8ff 0%, #9f7ae6 100%); }
+.auth-art img { max-width: 100%; height: auto; display:block; opacity:0.96; }
+
+@media (max-width: 900px) {
+  .auth-page { flex-direction: column; }
+  .auth-right { order: 2; width:100%; height:220px; }
+  .auth-left { order: 1; padding:28px; }
+}

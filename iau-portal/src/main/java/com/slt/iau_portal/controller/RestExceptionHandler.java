@@ -5,12 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.slt.iau_portal.dto.ApiResponse;
 
-@ControllerAdvice
+@RestControllerAdvice(annotations = RestController.class)
 public class RestExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
