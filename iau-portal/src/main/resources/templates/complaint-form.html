@@ -547,16 +547,15 @@
     }
   </style>
   <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/complaint-form.css">
 </head>
 <body>
 
 <nav class="navbar">
-  
 
   <a href="/" class="nav-logo">
     <img class="nav-logo-icon" src="/images/sltlogo.jpg" alt="SLTMobitel logo">
     <div class="nav-logo-text">
-      
     </div>
   </a>
   <ul id="primary-nav" class="navbar-links" aria-label="Primary navigation">
@@ -564,37 +563,41 @@
     <li><a href="/login">Admin</a></li>
   </ul>
 
-
 </nav>
 
-<div class="header">
-  <h1>Report Corruption Securely</h1>
-  <p>Help us maintain integrity and accountability. Your report helps fight fraud, corruption, and misconduct.</p>
-</div>
-
-<div style="max-width:1200px;margin:0 auto;padding:0 24px 12px;">
-  <a href="/" class="back-link" style="display:inline-block;margin-top:-8px;">← Back to Home</a>
-</div>
-
-<div class="container">
-  <div class="progress-container">
-    <div class="progress-label">Your Progress</div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width: 16.66%"></div>
-    </div>
-    <div class="steps-grid">
-      <div class="step-badge active" id="stepBadge1"><span class="step-number">✓</span> Reporter</div>
-      <div class="step-badge" id="stepBadge2"><span class="step-number">2</span> Complaint</div>
-      <div class="step-badge" id="stepBadge3"><span class="step-number">3</span> Subject</div>
-      <div class="step-badge" id="stepBadge4"><span class="step-number">4</span> Evidence</div>
-      <div class="step-badge" id="stepBadge5"><span class="step-number">5</span> Confirm</div>
-      <div class="step-badge" id="stepBadge6"><span class="step-number">6</span> Submit</div>
-    </div>
+<div class="cf-header">
+  <h1>Report Securely</h1>
+  <p>Share your complaint in a few steps. Your details are handled with care, and your evidence helps us act faster.</p>
+  <div class="cf-draft" id="draftStatus" style="margin-top:14px; justify-content:center;">
+    <span class="dot"></span>
+    Draft auto-saves while you fill out the form
   </div>
+</div>
+
+<div class="cf-page">
+  <a href="/" class="cf-back">← Back to Home</a>
+  
+  <div class="cf-container">
+  	<div class="cf-progress">
+  	  <div class="cf-progress-label">Your Progress</div>
+  	  <div class="cf-progress-bar">
+  	    <div class="cf-progress-fill" id="progressFill" style="width: 16.66%"></div>
+  	  </div>
+  	  <div class="cf-steps-grid">
+  	    <div class="cf-step-badge active" id="stepBadge1"><span class="step-number">✓</span> Reporter</div>
+  	    <div class="cf-step-badge" id="stepBadge2"><span class="step-number">2</span> Complaint</div>
+  	    <div class="cf-step-badge" id="stepBadge3"><span class="step-number">3</span> Subject</div>
+  	    <div class="cf-step-badge" id="stepBadge4"><span class="step-number">4</span> Evidence</div>
+  	    <div class="cf-step-badge" id="stepBadge5"><span class="step-number">5</span> Confirm</div>
+  	    <div class="cf-step-badge" id="stepBadge6"><span class="step-number">6</span> Submit</div>
+  	  </div>
+  	</div>
 
   <th:block th:if="${error}">
     <div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> <div th:text="${error}"></div></div>
   </th:block>
+
+  <div class="cf-step-error" id="stepErrorBox" role="alert" aria-live="polite"></div>
 
   <form id="complaintForm" method="post" action="/complaint/submit" enctype="multipart/form-data" th:object="${form}">
 
@@ -605,7 +608,7 @@
           <div class="section-icon"><i class="fas fa-user"></i></div>
           <div class="section-title">Your Identity</div>
         </div>
-        <div class="notice"><i class="fas fa-shield-alt"></i> Your information is protected. Choose to report anonymously or with your details.</div>
+        <div class="notice"><i class="fas fa-shield-alt"></i> Your information is protected. Choose anonymous or with your details.</div>
         <div class="toggle-group">
           <button type="button" class="toggle-btn active" onclick="setReporterType(event, 'anonymous')"><i class="fas fa-user-secret"></i> Anonymous</button>
           <button type="button" class="toggle-btn" onclick="setReporterType(event, 'named')"><i class="fas fa-user-check"></i> Named</button>
@@ -649,10 +652,11 @@
             <option value="Fraud">💰 Fraud</option>
             <option value="Corruption">🤝 Corruption</option>
             <option value="Misconduct">⚠️ Misconduct</option>
-            <option value="Theft">🚨 Theft</option>
+            <option value="Theft">🕨 Theft</option>
             <option value="Harassment">😢 Harassment</option>
-            <option value="Other">📋 Other</option>
+            <option value="Other">📌 Other</option>
           </select>
+          <div class="input-hint"><i class="fas fa-bullseye"></i> Choose the closest match to route your report</div>
         </div>
         <div class="form-group two-col">
           <div>
@@ -683,7 +687,7 @@
           <div class="section-icon"><i class="fas fa-person"></i></div>
           <div class="section-title">Person Involved</div>
         </div>
-        <div class="notice"><i class="fas fa-lightbulb"></i> Provide details about the person allegedly involved in the misconduct.</div>
+        <div class="notice"><i class="fas fa-lightbulb"></i> Add details about the person allegedly involved.</div>
         <div class="form-group">
           <label>Full Name <span class="required">*</span></label>
           <input type="text" name="subjectName" placeholder="Name of person involved" th:field="*{subjectName}"/>
@@ -800,10 +804,14 @@
   </form>
 </div>
 
+</div>
+
+
 <script>
   let currentStep = 1;
   const totalSteps = 6;
   const draftStorageKey = 'iauComplaintDraft';
+
 
   function getFormDataSnapshot() {
     const data = {};
@@ -904,27 +912,43 @@
     showStep(currentStep);
   }
 
+  function setStepError(message, focusEl) {
+    const box = document.getElementById('stepErrorBox');
+    if (!box) return;
+    box.textContent = message;
+    box.classList.add('show');
+    if (focusEl && typeof focusEl.focus === 'function') {
+      focusEl.focus();
+    }
+  }
+
+  function clearStepError() {
+    const box = document.getElementById('stepErrorBox');
+    if (!box) return;
+    box.textContent = '';
+    box.classList.remove('show');
+  }
+
   function validateCurrentStep() {
+    clearStepError();
+
     if (currentStep === 2) {
       const category = document.querySelector('select[name="category"]');
       const complaintDate = document.querySelector('input[name="complaintDate"]');
       const description = document.querySelector('textarea[name="description"]');
 
       if (!category.value) {
-        alert('Please select a complaint category before continuing.');
-        category.focus();
+        setStepError('Select a complaint category to continue.', category);
         return false;
       }
 
       if (!complaintDate.value) {
-        alert('Please select the date of incident before continuing.');
-        complaintDate.focus();
+        setStepError('Select the date of incident to continue.', complaintDate);
         return false;
       }
 
       if (!description.value || description.value.trim().length < 50) {
-        alert('Please provide at least 50 characters in the complaint description.');
-        description.focus();
+        setStepError('Your description must be at least 50 characters.', description);
         return false;
       }
     }
@@ -932,8 +956,7 @@
     if (currentStep === 3) {
       const subjectName = document.querySelector('input[name="subjectName"]');
       if (!subjectName.value || !subjectName.value.trim()) {
-        alert('Please enter the name of the person involved before continuing.');
-        subjectName.focus();
+        setStepError('Enter the name of the person involved to continue.', subjectName);
         return false;
       }
     }
@@ -943,7 +966,7 @@
       const consentChecked = document.getElementById('consentChecked');
 
       if (!declarationChecked.checked || !consentChecked.checked) {
-        alert('Please confirm both declarations before continuing to submission.');
+        setStepError('Confirm both declarations before submitting.');
         return false;
       }
     }
@@ -1011,9 +1034,9 @@
 
     if (!declarationChecked.checked || !consentChecked.checked) {
       e.preventDefault();
-      alert('Please complete the declaration steps before submitting your complaint.');
       currentStep = 5;
       showStep(5);
+      setStepError('Please confirm both declarations before submitting your complaint.', declarationChecked);
       return;
     }
 
