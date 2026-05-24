@@ -175,6 +175,37 @@ body {
 }
 .btn-admin:hover { border-color: var(--blue); background: var(--blue-light); }
 
+/* Compatibility: some templates use `class="btn"` or `class="btn primary"`.
+   Provide small utility rules so those anchors render as buttons without changing templates. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--blue);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn:hover { transform: translateY(-1px); }
+
+/* map legacy `btn primary` to the primary button look */
+.btn.primary, .btn.primary:link, .btn.primary:visited {
+  background: linear-gradient(135deg, var(--primary, var(--blue)) 0%, var(--primary-dark, var(--blue-dark)) 100%);
+  color: var(--white);
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+  border: none;
+}
+
+/* small variant used in tables */
+.btn.small { padding: 6px 10px; font-size: 13px; border-radius: 8px; }
+
 /* ─── Cards / Panels ─────────────────────────────────── */
 .card,
 .track-card,

@@ -38,8 +38,12 @@
         <p><span class="label">Category:</span> <span th:text="${complaint.category}"></span></p>
         <p><span class="label">Complaint date:</span> <span th:text="${complaint.complaintDate}"></span></p>
         <p><span class="label">Location:</span> <span th:text="${complaint.location}"></span></p>
-        <p><span class="label">Created:</span> <span th:text="${#dates.format(complaint.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-        <p><span class="label">Last updated:</span> <span th:text="${#dates.format(complaint.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+        <p><span class="label">Created:</span>
+          <span th:text="${complaint.createdAt != null ? complaint.createdAt.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm')) : ''}"></span>
+        </p>
+        <p><span class="label">Last updated:</span>
+          <span th:text="${complaint.updatedAt != null ? complaint.updatedAt.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm')) : ''}"></span>
+        </p>
       </div>
 
       <div th:if="${found == false}" style="margin-top:12px;color:#b91c1c" th:text="${message}"></div>

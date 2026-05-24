@@ -26,33 +26,26 @@ public class DevDataInitializer {
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
         String crn = "DEV-0001";
-        int attempts = 0;
-        final int maxAttempts = 6;
-        while (attempts < maxAttempts) {
-            try {
-                Complaint c = new Complaint();
-                c.setCrn(crn);
-                c.setCategory("DEVELOPMENT");
-                c.setDescription("Seed complaint for development environment.");
-                c.setComplaintDate(LocalDate.now());
-                c.setLocation("Localhost");
-                c.setStatus("PENDING");
-                c.setCreatedAt(LocalDateTime.now());
-                c.setUpdatedAt(LocalDateTime.now());
-                complaintRepository.save(c);
-                log.info("DevDataInitializer: seeded complaint with CRN={}", crn);
+        // Idempotent seeding: only insert if the CRN does not already exist.
+        try {
+            if (complaintRepository.findByCrn(crn).isPresent()) {
+                log.debug("DevDataInitializer: complaint with CRN={} already exists, skipping seed", crn);
                 return;
-            } catch (Exception e) {
-                attempts++;
-                log.warn("DevDataInitializer: attempt {}/{} failed to seed complaint: {}", attempts, maxAttempts, e.getMessage());
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
             }
+
+            Complaint c = new Complaint();
+            c.setCrn(crn);
+            c.setCategory("DEVELOPMENT");
+            c.setDescription("Seed complaint for development environment.");
+            c.setComplaintDate(LocalDate.now());
+            c.setLocation("Localhost");
+            c.setStatus("PENDING");
+            c.setCreatedAt(LocalDateTime.now());
+            c.setUpdatedAt(LocalDateTime.now());
+            complaintRepository.save(c);
+            log.info("DevDataInitializer: seeded complaint with CRN={}", crn);
+        } catch (Exception e) {
+            log.warn("DevDataInitializer: failed to seed complaint {}: {}", crn, e.getMessage());
         }
-        log.error("DevDataInitializer: failed to seed complaint after {} attempts", maxAttempts);
     }
 }

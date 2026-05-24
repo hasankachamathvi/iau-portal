@@ -1,0 +1,132 @@
+﻿{
+    "data":  {
+                 "content":  [
+                                 {
+                                     "category":  "DEVELOPMENT",
+                                     "ciabocEscalated":  false,
+                                     "complaintDate":  "2026-05-25",
+                                     "createdAt":  "2026-05-25T02:57:40.253234",
+                                     "crn":  "DEV-0001",
+                                     "description":  "Seed complaint for development environment.",
+                                     "escalated":  false,
+                                     "id":  1,
+                                     "location":  "Localhost",
+                                     "reportedBefore":  false,
+                                     "status":  "PENDING",
+                                     "updatedAt":  "2026-05-25T02:57:40.286924"
+                                 },
+                                 {
+                                     "category":  "Fraud",
+                                     "ciabocEscalated":  false,
+                                     "complaintDate":  "2026-05-04",
+                                     "createdAt":  "2026-05-04T14:53:27",
+                                     "crn":  "IAU-2026-000001",
+                                     "description":  "This is a test complaint description with enough length to satisfy validation rules.",
+                                     "escalated":  false,
+                                     "id":  129,
+                                     "location":  null,
+                                     "reportedBefore":  false,
+                                     "status":  "PENDING",
+                                     "updatedAt":  null
+                                 },
+                                 {
+                                     "category":  "Fraud",
+                                     "ciabocEscalated":  false,
+                                     "complaintDate":  "2026-05-04",
+                                     "createdAt":  "2026-05-04T14:54:53",
+                                     "crn":  "IAU-2026-000002",
+                                     "description":  "This is a follow-up test complaint description with additional context.",
+                                     "escalated":  false,
+                                     "id":  130,
+                                     "location":  null,
+                                     "reportedBefore":  false,
+                                     "status":  "PENDING",
+                                     "updatedAt":  null
+                                 },
+                                 {
+                                     "category":  "Fraud",
+                                     "ciabocEscalated":  false,
+                                     "complaintDate":  "2022-06-06",
+                                     "createdAt":  "2026-05-04T15:53:36",
+                                     "crn":  "IAU-2026-000003",
+                                     "description":  "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.",
+                                     "escalated":  false,
+                                     "id":  131,
+                                     "location":  "office",
+                                     "reportedBefore":  false,
+                                     "status":  "PENDING",
+                                     "updatedAt":  null
+                                 },
+                                 {
+                                     "category":  "Fraud",
+                                     "ciabocEscalated":  false,
+                                     "complaintDate":  "2026-05-20",
+                                     "createdAt":  "2026-05-20T23:16:44",
+                                     "crn":  "IAU-2026-000004",
+                                     "description":  "A detailed complaint report describing suspected fraud in financial reporting.",
+                                     "escalated":  false,
+                                     "id":  132,
+                                     "location":  "Colombo Head Office",
+                                     "reportedBefore":  false,
+                                     "status":  "PENDING",
+                                     "updatedAt":  "2026-05-20T23:16:44.465511"
+                                 },
+                                 {
+                                     "category":  "Misconduct",
+                                     "ciabocEscalated":  false,
+                                     "complaintDate":  "2026-05-20",
+                                     "createdAt":  "2026-05-20T23:26:13",
+                                     "crn":  "IAU-2026-000005",
+                                     "description":  "Anonymous complaint about misconduct in the approval process; details omitted for brevity.",
+                                     "escalated":  false,
+                                     "id":  133,
+                                     "location":  "Colombo Office",
+                                     "reportedBefore":  false,
+                                     "status":  "PENDING",
+                                     "updatedAt":  "2026-05-20T23:26:13.153031"
+                                 },
+                                 {
+                                     "category":  "Theft",
+                                     "ciabocEscalated":  true,
+                                     "complaintDate":  "2026-05-04",
+                                     "createdAt":  "2026-05-20T23:28:02",
+                                     "crn":  "IAU-2026-000006",
+                                     "description":  "qgydwhebdh deuyduiwewe akkskwkwn aaaaaaaaaaaaaaaaaaaaaaaa sample text to fill description.",
+                                     "escalated":  true,
+                                     "id":  134,
+                                     "location":  "office",
+                                     "reportedBefore":  true,
+                                     "status":  "UNDER_INVESTIGATION",
+                                     "updatedAt":  "2026-05-20T23:29:27.961675"
+                                 }
+                             ],
+                 "empty":  false,
+                 "first":  true,
+                 "last":  true,
+                 "number":  0,
+                 "numberOfElements":  7,
+                 "pageable":  {
+                                  "offset":  0,
+                                  "pageNumber":  0,
+                                  "pageSize":  25,
+                                  "paged":  true,
+                                  "sort":  {
+                                               "empty":  true,
+                                               "sorted":  false,
+                                               "unsorted":  true
+                                           },
+                                  "unpaged":  false
+                              },
+                 "size":  25,
+                 "sort":  {
+                              "empty":  true,
+                              "sorted":  false,
+                              "unsorted":  true
+                          },
+                 "totalElements":  7,
+                 "totalPages":  1
+             },
+    "error":  null,
+    "message":  "Complaints retrieved",
+    "success":  true
+}
