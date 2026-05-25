@@ -71,10 +71,10 @@ public class ComplaintService {
             complaint.setCrn(crn);
             complaint.setCategory(form.getCategory());
             complaint.setDescription(form.getDescription());
-            complaint.setComplaintDate(form.getComplaintDate());
+            complaint.setComplaintDate(form.getIncidentDate());
             complaint.setLocation(form.getLocation());
-            complaint.setReportedBefore(form.isReportedBefore());
-            complaint.setEscalated(form.isSeniorManagement());
+            complaint.setReportedBefore("yes".equals(form.getReportedPreviously()));
+            complaint.setEscalated("yes".equals(form.getInvolvesSeniorManagement()));
             complaint.setCiabocEscalated(shouldEscalateToCiaboc(form));
             complaint.setStatus("PENDING");
             complaintRepository.save(complaint);
@@ -83,8 +83,8 @@ public class ComplaintService {
             // Save reporter information
             Reporter reporter = new Reporter();
             reporter.setComplaint(complaint);
-            reporter.setAnonymousFlag(form.isAnonymous());
-            if (!form.isAnonymous()) {
+            reporter.setAnonymousFlag("anonymous".equals(form.getSubmissionType()));
+            if ("named".equals(form.getSubmissionType())) {
                 reporter.setFullName(form.getFullName());
                 reporter.setEmail(form.getEmail());
                 reporter.setPhone(form.getPhone());
@@ -96,15 +96,15 @@ public class ComplaintService {
             reporterRepository.save(reporter);
 
             // Save subject information
-            if (form.getSubjectName() != null && !form.getSubjectName().isEmpty()) {
+            if (form.getSubjectNames() != null && !form.getSubjectNames().isEmpty()) {
                 Subject subject = new Subject();
                 subject.setComplaint(complaint);
-                subject.setFullName(form.getSubjectName());
+                subject.setFullName(form.getSubjectNames());
                 subject.setRole(form.getSubjectRole());
-                subject.setOrganization(form.getSubjectOrganization());
+                subject.setOrganization(form.getSubjectOrganisation());
                 subject.setRelationship(form.getSubjectRelationship());
                 subjectRepository.save(subject);
-                logger.info("Subject information saved for: {}", form.getSubjectName());
+                logger.info("Subject information saved for: {}", form.getSubjectNames());
             }
 
             // Handle file uploads
@@ -113,7 +113,7 @@ public class ComplaintService {
             }
 
             // Send email notification if not anonymous
-            if (!form.isAnonymous() && form.getEmail() != null && !form.getEmail().isEmpty()) {
+            if ("named".equals(form.getSubmissionType()) && form.getEmail() != null && !form.getEmail().isEmpty()) {
                 try {
                     emailService.sendConfirmationEmail(form.getEmail(), crn, form.getCategory());
                     logger.info("Confirmation email sent to: {}", form.getEmail());
@@ -125,7 +125,7 @@ public class ComplaintService {
             auditLogService.record(
                 "COMPLAINT_SUBMITTED",
                 crn,
-                form.isAnonymous() ? "ANONYMOUS" : form.getEmail(),
+                "anonymous".equals(form.getSubmissionType()) ? "ANONYMOUS" : form.getEmail(),
                 "category=" + form.getCategory() + ", escalated=" + complaint.getEscalated() + ", ciabocEscalated=" + complaint.getCiabocEscalated()
             );
 
@@ -247,19 +247,19 @@ public class ComplaintService {
     }
 
     private boolean shouldEscalateToCiaboc(ComplaintFormDto form) {
-        if (form.isSeniorManagement()) {
+        if ("yes".equals(form.getInvolvesSeniorManagement())) {
             return true;
         }
 
         String subjectRole = form.getSubjectRole() == null ? "" : form.getSubjectRole().toLowerCase();
-        String subjectOrganization = form.getSubjectOrganization() == null ? "" : form.getSubjectOrganization().toLowerCase();
+        String subjectOrganization = form.getSubjectOrganisation() == null ? "" : form.getSubjectOrganisation().toLowerCase();
         String subjectRelationship = form.getSubjectRelationship() == null ? "" : form.getSubjectRelationship().toLowerCase();
-        String subjectName = form.getSubjectName() == null ? "" : form.getSubjectName().toLowerCase();
+        String subjectNames = form.getSubjectNames() == null ? "" : form.getSubjectNames().toLowerCase();
 
         return subjectRole.contains("iau")
             || subjectOrganization.contains("iau")
             || subjectRelationship.contains("iau")
-            || subjectName.contains("iau")
+            || subjectNames.contains("iau")
             || subjectRole.contains("internal affairs")
             || subjectOrganization.contains("internal affairs");
     }
