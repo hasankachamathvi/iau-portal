@@ -3,6 +3,7 @@ package com.slt.iau_portal.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,10 +36,14 @@ public class ComplaintController {
     @Autowired
     private com.slt.iau_portal.repository.ComplaintRepository complaintRepository;
 
+    @Value("${recaptcha.site:}")
+    private String recaptchaSiteKey;
+
     @GetMapping
     public String showForm(Model model, HttpSession session) {
         logger.info("Complaint form requested");
         model.addAttribute("form", new ComplaintFormDto());
+        addRecaptchaModel(model);
         return "complaint-form";
     }
 
@@ -85,6 +90,7 @@ public class ComplaintController {
             model.addAttribute("form", form);
             model.addAttribute("errors", bindingResult.getAllErrors());
             model.addAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            addRecaptchaModel(model);
             return "complaint-form";
         }
 
@@ -97,6 +103,7 @@ public class ComplaintController {
             model.addAttribute("form", form);
             model.addAttribute("errors", bindingResult.getAllErrors());
             model.addAttribute("error", "Please complete the reCAPTCHA verification.");
+            addRecaptchaModel(model);
             return "complaint-form";
         }
 
@@ -121,14 +128,20 @@ public class ComplaintController {
             logger.error("Complaint processing exception: {}", e.getMessage());
             model.addAttribute("error", e.getMessage());
             model.addAttribute("form", form);
+            addRecaptchaModel(model);
             return "complaint-form";
             
         } catch (Exception e) {
             logger.error("Unexpected error during complaint submission", e);
             model.addAttribute("error", "An unexpected error occurred. Please try again later.");
             model.addAttribute("form", form);
+            addRecaptchaModel(model);
             return "complaint-form";
         }
+    }
+
+    private void addRecaptchaModel(Model model) {
+        model.addAttribute("recaptcha", java.util.Map.of("site", recaptchaSiteKey == null ? "" : recaptchaSiteKey));
     }
 
     private void sanitizeFormData(ComplaintFormDto form) {

@@ -12,7 +12,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import com.slt.iau_portal.model.Complaint;
+import com.slt.iau_portal.model.Reporter;
 import com.slt.iau_portal.repository.ComplaintRepository;
+import com.slt.iau_portal.repository.ReporterRepository;
 
 @Component
 @Profile("dev")
@@ -23,10 +25,18 @@ public class DevDataInitializer {
     @Autowired
     private ComplaintRepository complaintRepository;
 
+    @Autowired
+    private ReporterRepository reporterRepository;
+
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady() {
-        String crn = "DEV-0001";
-        // Idempotent seeding: only insert if the CRN does not already exist.
+        // Seed multiple dev complaints (idempotent)
+        seedComplaint("DEV-0001", "DEVELOPMENT", "Seed complaint for development environment.", false, null, null);
+        seedComplaint("DEV-ANON-0001", "HARASSMENT", "This is a seeded anonymous complaint used for testing the Tracking dashboard. The description intentionally exceeds the minimum length.", true, null, null);
+        seedComplaint("DEV-NAMED-0001", "HARASSMENT", "This is a seeded named complaint used for testing the Admin dashboard and email flows. The description intentionally exceeds the minimum length.", false, "Test Reporter", "test.reporter@example.com");
+    }
+
+    private void seedComplaint(String crn, String category, String description, boolean anonymous, String reporterName, String reporterEmail) {
         try {
             if (complaintRepository.findByCrn(crn).isPresent()) {
                 log.debug("DevDataInitializer: complaint with CRN={} already exists, skipping seed", crn);
@@ -35,14 +45,25 @@ public class DevDataInitializer {
 
             Complaint c = new Complaint();
             c.setCrn(crn);
-            c.setCategory("DEVELOPMENT");
-            c.setDescription("Seed complaint for development environment.");
+            c.setCategory(category);
+            c.setDescription(description);
             c.setComplaintDate(LocalDate.now());
-            c.setLocation("Localhost");
+            c.setLocation("Dev Environment");
             c.setStatus("PENDING");
             c.setCreatedAt(LocalDateTime.now());
             c.setUpdatedAt(LocalDateTime.now());
             complaintRepository.save(c);
+
+            // Add reporter record
+            Reporter r = new Reporter();
+            r.setComplaint(c);
+            r.setAnonymousFlag(anonymous);
+            if (!anonymous) {
+                r.setFullName(reporterName);
+                r.setEmail(reporterEmail);
+            }
+            reporterRepository.save(r);
+
             log.info("DevDataInitializer: seeded complaint with CRN={}", crn);
         } catch (Exception e) {
             log.warn("DevDataInitializer: failed to seed complaint {}: {}", crn, e.getMessage());

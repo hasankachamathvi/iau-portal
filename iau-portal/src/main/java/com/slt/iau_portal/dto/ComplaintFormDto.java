@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -22,8 +21,7 @@ public class ComplaintFormDto {
     @NotBlank(message = "Reporter category is required")
     private String reporterCategory;
     
-    @NotBlank(message = "Full name is required for named submissions")
-    @Size(min = 3, max = 100, message = "Full name must be between 3 and 100 characters")
+    @Size(max = 100, message = "Full name must not exceed 100 characters")
     private String fullName;
     
     @Size(max = 50, message = "Employee ID must not exceed 50 characters")
@@ -35,8 +33,6 @@ public class ComplaintFormDto {
     @Size(max = 100, message = "Designation must not exceed 100 characters")
     private String designation;
     
-    @Email(message = "Email must be valid")
-    @NotBlank(message = "Email is required for named submissions")
     private String email;
     
     @Pattern(regexp = "^[+]?[0-9]{10,15}$|^$", message = "Phone number must be in valid format")

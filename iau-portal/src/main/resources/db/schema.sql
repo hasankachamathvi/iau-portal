@@ -7,13 +7,24 @@ CREATE TABLE IF NOT EXISTS complaints (
     description CLOB,
     complaint_date DATE,
     location VARCHAR(255),
+    evidence_types JSON,
+    witness_names VARCHAR(1000),
+    additional_info LONGTEXT,
     reported_before BOOLEAN DEFAULT FALSE,
     escalated BOOLEAN DEFAULT FALSE,
     ciaboc_escalated BOOLEAN DEFAULT FALSE,
+    declaration_confirmed BOOLEAN DEFAULT FALSE,
+    declaration_acknowledged BOOLEAN DEFAULT FALSE,
     status VARCHAR(50) DEFAULT 'PENDING',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE complaints ADD COLUMN IF NOT EXISTS evidence_types JSON;
+ALTER TABLE complaints ADD COLUMN IF NOT EXISTS witness_names VARCHAR(1000);
+ALTER TABLE complaints ADD COLUMN IF NOT EXISTS additional_info LONGTEXT;
+ALTER TABLE complaints ADD COLUMN IF NOT EXISTS declaration_confirmed BOOLEAN DEFAULT FALSE;
+ALTER TABLE complaints ADD COLUMN IF NOT EXISTS declaration_acknowledged BOOLEAN DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS reporter (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
