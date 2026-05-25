@@ -97,6 +97,9 @@ public class ComplaintFormDto {
     @Size(max = 2000, message = "Additional information must not exceed 2000 characters")
     private String additionalInfo;
 
+    @Size(max = 200, message = "Other evidence type must not exceed 200 characters")
+    private String evidenceTypesOther;
+
     // Section 5: Declaration & Submission
     @AssertTrue(message = "You must confirm the declaration")
     private boolean declaration1;
@@ -188,6 +191,9 @@ public class ComplaintFormDto {
 
     public String getAdditionalInfo() { return additionalInfo; }
     public void setAdditionalInfo(String additionalInfo) { this.additionalInfo = additionalInfo; }
+
+    public String getEvidenceTypesOther() { return evidenceTypesOther; }
+    public void setEvidenceTypesOther(String evidenceTypesOther) { this.evidenceTypesOther = evidenceTypesOther; }
 
     public boolean isDeclaration1() { return declaration1; }
     public void setDeclaration1(boolean declaration1) { this.declaration1 = declaration1; }

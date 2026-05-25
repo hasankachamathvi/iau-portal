@@ -72,6 +72,18 @@ public class ComplaintService {
             complaint.setDescription(form.getDescription());
             complaint.setComplaintDate(form.getIncidentDate());
             complaint.setLocation(form.getLocation());
+            // Persist new fields from the form
+            // Persist evidence types; include 'other' text if provided
+            java.util.List<String> evidenceTypes = form.getEvidenceTypes() == null ? new java.util.ArrayList<>() : new java.util.ArrayList<>(form.getEvidenceTypes());
+            if (evidenceTypes.contains("other") && form.getEvidenceTypesOther() != null && !form.getEvidenceTypesOther().isBlank()) {
+                evidenceTypes.remove("other");
+                evidenceTypes.add("other: " + form.getEvidenceTypesOther().trim());
+            }
+            complaint.setEvidenceTypes(evidenceTypes);
+            complaint.setWitnessNames(form.getWitnessNames());
+            complaint.setAdditionalInfo(form.getAdditionalInfo());
+            complaint.setDeclarationConfirmed(form.isDeclaration1());
+            complaint.setDeclarationAcknowledged(form.isDeclaration2());
             complaint.setReportedBefore("yes".equals(form.getReportedPreviously()));
             complaint.setEscalated("yes".equals(form.getInvolvesSeniorManagement()));
             complaint.setCiabocEscalated(shouldEscalateToCiaboc(form));

@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Convert;
 
 @Entity
 @Table(name = "complaints")
@@ -30,6 +31,12 @@ public class Complaint {
 
     private LocalDate complaintDate;
     private String location;
+    @Convert(converter = com.slt.iau_portal.util.ListToJsonConverter.class)
+    @Column(columnDefinition = "JSON")
+    private java.util.List<String> evidenceTypes;
+    private String witnessNames;
+    @Column(columnDefinition = "LONGTEXT")
+    private String additionalInfo;
     private Boolean reportedBefore = false;
     private Boolean escalated = false;
     private Boolean ciabocEscalated = false;
@@ -39,6 +46,9 @@ public class Complaint {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    private Boolean declarationConfirmed = false;
+    private Boolean declarationAcknowledged = false;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -58,6 +68,15 @@ public class Complaint {
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
 
+    public java.util.List<String> getEvidenceTypes() { return evidenceTypes; }
+    public void setEvidenceTypes(java.util.List<String> evidenceTypes) { this.evidenceTypes = evidenceTypes; }
+
+    public String getWitnessNames() { return witnessNames; }
+    public void setWitnessNames(String witnessNames) { this.witnessNames = witnessNames; }
+
+    public String getAdditionalInfo() { return additionalInfo; }
+    public void setAdditionalInfo(String additionalInfo) { this.additionalInfo = additionalInfo; }
+
     public Boolean getReportedBefore() { return reportedBefore; }
     public void setReportedBefore(Boolean reportedBefore) { this.reportedBefore = reportedBefore; }
 
@@ -75,6 +94,12 @@ public class Complaint {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public Boolean getDeclarationConfirmed() { return declarationConfirmed; }
+    public void setDeclarationConfirmed(Boolean declarationConfirmed) { this.declarationConfirmed = declarationConfirmed; }
+
+    public Boolean getDeclarationAcknowledged() { return declarationAcknowledged; }
+    public void setDeclarationAcknowledged(Boolean declarationAcknowledged) { this.declarationAcknowledged = declarationAcknowledged; }
 
     @PrePersist
     protected void onCreate() {

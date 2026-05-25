@@ -16,6 +16,7 @@ import com.slt.iau_portal.exception.ComplaintProcessingException;
 import com.slt.iau_portal.service.ComplaintService;
 import com.slt.iau_portal.util.ValidationUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -27,6 +28,9 @@ public class ComplaintController {
 
     @Autowired
     private ComplaintService complaintService;
+
+    @Autowired
+    private com.slt.iau_portal.service.RecaptchaService recaptchaService;
 
     @Autowired
     private com.slt.iau_portal.repository.ComplaintRepository complaintRepository;
@@ -43,7 +47,8 @@ public class ComplaintController {
             @Valid @ModelAttribute ComplaintFormDto form,
             BindingResult bindingResult,
             Model model,
-            HttpSession session) {
+            HttpSession session,
+            HttpServletRequest request) {
         
         logger.info("Complaint submission received");
 
@@ -80,6 +85,18 @@ public class ComplaintController {
             model.addAttribute("form", form);
             model.addAttribute("errors", bindingResult.getAllErrors());
             model.addAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return "complaint-form";
+        }
+
+        // Verify reCAPTCHA (server-side)
+        String captchaResponse = request.getParameter("g-recaptcha-response");
+        boolean captchaOk = recaptchaService.verify(captchaResponse);
+        if (!captchaOk) {
+            logger.warn("reCAPTCHA verification failed");
+            bindingResult.reject("captcha.failed", "reCAPTCHA verification failed. Please confirm you're not a robot.");
+            model.addAttribute("form", form);
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            model.addAttribute("error", "Please complete the reCAPTCHA verification.");
             return "complaint-form";
         }
 
