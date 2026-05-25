@@ -340,8 +340,73 @@
       box-shadow: 0 4px 12px rgba(0, 105, 180, 0.3);
     }
 
-    .conditional-field { display: none; animation: fadeInSlide 0.3s ease; }
+    /* Radio and Checkbox Group Styles */
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .radio-label, .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background: var(--gray-bg);
+      border: 1.5px solid var(--gray-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 0;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    .radio-label:hover, .checkbox-label:hover {
+      background: rgba(0, 105, 180, 0.05);
+      border-color: var(--primary);
+    }
+
+    .radio-label input[type="radio"], .checkbox-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+      border: none;
+      padding: 0;
+    }
+
+    .radio-label input[type="radio"]:checked + label, 
+    .checkbox-label input[type="checkbox"]:checked + label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Conditional Fields */
+    .conditional-field { 
+      display: none; 
+      animation: fadeInSlide 0.3s ease;
+      padding: 16px;
+      background: rgba(0, 105, 180, 0.05);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      margin-top: 12px;
+    }
     .conditional-field.show { display: block; }
+
+    .conditional-required {
+      color: var(--danger);
+      margin-left: 2px;
+      display: none;
+    }
+
+    /* Show conditional-required when parent is visible */
+    .conditional-field .conditional-required {
+      display: inline;
+    }
 
     .checkbox-item {
       display: flex;
@@ -601,205 +666,421 @@
 
   <form id="complaintForm" method="post" action="/complaint/submit" enctype="multipart/form-data" th:object="${form}">
 
-    <!-- STEP 1 -->
+    <!-- SECTION 1: REPORTER INFORMATION -->
     <div class="form-section active" id="section1">
       <div class="form-card">
-        <div class="section-header">
-          <div class="section-icon"><i class="fas fa-user"></i></div>
-          <div class="section-title">Your Identity</div>
-        </div>
-        <div class="notice"><i class="fas fa-shield-alt"></i> Your information is protected. Choose anonymous or with your details.</div>
-        <div class="toggle-group">
-          <button type="button" class="toggle-btn active" onclick="setReporterType(event, 'anonymous')"><i class="fas fa-user-secret"></i> Anonymous</button>
-          <button type="button" class="toggle-btn" onclick="setReporterType(event, 'named')"><i class="fas fa-user-check"></i> Named</button>
-        </div>
-        <input type="hidden" id="anonymousFlag" name="anonymous" value="true" th:field="*{anonymous}"/>
-        <div id="namedFields" class="conditional-field">
-          <div class="form-group">
-            <label>Full Name <span class="required">*</span></label>
-            <input type="text" name="fullName" placeholder="Enter your full name" th:field="*{fullName}"/>
+        <h2 class="section-title">Section 1 — Reporter Information</h2>
+
+        <!-- Submission Type -->
+        <div class="form-group">
+          <label><strong>Submission type <span class="required">*</span></strong></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="submissionType" value="named" onchange="updateSubmissionType('named')" th:field="*{submissionType}"/>
+              Named
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="submissionType" value="anonymous" onchange="updateSubmissionType('anonymous')" th:field="*{submissionType}"/>
+              Anonymous
+            </label>
           </div>
-          <div class="form-group two-col">
-            <div>
-              <label>Email Address <span class="required">*</span></label>
-              <input type="email" name="email" placeholder="your@email.com" th:field="*{email}"/>
-            </div>
-            <div>
-              <label>Phone Number</label>
-              <input type="tel" name="phone" placeholder="+1 (555) 000-0000" th:field="*{phone}"/>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Employee ID (Optional)</label>
-            <input type="text" name="employeeId" placeholder="Your employee ID" th:field="*{employeeId}"/>
-            <div class="input-hint"><i class="fas fa-info-circle"></i> Helps us verify your position</div>
+        </div>
+
+        <!-- Reporter Category -->
+        <div class="form-group">
+          <label><strong>Reporter category <span class="required">*</span></strong></label>
+          <select name="reporterCategory" th:field="*{reporterCategory}">
+            <option value="">-- Select Category --</option>
+            <option value="employee-slt">Employee – SLT / Employee</option>
+            <option value="employee-mobitel">Employee – Mobitel / Employee</option>
+            <option value="vendor">Vendor / Supplier / Contractor</option>
+            <option value="customer">Customer / Shareholder / Investor</option>
+            <option value="public">General Public</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <!-- Full Name (Conditional - Required if named) -->
+        <div class="form-group conditional-field" id="namedFields">
+          <label><strong>Full name</strong> <span class="required conditional-required">*</span></label>
+          <input type="text" name="fullName" placeholder="Free text. Auto-disabled if Anonymous chosen." th:field="*{fullName}"/>
+        </div>
+
+        <!-- Employee / Staff ID -->
+        <div class="form-group">
+          <label>Employee / Staff ID</label>
+          <input type="text" name="employeeId" placeholder="Free text. If applicable. Auto-disabled if Anonymous." th:field="*{employeeId}"/>
+        </div>
+
+        <!-- Division / Department -->
+        <div class="form-group">
+          <label>Division / Department</label>
+          <input type="text" name="division" placeholder="Free text. If applicable." th:field="*{division}"/>
+        </div>
+
+        <!-- Designation -->
+        <div class="form-group">
+          <label>Designation</label>
+          <input type="text" name="designation" placeholder="Free text. If applicable." th:field="*{designation}"/>
+        </div>
+
+        <!-- Contact Email Address (Conditional) -->
+        <div class="form-group conditional-field" id="emailField">
+          <label><strong>Contact email address</strong> <span class="required conditional-required">*</span></label>
+          <input type="email" name="email" placeholder="Validated email format. Used for CRN acknowledgement. Auto-disabled if Anonymous." th:field="*{email}"/>
+        </div>
+
+        <!-- Contact Telephone -->
+        <div class="form-group">
+          <label>Contact telephone</label>
+          <input type="tel" name="phone" placeholder="International format accepted. Auto-disabled if Anonymous." th:field="*{phone}"/>
+        </div>
+
+        <!-- Preferred Contact Method -->
+        <div class="form-group">
+          <label>Preferred contact method</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="preferredContactMethod" value="email" th:field="*{preferredContactMethod}"/>
+              Email
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="preferredContactMethod" value="phone" th:field="*{preferredContactMethod}"/>
+              Phone
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="preferredContactMethod" value="no-contact" th:field="*{preferredContactMethod}"/>
+              No contact preferred
+            </label>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- STEP 2 -->
+    <!-- SECTION 2: COMPLAINT / CONCERN DETAILS -->
     <div class="form-section" id="section2">
       <div class="form-card">
-        <div class="section-header">
-          <div class="section-icon"><i class="fas fa-file-alt"></i></div>
-          <div class="section-title">Complaint Details</div>
-        </div>
+        <h2 class="section-title">Section 2 — Complaint / Concern Details</h2>
+
+        <!-- Complaint Category -->
         <div class="form-group">
-          <label>Category <span class="required">*</span></label>
+          <label><strong>Complaint category <span class="required">*</span></strong></label>
           <select name="category" th:field="*{category}">
             <option value="">-- Select Category --</option>
-            <option value="Fraud">💰 Fraud</option>
-            <option value="Corruption">🤝 Corruption</option>
-            <option value="Misconduct">⚠️ Misconduct</option>
-            <option value="Theft">🕨 Theft</option>
-            <option value="Harassment">😢 Harassment</option>
-            <option value="Other">📌 Other</option>
+            <option value="bribery">Bribery</option>
+            <option value="corruption">Corruption</option>
+            <option value="fraud">Fraud</option>
+            <option value="misconduct">Financial Misconduct</option>
+            <option value="abuse">Abuse of Authority or Position</option>
+            <option value="misappropriation">Misappropriation of Public or Company Property</option>
+            <option value="conflict">Conflict of Interest</option>
+            <option value="procurement">Procurement Irregularity</option>
+            <option value="falsification">Falsification of Records</option>
+            <option value="harassment">Harassment</option>
+            <option value="workplace">Workplace Misconduct</option>
+            <option value="confidentiality">Breach of Confidentiality</option>
+            <option value="noncompliance">Non-compliance with Policy or Regulation</option>
+            <option value="malpractice">Other Malpractice</option>
           </select>
-          <div class="input-hint"><i class="fas fa-bullseye"></i> Choose the closest match to route your report</div>
         </div>
-        <div class="form-group two-col">
-          <div>
-            <label>Date of Incident <span class="required">*</span></label>
-            <input type="date" name="complaintDate" th:field="*{complaintDate}"/>
-          </div>
-          <div>
-            <label>Location</label>
-            <input type="text" name="location" placeholder="Where did it occur?" th:field="*{location}"/>
-          </div>
-        </div>
+
+        <!-- Date(s) of Alleged Incident -->
         <div class="form-group">
-          <label>Complaint Description <span class="required">*</span></label>
-          <textarea name="description" placeholder="Provide detailed information..." th:field="*{description}" minlength="50" maxlength="2000" onkeyup="updateCharCount(this)"></textarea>
-          <div class="input-hint"><i class="fas fa-pen"></i> Minimum 50 characters <span class="char-count"><span id="charCount">0</span>/2000</span></div>
+          <label><strong>Date(s) of alleged incident <span class="required">*</span></strong></label>
+          <input type="date" name="incidentDate" th:field="*{incidentDate}" required/>
+          <small>If ongoing, capture most recent date. Future dates to be shelved.</small>
         </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="reportedBefore" name="reportedBefore" th:field="*{reportedBefore}"/>
-          <label for="reportedBefore" class="checkbox-label"><strong>Already reported this issue before?</strong><br><span style="font-size: 12px; color: var(--text-light);">If yes, we'll link it to your existing complaint</span></label>
+
+        <!-- Location / Division Where Incident Occurred -->
+        <div class="form-group">
+          <label><strong>Location / Division where incident occurred <span class="required">*</span></strong></label>
+          <input type="text" name="location" placeholder="Free text. E.g. 'Procurement Unit, Head Office – Colombo Regional Office – Kandy'" th:field="*{location}"/>
+        </div>
+
+        <!-- Frequency of Occurrence -->
+        <div class="form-group">
+          <label><strong>Frequency of occurrence <span class="required">*</span></strong></label>
+          <select name="frequency" th:field="*{frequency}">
+            <option value="">-- Select Frequency --</option>
+            <option value="one-time">One-time incident</option>
+            <option value="repeated-periodic">Repeated – periodic</option>
+            <option value="ongoing">Ongoing / continuous</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
+
+        <!-- Description of Complaint -->
+        <div class="form-group">
+          <label><strong>Description of complaint <span class="required">*</span></strong></label>
+          <textarea name="description" placeholder="Free text, min 50 characters. Prompt: 'Describe what occurred, when, where and who was involved.'" th:field="*{description}" minlength="50" maxlength="2000" required></textarea>
+        </div>
+
+        <!-- How Did You Become Aware? -->
+        <div class="form-group">
+          <label><strong>How did you become aware? <span class="required">*</span></strong></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="becameAware" value="direct-witness" th:field="*{becameAware}"/>
+              Direct witness
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="becameAware" value="informed-by-other" th:field="*{becameAware}"/>
+              Informed by another party
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="becameAware" value="discovered-documents" th:field="*{becameAware}"/>
+              Discovered through documents or records
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="becameAware" value="other" th:field="*{becameAware}"/>
+              Other
+            </label>
+          </div>
+        </div>
+
+        <!-- Has This Matter Been Reported Previously? -->
+        <div class="form-group">
+          <label><strong>Has this matter been reported previously? <span class="required">*</span></strong></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="reportedPreviously" value="yes" onchange="togglePreviousOutcome(true)" th:field="*{reportedPreviously}"/>
+              Yes
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="reportedPreviously" value="no" onchange="togglePreviousOutcome(false)" th:field="*{reportedPreviously}"/>
+              No
+            </label>
+          </div>
+        </div>
+
+        <!-- Previous Outcome (Conditional) -->
+        <div class="form-group conditional-field" id="previousOutcomeField" style="display:none;">
+          <label>If yes — to whom and what was the outcome?</label>
+          <textarea name="previousOutcome" placeholder="Conditionally shown if 'Yes' selected above. Free text." th:field="*{previousOutcome}"></textarea>
         </div>
       </div>
     </div>
 
-    <!-- STEP 3 -->
+    <!-- SECTION 3: SUBJECT(S) OF THE COMPLAINT -->
     <div class="form-section" id="section3">
       <div class="form-card">
-        <div class="section-header">
-          <div class="section-icon"><i class="fas fa-person"></i></div>
-          <div class="section-title">Person Involved</div>
-        </div>
-        <div class="notice"><i class="fas fa-lightbulb"></i> Add details about the person allegedly involved.</div>
+        <h2 class="section-title">Section 3 — Subject(s) of the Complaint</h2>
+
+        <!-- Name(s) of Person(s) Involved -->
         <div class="form-group">
-          <label>Full Name <span class="required">*</span></label>
-          <input type="text" name="subjectName" placeholder="Name of person involved" th:field="*{subjectName}"/>
+          <label>Name(s) of person(s) involved</label>
+          <input type="text" name="subjectNames" placeholder="Free text. Multiple names separated by commas. State 'Unknown' if not known." th:field="*{subjectNames}"/>
         </div>
-        <div class="form-group two-col">
-          <div>
-            <label>Job Title / Role</label>
-            <input type="text" name="subjectRole" placeholder="Position/Designation" th:field="*{subjectRole}"/>
-          </div>
-          <div>
-            <label>Organization/Department</label>
-            <input type="text" name="subjectOrganization" placeholder="Department name" th:field="*{subjectOrganization}"/>
-          </div>
-        </div>
+
+        <!-- Designation / Role of Subject(s) -->
         <div class="form-group">
-          <label>Relationship / Context</label>
-          <input type="text" name="subjectRelationship" placeholder="How do you know this person?" th:field="*{subjectRelationship}"/>
+          <label>Designation / Role of subject(s)</label>
+          <input type="text" name="subjectRole" placeholder="Free text. E.g. 'DGM – Procurement'" th:field="*{subjectRole}"/>
         </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="seniorManagement" name="seniorManagement" th:field="*{seniorManagement}"/>
-          <label for="seniorManagement" class="checkbox-label"><strong>Senior Management Involved</strong><br><span style="font-size: 12px; color: var(--text-light);">Check if senior or executive level personnel are involved</span></label>
+
+        <!-- Organisation of Subject(s) -->
+        <div class="form-group">
+          <label>Organisation of subject(s)</label>
+          <select name="subjectOrganisation" th:field="*{subjectOrganisation}">
+            <option value="">-- Select Organization --</option>
+            <option value="slt">SLT</option>
+            <option value="mobitel">Mobitel</option>
+            <option value="slts">SLTS</option>
+            <option value="external">External</option>
+            <option value="vendor">Vendor</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
+
+        <!-- Relationship of Subject to Reporter -->
+        <div class="form-group">
+          <label>Relationship of subject to reporter</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="subjectRelationship" value="superior" th:field="*{subjectRelationship}"/>
+              Superior
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="subjectRelationship" value="manager" th:field="*{subjectRelationship}"/>
+              Manager
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="subjectRelationship" value="peer" th:field="*{subjectRelationship}"/>
+              Peer
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="subjectRelationship" value="colleague" th:field="*{subjectRelationship}"/>
+              Colleague
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="subjectRelationship" value="subordinate" th:field="*{subjectRelationship}"/>
+              Subordinate
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="subjectRelationship" value="external" th:field="*{subjectRelationship}"/>
+              External party
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="subjectRelationship" value="unknown" th:field="*{subjectRelationship}"/>
+              Unknown
+            </label>
+          </div>
+        </div>
+
+        <!-- Does Complaint Involve Senior Management or IAU Member? -->
+        <div class="form-group">
+          <label><strong>Does the complaint involve senior management or any IAU member? <span class="required">*</span></strong></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="involvesSeniorManagement" value="yes" onchange="toggleSeniorManagement(true)" th:field="*{involvesSeniorManagement}"/>
+              Yes
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="involvesSeniorManagement" value="no" onchange="toggleSeniorManagement(false)" th:field="*{involvesSeniorManagement}"/>
+              No
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="involvesSeniorManagement" value="unsure" onchange="toggleSeniorManagement(false)" th:field="*{involvesSeniorManagement}"/>
+              Unsure
+            </label>
+          </div>
+          <small>If 'Yes', system must flag for direct CIABOC escalation and display an on-screen notice.</small>
+        </div>
+
+        <!-- Senior Personnel Names (Conditional) -->
+        <div class="form-group conditional-field" id="seniorManagementField" style="display:none;">
+          <label>If yes — name(s) of senior personnel involved</label>
+          <input type="text" name="seniorPersonnelNames" placeholder="Conditionally displayed. Free text." th:field="*{seniorPersonnelNames}"/>
         </div>
       </div>
     </div>
 
-    <!-- STEP 4 -->
+    <!-- SECTION 4: SUPPORTING EVIDENCE -->
     <div class="form-section" id="section4">
       <div class="form-card">
-        <div class="section-header">
-          <div class="section-icon"><i class="fas fa-paperclip"></i></div>
-          <div class="section-title">Supporting Evidence</div>
-        </div>
-        <div class="notice"><i class="fas fa-lock"></i> Upload documents, emails, or files (PDF, JPG, PNG, DOCX, XLS - Max 10MB each)</div>
+        <h2 class="section-title">Section 4 — Supporting Evidence</h2>
+
+        <!-- Do You Have Supporting Evidence? -->
         <div class="form-group">
-          <div class="file-upload" id="fileUpload" onclick="document.getElementById('evidenceFiles').click()">
-            <div class="file-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-            <div class="file-upload-text">Drag & drop or click to upload</div>
-            <div class="file-upload-hint">PDF, JPG, PNG, DOCX, XLS • Max 10MB each • Up to 5 files</div>
-            <input type="file" id="evidenceFiles" name="evidenceFiles" multiple accept=".pdf,.jpg,.jpeg,.png,.docx,.xls,.xlsx" th:field="*{evidenceFiles}"/>
+          <label><strong>Do you have supporting evidence? <span class="required">*</span></strong></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="hasEvidence" value="yes" onchange="toggleEvidenceFields(true)" th:field="*{hasEvidence}"/>
+              Yes
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="hasEvidence" value="no" onchange="toggleEvidenceFields(false)" th:field="*{hasEvidence}"/>
+              No
+            </label>
           </div>
-          <div class="file-list" id="fileList"></div>
         </div>
-        <div class="form-group">
-          <label>Witness Names (Optional)</label>
-          <textarea name="witnessNames" placeholder="List any witnesses who can corroborate..." th:field="*{witnessNames}"></textarea>
-          <div class="input-hint"><i class="fas fa-users"></i> Separate multiple names with commas</div>
+
+        <!-- Evidence Type (Conditional) -->
+        <div class="form-group conditional-field" id="evidenceTypeField" style="display:none;">
+          <label>Evidence type</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="evidenceTypes" value="documents" th:field="*{evidenceTypes}"/>
+              Documents / Records
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="evidenceTypes" value="email" th:field="*{evidenceTypes}"/>
+              Email or Communication
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="evidenceTypes" value="photographs" th:field="*{evidenceTypes}"/>
+              Photographs
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="evidenceTypes" value="videos" th:field="*{evidenceTypes}"/>
+              Videos
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="evidenceTypes" value="witness" th:field="*{evidenceTypes}"/>
+              Witness testimony
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="evidenceTypes" value="financial" th:field="*{evidenceTypes}"/>
+              Financial records
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="evidenceTypes" value="other" th:field="*{evidenceTypes}"/>
+              Other
+            </label>
+          </div>
         </div>
+
+        <!-- File Upload (Conditional) -->
+        <div class="form-group conditional-field" id="fileUploadField" style="display:none;">
+          <label>File upload</label>
+          <div class="file-upload" onclick="document.getElementById('evidenceFiles').click()" style="border: 2px dashed var(--primary); padding: 20px; border-radius: 8px; text-align: center; cursor: pointer;">
+            <div><i class="fas fa-cloud-upload-alt" style="font-size: 24px; color: var(--primary);"></i></div>
+            <div style="margin-top: 10px;"><strong>Drag & drop or click to upload</strong></div>
+            <small>Accept PDF, DOCX, JPG, PNG. Max 10 MB per file. Up to 5 files. Encrypted at rest. Accessible only to IAU panel.</small>
+            <input type="file" id="evidenceFiles" name="evidenceFiles" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none;" th:field="*{evidenceFiles}"/>
+          </div>
+          <div id="fileList" style="margin-top: 10px;"></div>
+        </div>
+
+        <!-- Names of Witness(es) -->
         <div class="form-group">
-          <label>Additional Notes</label>
-          <textarea name="additionalNotes" placeholder="Any other relevant information..." th:field="*{additionalNotes}" maxlength="500"></textarea>
+          <label>Names of witness(es)</label>
+          <input type="text" name="witnessNames" placeholder="Free text. Multiple names separated by comma. Kept confidential by the IAU." th:field="*{witnessNames}"/>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="form-group">
+          <label>Additional information</label>
+          <textarea name="additionalInfo" placeholder="Any other context, related incidents or supplementary information." th:field="*{additionalInfo}"></textarea>
         </div>
       </div>
     </div>
 
-    <!-- STEP 5 -->
+    <!-- SECTION 5: DECLARATION & SUBMISSION -->
     <div class="form-section" id="section5">
       <div class="form-card">
-        <div class="section-header">
-          <div class="section-icon"><i class="fas fa-certificate"></i></div>
-          <div class="section-title">Legal Declaration</div>
-        </div>
-        <div class="declaration-box">
-          <p><strong>Important:</strong> By submitting this complaint, you confirm that the information provided is truthful to the best of your knowledge. False or malicious complaints may result in legal consequences.</p>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="declarationChecked" name="declarationChecked" th:field="*{declarationChecked}" required/>
-          <label for="declarationChecked" class="checkbox-label"><strong>I declare that the information provided is true and accurate</strong><br><span style="font-size: 12px; color: var(--text-light);">I understand providing false information may have legal consequences</span></label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="consentChecked" name="consentChecked" th:field="*{consentChecked}" required/>
-          <label for="consentChecked" class="checkbox-label"><strong>I consent to investigation and follow-up</strong><br><span style="font-size: 12px; color: var(--text-light);">The IAU may contact me for additional information if needed</span></label>
-        </div>
-      </div>
-    </div>
+        <h2 class="section-title">Section 5 — Declaration & Submission</h2>
 
-    <!-- STEP 6 -->
-    <div class="form-section" id="section6">
-      <div class="form-card">
-        <div class="section-header">
-          <div class="section-icon"><i class="fas fa-check-circle"></i></div>
-          <div class="section-title">Review & Submit</div>
-        </div>
-        <div class="notice"><i class="fas fa-info-circle"></i> Please review your submission. You'll receive a Complaint Reference Number (CRN) after submission.</div>
-        <div class="summary-section">
-          <div class="summary-title"><i class="fas fa-user"></i> Reporter Information</div>
-          <div class="summary-item">
-            <span class="summary-label">Report Type:</span>
-            <span class="summary-value" id="summaryType">Anonymous</span>
+        <!-- Declaration Statement -->
+        <div class="form-group">
+          <label><strong>Declaration statement</strong></label>
+          <div style="background: #f5f5f5; padding: 15px; border-radius: 6px; color: var(--text); line-height: 1.6;">
+            <p><strong>Read-only text block:</strong></p>
+            <p>"I hereby confirm that the information provided is, to the best of my knowledge, true and accurate. I understand that deliberately making false reports are treated seriously and may result in legal consequences as per the CEO's Circular No. 23/2026. I acknowledge that the IAU will treat this submission with strict confidentiality and that no retaliation will be taken against me for raising a genuine concern."</p>
           </div>
         </div>
-        <div class="summary-section">
-          <div class="summary-title"><i class="fas fa-exclamation-triangle"></i> Complaint Summary</div>
-          <div class="summary-item">
-            <span class="summary-label">Category:</span>
-            <span class="summary-value" id="summaryCategory"></span>
-          </div>
+
+        <!-- Declaration Checkbox 1 -->
+        <div class="checkbox-item" style="margin-top: 20px;">
+          <label class="checkbox-label">
+            <input type="checkbox" name="declaration1" th:field="*{declaration1}" required/>
+            <strong>I confirm the above declaration and consent to the IAU processing my submission for investigation purposes.</strong> Must be ticked to enable Submit.
+          </label>
         </div>
-        <div class="declaration-box">
-          <p><strong>✓ You have confirmed:</strong></p>
-          <ul>
-            <li>Information provided is truthful and accurate</li>
-            <li>Consent to investigation and follow-up</li>
-          </ul>
+
+        <!-- Declaration Checkbox 2 -->
+        <div class="checkbox-item">
+          <label class="checkbox-label">
+            <input type="checkbox" name="declaration2" th:field="*{declaration2}" required/>
+            <strong>I understand that this portal is monitored and all submissions are logged for audit purposes.</strong> Must be ticked to enable Submit.
+          </label>
+        </div>
+
+        <!-- CAPTCHA -->
+        <div class="form-group" style="margin-top: 20px;">
+          <label><strong>CAPTCHA / bot prevention</strong></label>
+          <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+          <small>Standard CAPTCHA (e.g. Google reCAPTCHA v3 or equivalent) to prevent automated submissions.</small>
+        </div>
+
+        <!-- Submit Button -->
+        <div style="margin-top: 30px; text-align: center;">
+          <button type="submit" class="btn-primary btn-large" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> Submit Complaint
+          </button>
+          <small style="display: block; margin-top: 10px; color: var(--text-light);">Validates all required fields before submission</small>
         </div>
       </div>
-    </div>
-
-    <!-- BUTTONS -->
-    <div class="button-group">
-      <button type="button" class="btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display:none;"><i class="fas fa-chevron-left"></i> Previous</button>
-      <button type="button" class="btn-primary" id="nextBtn" onclick="changeStep(1)">Next <i class="fas fa-chevron-right"></i></button>
-      <button type="submit" class="btn-primary" id="submitBtn" style="display:none;"><i class="fas fa-paper-plane"></i> Submit Complaint</button>
     </div>
   </form>
 </div>
@@ -808,74 +1089,76 @@
 
 
 <script>
-  let currentStep = 1;
-  const totalSteps = 6;
   const draftStorageKey = 'iauComplaintDraft';
 
-
-  function getFormDataSnapshot() {
-    const data = {};
-    document.querySelectorAll('#complaintForm [name]').forEach((element) => {
-      if (!element.name || element.name.startsWith('_') || element.type === 'file' || element.type === 'submit' || element.type === 'button') {
-        return;
-      }
-
-      if (element.type === 'checkbox') {
-        data[element.name] = element.checked;
-        return;
-      }
-
-      data[element.name] = element.value;
-    });
-
-    return data;
+  // Update Named/Anonymous submission type
+  function updateSubmissionType(type) {
+    const namedFields = document.getElementById('namedFields');
+    const emailField = document.getElementById('emailField');
+    const isNamed = type === 'named';
+    
+    namedFields.style.display = isNamed ? 'block' : 'none';
+    emailField.style.display = isNamed ? 'block' : 'none';
+    
+    // Set required attribute
+    document.querySelector('input[name="fullName"]').required = isNamed;
+    document.querySelector('input[name="email"]').required = isNamed;
   }
 
+  // Toggle previous outcome field
+  function togglePreviousOutcome(show) {
+    const field = document.getElementById('previousOutcomeField');
+    field.style.display = show ? 'block' : 'none';
+  }
+
+  // Toggle senior management names field
+  function toggleSeniorManagement(show) {
+    const field = document.getElementById('seniorManagementField');
+    field.style.display = show ? 'block' : 'none';
+  }
+
+  // Toggle evidence type and file upload fields
+  function toggleEvidenceFields(show) {
+    const typeField = document.getElementById('evidenceTypeField');
+    const uploadField = document.getElementById('fileUploadField');
+    typeField.style.display = show ? 'block' : 'none';
+    uploadField.style.display = show ? 'block' : 'none';
+  }
+
+  // Save form draft to session storage
   function saveDraft() {
     try {
-      sessionStorage.setItem(draftStorageKey, JSON.stringify(getFormDataSnapshot()));
+      const formData = new FormData(document.getElementById('complaintForm'));
+      const data = Object.fromEntries(formData);
+      sessionStorage.setItem(draftStorageKey, JSON.stringify(data));
     } catch (error) {
       console.warn('Unable to save complaint draft', error);
     }
   }
 
+  // Restore form draft from session storage
   function restoreDraft() {
     try {
       const raw = sessionStorage.getItem(draftStorageKey);
-      if (!raw) {
-        return;
-      }
-
+      if (!raw) return;
+      
       const data = JSON.parse(raw);
-      Object.entries(data).forEach(([name, value]) => {
-        const elements = document.querySelectorAll('#complaintForm [name]');
-        elements.forEach((element) => {
-          if (element.name !== name) {
-            return;
-          }
-
-          if (element.type === 'checkbox') {
-            element.checked = Boolean(value);
-            return;
-          }
-
-          if (element.type !== 'file' && element.type !== 'submit' && element.type !== 'button') {
+      Object.entries(data).forEach(([key, value]) => {
+        const element = document.querySelector(`[name="${key}"]`);
+        if (element) {
+          if (element.type === 'checkbox' || element.type === 'radio') {
+            element.checked = value === 'true' || value === true;
+          } else {
             element.value = value;
           }
-        });
+        }
       });
-
-      const anonymous = document.getElementById('anonymousFlag').value === 'true';
-      document.getElementById('namedFields').classList.toggle('show', !anonymous);
-      document.querySelectorAll('.toggle-btn').forEach((btn, index) => {
-        btn.classList.toggle('active', anonymous ? index === 0 : index === 1);
-      });
-      updateCharCount(document.querySelector('textarea[name="description"]'));
     } catch (error) {
       console.warn('Unable to restore complaint draft', error);
     }
   }
 
+  // Clear draft on successful submission
   function clearDraft() {
     try {
       sessionStorage.removeItem(draftStorageKey);
@@ -884,170 +1167,39 @@
     }
   }
 
-  function setReporterType(e, type) {
-    e.preventDefault();
-    const anonymous = type === 'anonymous';
-    document.getElementById('anonymousFlag').value = anonymous;
-    document.getElementById('namedFields').classList.toggle('show', !anonymous);
-    document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-    e.target.closest('.toggle-btn').classList.add('active');
-  }
-
-  function updateCharCount(elem) {
-    const count = elem.value.length;
-    document.getElementById('charCount').textContent = count;
-    const counter = document.querySelector('.char-count');
-    if (count > 1800) counter.classList.add('warning');
-    else counter.classList.remove('warning');
-  }
-
-  function changeStep(n) {
-    if (n > 0 && !validateCurrentStep()) {
-      return;
-    }
-
-    currentStep += n;
-    if (currentStep < 1) currentStep = 1;
-    if (currentStep > totalSteps) currentStep = totalSteps;
-    showStep(currentStep);
-  }
-
-  function setStepError(message, focusEl) {
-    const box = document.getElementById('stepErrorBox');
-    if (!box) return;
-    box.textContent = message;
-    box.classList.add('show');
-    if (focusEl && typeof focusEl.focus === 'function') {
-      focusEl.focus();
-    }
-  }
-
-  function clearStepError() {
-    const box = document.getElementById('stepErrorBox');
-    if (!box) return;
-    box.textContent = '';
-    box.classList.remove('show');
-  }
-
-  function validateCurrentStep() {
-    clearStepError();
-
-    if (currentStep === 2) {
-      const category = document.querySelector('select[name="category"]');
-      const complaintDate = document.querySelector('input[name="complaintDate"]');
-      const description = document.querySelector('textarea[name="description"]');
-
-      if (!category.value) {
-        setStepError('Select a complaint category to continue.', category);
-        return false;
-      }
-
-      if (!complaintDate.value) {
-        setStepError('Select the date of incident to continue.', complaintDate);
-        return false;
-      }
-
-      if (!description.value || description.value.trim().length < 50) {
-        setStepError('Your description must be at least 50 characters.', description);
-        return false;
-      }
-    }
-
-    if (currentStep === 3) {
-      const subjectName = document.querySelector('input[name="subjectName"]');
-      if (!subjectName.value || !subjectName.value.trim()) {
-        setStepError('Enter the name of the person involved to continue.', subjectName);
-        return false;
-      }
-    }
-
-    if (currentStep === 5) {
-      const declarationChecked = document.getElementById('declarationChecked');
-      const consentChecked = document.getElementById('consentChecked');
-
-      if (!declarationChecked.checked || !consentChecked.checked) {
-        setStepError('Confirm both declarations before submitting.');
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  function showStep(step) {
-    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-    document.getElementById('section' + step).classList.add('active');
-
-    const progress = (step / totalSteps) * 100;
-    document.getElementById('progressFill').style.width = progress + '%';
-
-    for (let i = 1; i <= totalSteps; i++) {
-      const badge = document.getElementById('stepBadge' + i);
-      badge.classList.remove('active', 'completed');
-      if (i < step) {
-        badge.classList.add('completed');
-        badge.querySelector('.step-number').textContent = '✓';
-      } else if (i === step) {
-        badge.classList.add('active');
-        badge.querySelector('.step-number').textContent = step;
-      } else {
-        badge.querySelector('.step-number').textContent = i;
-      }
-    }
-
-    document.getElementById('prevBtn').style.display = step > 1 ? 'flex' : 'none';
-    document.getElementById('nextBtn').style.display = step < totalSteps ? 'flex' : 'none';
-    document.getElementById('submitBtn').style.display = step === totalSteps ? 'flex' : 'none';
-
-    if (step === 6) {
-      document.getElementById('summaryType').textContent = document.getElementById('anonymousFlag').value === 'true' ? '🔒 Anonymous' : '👤 Named';
-      document.getElementById('summaryCategory').textContent = document.querySelector('select[name="category"]').value || 'Not selected';
-    }
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
+  // File upload handler
   document.getElementById('evidenceFiles').addEventListener('change', function(e) {
     const fileList = document.getElementById('fileList');
     fileList.innerHTML = '';
     Array.from(this.files).forEach(file => {
       const item = document.createElement('div');
-      item.className = 'file-item';
-      item.innerHTML = `<div><div class="file-item-name"><i class="fas fa-file"></i> ${file.name}</div><div class="file-item-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div></div><button type="button" class="file-remove-btn" onclick="this.parentElement.remove()">Remove</button>`;
+      item.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #f9f9f9; border-radius: 4px; margin-top: 8px;';
+      item.innerHTML = `<div><i class="fas fa-file" style="margin-right: 8px;"></i> ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</div>`;
       fileList.appendChild(item);
     });
   });
 
-  const fileUpload = document.getElementById('fileUpload');
-  fileUpload.addEventListener('dragover', (e) => { e.preventDefault(); fileUpload.style.borderColor = 'var(--accent)'; });
-  fileUpload.addEventListener('dragleave', () => { fileUpload.style.borderColor = 'var(--primary)'; });
-  fileUpload.addEventListener('drop', (e) => {
-    e.preventDefault();
-    document.getElementById('evidenceFiles').files = e.dataTransfer.files;
-    document.getElementById('evidenceFiles').dispatchEvent(new Event('change'));
-    fileUpload.style.borderColor = 'var(--primary)';
-  });
-
+  // Form submission validation
   document.getElementById('complaintForm').addEventListener('submit', function(e) {
-    const declarationChecked = document.getElementById('declarationChecked');
-    const consentChecked = document.getElementById('consentChecked');
+    const declaration1 = document.querySelector('input[name="declaration1"]');
+    const declaration2 = document.querySelector('input[name="declaration2"]');
 
-    if (!declarationChecked.checked || !consentChecked.checked) {
+    if (!declaration1.checked || !declaration2.checked) {
       e.preventDefault();
-      currentStep = 5;
-      showStep(5);
-      setStepError('Please confirm both declarations before submitting your complaint.', declarationChecked);
-      return;
+      alert('Please confirm both declarations before submitting your complaint.');
+      return false;
     }
 
     clearDraft();
   });
 
+  // Auto-save on input change
   document.getElementById('complaintForm').addEventListener('input', saveDraft);
   document.getElementById('complaintForm').addEventListener('change', saveDraft);
 
+  // Initialize form on page load
   restoreDraft();
-  showStep(1);
+  updateSubmissionType(document.querySelector('input[name="submissionType"]:checked')?.value || 'anonymous');
 </script>
 
 </body>

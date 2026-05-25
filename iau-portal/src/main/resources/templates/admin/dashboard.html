@@ -577,15 +577,11 @@
       <a class="nav-item" href="/admin/audit-logs" th:classappend="${currentFilter == null ? '' : ''}">
         <i class="fa-solid fa-clipboard-list"></i> Audit Logs
       </a>
-      <a class="nav-item" href="/admin/users" th:classappend="${currentFilter == null ? '' : ''}">
-        <i class="fa-solid fa-users"></i> Users
-      </a>
+      
       <a class="nav-item" href="/admin/reports" th:classappend="${currentFilter == null ? '' : ''}">
         <i class="fa-solid fa-chart-pie"></i> Reports
       </a>
-      <a class="nav-item" href="/admin/settings" th:classappend="${currentFilter == null ? '' : ''}">
-        <i class="fa-solid fa-gear"></i> Settings
-      </a>
+      
 
       <div class="nav-group-title">Exports</div>
       <a class="nav-item" th:href="@{/admin/export(filter='all')}" title="Export all complaints as CSV"><i class="fa-solid fa-file-csv"></i> Export All CSV</a>
