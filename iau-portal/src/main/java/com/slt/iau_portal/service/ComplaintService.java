@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.slt.iau_portal.dto.ComplaintFormDto;
 import com.slt.iau_portal.exception.ComplaintProcessingException;
@@ -21,7 +21,6 @@ import com.slt.iau_portal.repository.ComplaintRepository;
 import com.slt.iau_portal.repository.EvidenceRepository;
 import com.slt.iau_portal.repository.ReporterRepository;
 import com.slt.iau_portal.repository.SubjectRepository;
-import com.slt.iau_portal.service.AuditLogService;
 import com.slt.iau_portal.util.CrnGenerator;
 import com.slt.iau_portal.util.ValidationUtil;
 
