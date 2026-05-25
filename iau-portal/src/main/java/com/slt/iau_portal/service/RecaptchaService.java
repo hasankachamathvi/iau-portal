@@ -19,6 +19,9 @@ public class RecaptchaService {
     @Value("${recaptcha.secret:}")
     private String secret;
 
+    @Value("${recaptcha.enabled:true}")
+    private boolean enabled;
+
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(5))
             .build();
@@ -26,6 +29,10 @@ public class RecaptchaService {
     private final ObjectMapper mapper = new ObjectMapper();
 
     public boolean verify(String token) {
+        if (!enabled) {
+            return true;
+        }
+
         if (token == null || token.isBlank() || secret == null || secret.isBlank()) {
             return false;
         }
