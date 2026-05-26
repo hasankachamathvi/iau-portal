@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IAU Admin Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg-start: #041730;
+      --bg-end: #06304a;
+      --primary: #19e6b3;
+      --primary-dark: #0fae86;
+      --primary-light: #12c39a;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --danger: #e02424;
+      --white: #ffffff;
+      --text: rgba(230,247,246,0.95);
+      --text-light: rgba(230,247,246,0.72);
+      --card: rgba(255,255,255,0.05);
+      --card2: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.10);
+      --border2: rgba(255,255,255,0.16);
+      --shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: linear-gradient(90deg,var(--bg-start) 0%,var(--bg-end) 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(4,23,48,0.75);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 280px;
+    }
+
+    .brand img { width: 60px; height: 32px; object-fit: contain; }
+
+    .brand .brand-title { font-weight: 900; color: var(--primary); font-size: 16px; letter-spacing: 0.2px; }
+    .brand .brand-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
+    .topbar .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .link {
+      color: rgba(230,247,246,0.88);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all .2s ease;
+    }
+
+    .link:hover { border-color: var(--border2); background: rgba(255,255,255,0.06); }
+
+    .logout {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: var(--white);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+      transition: all .2s ease;
+    }
+
+    .logout:hover { background: rgba(255,255,255,0.10); transform: translateY(-1px); }
+
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .sidebar {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 96px;
+      max-height: calc(100vh - 120px);
+      overflow: auto;
+    }
+
+    .sidebar h3 {
+      color: var(--primary);
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: rgba(230,247,246,0.92);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      border: 1px solid transparent;
+      margin-bottom: 6px;
+      transition: all .2s ease;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,0.08); border-color: rgba(25,230,179,0.25); }
+
+    .nav-item.active { background: rgba(25,230,179,0.16); border-color: rgba(25,230,179,0.40); color: var(--white); }
+
+    .nav-group-title {
+      margin-top: 14px;
+      margin-bottom: 10px;
+      color: var(--text-light);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .main h1 {
+      font-size: 22px;
+      font-weight: 950;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .overview {
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.05) 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .overview-sub {
+      color: rgba(230,247,246,0.82);
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.05) 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    .card .card-title {
+      color: rgba(230,247,246,0.78);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card .card-value {
+      margin-top: 10px;
+      font-size: 26px;
+      font-weight: 950;
+      color: var(--white);
+    }
+
+    .card .card-icon {
+      width: 36px; height: 36px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(25,230,179,0.12);
+      border: 1px solid rgba(25,230,179,0.25);
+      color: var(--primary);
+    }
+
+    .card.linked a { text-decoration: none; }
+
+    .grid-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .search {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .search .row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search input {
+      flex: 1;
+      min-width: 240px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.20);
+      color: var(--white);
+      outline: none;
+    }
+
+    .search input::placeholder { color: rgba(230,247,246,0.58); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--white);
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 13px;
+      transition: all .2s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.10); }
+
+    .btn.primary {
+      border-color: rgba(25,230,179,0.35);
+      background: linear-gradient(135deg, rgba(25,230,179,0.18) 0%, rgba(15,174,134,0.18) 100%);
+      color: var(--white);
+    }
+
+    .btn.secondary {
+      border-color: rgba(25,230,179,0.22);
+      background: rgba(0,0,0,0.15);
+      color: rgba(230,247,246,0.92);
+    }
+
+    .pillbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .pill {
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: rgba(230,247,246,0.92);
+      font-weight: 900;
+      font-size: 13px;
+      transition: all .2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill:hover { border-color: rgba(25,230,179,0.35); transform: translateY(-1px); }
+    .pill.active { border-color: rgba(25,230,179,0.45); background: rgba(25,230,179,0.18); color: var(--white); }
+
+    .sort {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .sort .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .sort .label {
+      color: var(--text-light);
+      font-weight: 950;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-right: 4px;
+    }
+
+    .pill.sortpill { background: rgba(0,0,0,0.14); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.05) 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .panel h3 {
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 950;
+      margin-bottom: 10px;
+    }
+
+    .kv { display: grid; gap: 10px; }
+
+    .bar {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 999px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(25,230,179,0.95) 0%, rgba(18,195,154,0.95) 100%);
+    }
+
+    .rowline { display:flex; justify-content: space-between; gap: 12px; font-weight: 900; font-size: 13px; }
+    .rowline span:last-child { color: rgba(230,247,246,0.92); }
+
+    .monthly {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .trend {
+      display: grid;
+      grid-template-columns: 90px 1fr 48px;
+      gap: 10px;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(230,247,246,0.92);
+      font-weight: 900;
+    }
+
+    .trend .m {
+      color: rgba(230,247,246,0.82);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    th, td {
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      font-size: 13px;
+    }
+
+    th {
+      color: rgba(230,247,246,0.72);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    td { color: rgba(230,247,246,0.94); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.15);
+      font-weight: 950;
+      font-size: 12px;
+    }
+
+    .badge.pending { border-color: rgba(59,130,246,0.35); color: rgba(147,197,253,1); background: rgba(59,130,246,0.08); }
+    .badge.under_investigation { border-color: rgba(15,174,134,0.35); color: rgba(52,211,153,1); background: rgba(16,185,129,0.08); }
+    .badge.resolved { border-color: rgba(34,197,94,0.35); color: rgba(74,222,128,1); background: rgba(34,197,94,0.10); }
+    .badge.escalated { border-color: rgba(224,36,36,0.35); color: rgba(248,113,113,1); background: rgba(224,36,36,0.08); }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      color: var(--text-light);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .page-links {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .page-links a, .page-links span {
+      text-decoration: none;
+      color: rgba(230,247,246,0.92);
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 950;
+      font-size: 12px;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .page-links .active {
+      background: rgba(25,230,179,0.18);
+      border-color: rgba(25,230,179,0.42);
+      color: var(--white);
+    }
+
+    .table-wrap { margin-top: 16px; }
+
+    .table-wrap table {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .table-wrap tbody tr:hover {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .table-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .exportbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 950;
+      font-size: 13px;
+      border: 1px solid rgba(25,230,179,0.25);
+      background: rgba(0,0,0,0.15);
+      color: rgba(230,247,246,0.96);
+      transition: all .2s ease;
+    }
+
+    .exportbtn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.08); }
+
+    .exportbtn.pdf { border-color: rgba(224,36,36,0.25); }
+
+    .muted {
+      color: var(--text-light);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: relative; top: 0; }
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stats { grid-template-columns: 1fr; }
+      .trend { grid-template-columns: 76px 1fr 40px; }
+    }
+  </style>
+
+  <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <img src="/images/sltlogo.jpg" alt="SLTMobitel logo" />
+      <div>
+        <div class="brand-title">SLTMobitel IAU</div>
+        <div class="brand-sub">Internal Affairs Unit • Admin Console</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="link" href="/complaint"><i class="fa-solid fa-arrow-left"></i> Back to Portal</a>
+      <form method="post" action="/logout" style="display:inline;">
+        <button class="logout" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" role="navigation" aria-label="Admin navigation">
+      <h3><i class="fa-solid fa-bars"></i> Administration</h3>
+
+      <a class="nav-item" href="/admin/dashboard">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+      </a>
+
+      <div class="nav-group-title">Complaints</div>
+
+      <a class="nav-item  active" href="/admin/dashboard">
+        <i class="fa-solid fa-layer-group"></i> Complaint
+      </a>
+
+      <div class="nav-group-title">Other</div>
+      <a class="nav-item" href="/admin/audit-logs">
+        <i class="fa-solid fa-clipboard-list"></i> Audit Logs
+      </a>
+      
+      <a class="nav-item" href="/admin/reports">
+        <i class="fa-solid fa-chart-pie"></i> Reports
+      </a>
+      
+
+      <div class="nav-group-title">Exports</div>
+      <a class="nav-item" href="/admin/export?filter=all" title="Export all complaints as CSV"><i class="fa-solid fa-file-csv"></i> Export All CSV</a>
+      <a class="nav-item" href="/admin/export/pdf?filter=all" title="Export all complaints as PDF"><i class="fa-solid fa-file-pdf"></i> Export All PDF</a>
+    </aside>
+
+    <main class="main">
+      <h1><i class="fa-solid fa-shield-halved"></i> Administration overview</h1>
+
+      <div class="overview">
+        <div class="overview-sub">
+          Track complaints with fewer clicks and a clearer signal.
+          <br/>
+          Use the cards below to switch between slices of the queue, search a CRN directly, or open a complaint detail view for full reporter and evidence context.
+        </div>
+
+        <div class="cards">
+    <a class="card linked nav-item" style="text-decoration:none; border:none;" href="/admin/dashboard?filter=all">
+            <div class="card-title"><span class="card-icon"><i class="fa-solid fa-list"></i></span> Total Complaints</div>
+            <div class="card-value">11</div>
+          </a>
+
+          <a class="card linked nav-item" style="text-decoration:none; border:none;" href="/admin/dashboard?filter=pending" >
+            <div class="card-title"><span class="card-icon"><i class="fa-solid fa-hourglass-half"></i></span> Pending</div>
+            <div class="card-value">10</div>
+          </a>
+
+          <a class="card linked nav-item" style="text-decoration:none; border:none;" href="/admin/dashboard?filter=escalated" >
+            <div class="card-title"><span class="card-icon"><i class="fa-solid fa-triangle-exclamation"></i></span> Escalated</div>
+            <div class="card-value">1</div>
+          </a>
+
+          <a class="card linked nav-item" style="text-decoration:none; border:none;" href="/admin/dashboard?filter=month" >
+            <div class="card-title"><span class="card-icon"><i class="fa-solid fa-calendar-days"></i></span> This Month</div>
+            <div class="card-value">11</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-actions">
+        <div class="search">
+          <div class="row">
+            <form method="get" action="/admin/search" style="display:flex; gap:10px; width:100%; flex-wrap:wrap;">
+              <input type="text" name="query" placeholder="Search by CRN..." value=""/>
+              <button class="btn primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+              <a class="btn secondary" href="/admin/dashboard?filter=all&amp;sort=dateDesc" title="Clear search">Clear</a>
+            </form>
+          </div>
+
+          <div class="pillbar">
+            <a class="pill  active" href="/admin/dashboard?filter=all"><i class="fa-solid fa-layer-group"></i> All</a>
+            <a class="pill" href="/admin/dashboard?filter=pending"><i class="fa-solid fa-clock"></i> Pending</a>
+            <a class="pill" href="/admin/dashboard?filter=escalated"><i class="fa-solid fa-triangle-exclamation"></i> Escalated</a>
+            <a class="pill" href="/admin/dashboard?filter=month"><i class="fa-solid fa-calendar-days"></i> This Month</a>
+          </div>
+        </div>
+
+        <div class="sort">
+          <div class="row">
+            <span class="label"><i class="fa-solid fa-arrow-down-up"></i> Sort By:</span>
+            <a class="pill sortpill  active" href="/admin/dashboard?filter=all&amp;sort=dateDesc">Date (Newest)</a>
+            <a class="pill sortpill" href="/admin/dashboard?filter=all&amp;sort=dateAsc">Date (Oldest)</a>
+            <a class="pill sortpill" href="/admin/dashboard?filter=all&amp;sort=categoryAsc">Category (A-Z)</a>
+            <a class="pill sortpill" href="/admin/dashboard?filter=all&amp;sort=categoryDesc">Category (Z-A)</a>
+            <a class="pill sortpill" href="/admin/dashboard?filter=all&amp;sort=statusAsc">Status (A-Z)</a>
+            <a class="pill sortpill" href="/admin/dashboard?filter=all&amp;sort=statusDesc">Status (Z-A)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <section class="panel">
+          <h3><i class="fa-solid fa-wave-square"></i> Status Breakdown</h3>
+          <div class="kv">
+            <div class="rowline">
+              <span>Pending</span>
+              <span>10</span>
+            </div>
+            <div class="rowline">
+              <span>Under Investigation</span>
+              <span>1</span>
+            </div>
+            <div class="rowline">
+              <span>Resolved</span>
+              <span>0</span>
+            </div>
+            <div class="rowline">
+              <span>Escalated</span>
+              <span>1</span>
+            </div>
+            <div class="bar">
+              <span style="width: 91%"></span>
+            </div>
+            <div class="bar">
+              <span style="width: 9%"></span>
+            </div>
+            <div class="bar">
+              <span style="width: 0%"></span>
+            </div>
+            <div class="bar">
+              <span style="width: 9%"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3><i class="fa-solid fa-chart-simple"></i> Monthly Activity</h3>
+          <div class="monthly">
+            <div class="trend">
+              <span class="m">2025-12</span>
+              <div class="bar"><span class="trend-fill" style="width:0%;"></span></div>
+              <span>0</span>
+            </div>
+            <div class="trend">
+              <span class="m">2026-01</span>
+              <div class="bar"><span class="trend-fill" style="width:0%;"></span></div>
+              <span>0</span>
+            </div>
+            <div class="trend">
+              <span class="m">2026-02</span>
+              <div class="bar"><span class="trend-fill" style="width:0%;"></span></div>
+              <span>0</span>
+            </div>
+            <div class="trend">
+              <span class="m">2026-03</span>
+              <div class="bar"><span class="trend-fill" style="width:0%;"></span></div>
+              <span>0</span>
+            </div>
+            <div class="trend">
+              <span class="m">2026-04</span>
+              <div class="bar"><span class="trend-fill" style="width:0%;"></span></div>
+              <span>0</span>
+            </div>
+            <div class="trend">
+              <span class="m">2026-05</span>
+              <div class="bar"><span class="trend-fill" style="width:100%;"></span></div>
+              <span>11</span>
+            </div>
+          </div>
+          <div class="muted" style="margin-top:10px; line-height:1.6;">
+            This chart shows the last six months of complaint volume relative to the busiest month in that range.
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3><i class="fa-solid fa-tags"></i> Top Categories</h3>
+          <div class="kv">
+            <div class="rowline">
+              <span>Fraud</span>
+              <span>4</span>
+            </div>
+            <div class="rowline">
+              <span>HARASSMENT</span>
+              <span>2</span>
+            </div>
+            <div class="rowline">
+              <span>Bullying</span>
+              <span>1</span>
+            </div>
+            <div class="rowline">
+              <span>Misconduct</span>
+              <span>1</span>
+            </div>
+            <div class="rowline">
+              <span>DEVELOPMENT</span>
+              <span>1</span>
+            </div>
+            <div class="bar">
+              <span style="width: 36%"></span>
+            </div>
+            <div class="bar">
+              <span style="width: 18%"></span>
+            </div>
+            <div class="bar">
+              <span style="width: 9%"></span>
+            </div>
+            <div class="bar">
+              <span style="width: 9%"></span>
+            </div>
+            <div class="bar">
+              <span style="width: 9%"></span>
+            </div>
+          </div>
+          <div class="muted" style="margin-top:10px; line-height:1.6;">
+            The dashboard highlights the five most common complaint categories across all stored complaints.
+          </div>
+        </section>
+      </div>
+
+      <section class="panel table-wrap">
+        <div class="table-actions">
+          <div>
+            <h3 style="margin-bottom:0;"><i class="fa-solid fa-table"></i> Complaint Ledger</h3>
+            <div class="muted" style="margin-top:8px;">
+              <div>Showing <span>10</span> complaints</div>
+              <div>Current filter: <span>All Complaints</span></div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+            <a class="exportbtn" href="/admin/export?filter=all&amp;query=" title="Export filtered/search view as CSV"><i class="fa-solid fa-file-csv"></i> CSV</a>
+            <a class="exportbtn pdf" href="/admin/export/pdf?filter=all&amp;query=" title="Export filtered/search view as PDF"><i class="fa-solid fa-file-pdf"></i> PDF</a>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>CRN</th>
+              <th>Category</th>
+              <th>Reporter</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">IAU-2026-000011</td>
+              <td>Bullying</td>
+
+              <td>
+                <span>Alice Tester</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>26 May 2026 00:12</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/IAU-2026-000011"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">IAU-2026-000010</td>
+              <td>Harassment</td>
+
+              <td>
+                <span>Anonymous</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>26 May 2026 00:12</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/IAU-2026-000010"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">DEV-NAMED-0001</td>
+              <td>HARASSMENT</td>
+
+              <td>
+                <span>Test Reporter</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>26 May 2026 00:10</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/DEV-NAMED-0001"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">DEV-ANON-0001</td>
+              <td>HARASSMENT</td>
+
+              <td>
+                <span>Anonymous</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>26 May 2026 00:10</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/DEV-ANON-0001"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">DEV-0001</td>
+              <td>DEVELOPMENT</td>
+
+              <td>
+                <span>N/A</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>25 May 2026 02:57</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/DEV-0001"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">IAU-2026-000006</td>
+              <td>Theft</td>
+
+              <td>
+                <span>N/A</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">UNDER_INVESTIGATION</span>
+              </td>
+
+              <td>20 May 2026 23:28</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/IAU-2026-000006"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">IAU-2026-000005</td>
+              <td>Misconduct</td>
+
+              <td>
+                <span>N/A</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>20 May 2026 23:26</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/IAU-2026-000005"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">IAU-2026-000004</td>
+              <td>Fraud</td>
+
+              <td>
+                <span>N/A</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>20 May 2026 23:16</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/IAU-2026-000004"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">IAU-2026-000003</td>
+              <td>Fraud</td>
+
+              <td>
+                <span>N/A</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>04 May 2026 15:53</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/IAU-2026-000003"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:'Courier New', monospace; font-weight:900; color: var(--primary);">IAU-2026-000002</td>
+              <td>Fraud</td>
+
+              <td>
+                <span>N/A</span>
+                
+              </td>
+
+              <td>
+                <span class="badge  pending">PENDING</span>
+              </td>
+
+              <td>04 May 2026 14:54</td>
+
+              <td>
+                <a class="btn primary" href="/admin/complaint/IAU-2026-000002"><i class="fa-solid fa-eye"></i> View</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        
+
+        <div class="pagination">
+          <div>
+            Page <span>1</span> of <span>2</span>
+          </div>
+          <div class="page-links">
+            
+            <span><i class="fa-solid fa-angles-left"></i></span>
+
+            
+            <span><i class="fa-solid fa-angle-left"></i></span>
+
+            
+              
+              <span class="active">1</span>
+            
+              <a href="/admin/dashboard?page=1&amp;filter=all&amp;sort=dateDesc">2</a>
+              
+            
+
+            <a href="/admin/dashboard?page=1&amp;filter=all&amp;sort=dateDesc"><i class="fa-solid fa-angle-right"></i></a>
+            
+
+            <a href="/admin/dashboard?page=1&amp;filter=all&amp;sort=dateDesc"><i class="fa-solid fa-angles-right"></i></a>
+            
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+</body>
+</html>
+

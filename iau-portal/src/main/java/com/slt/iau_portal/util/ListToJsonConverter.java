@@ -28,7 +28,19 @@ public class ListToJsonConverter implements AttributeConverter<List<String>, Str
     public List<String> convertToEntityAttribute(String dbData) {
         try {
             if (dbData == null || dbData.isBlank()) return new ArrayList<>();
-            return mapper.readValue(dbData, new TypeReference<List<String>>(){});
+            try {
+                return mapper.readValue(dbData, new TypeReference<List<String>>(){});
+            } catch (com.fasterxml.jackson.databind.exc.MismatchedInputException mie) {
+                // Some DBs may store a JSON array as a quoted string (e.g. '"[]"').
+                // Try to unescape the inner string and parse again.
+                try {
+                    String inner = mapper.readValue(dbData, String.class);
+                    if (inner == null || inner.isBlank()) return new ArrayList<>();
+                    return mapper.readValue(inner, new TypeReference<List<String>>(){});
+                } catch (Exception ex) {
+                    throw new IllegalStateException("Failed to convert JSON to list", ex);
+                }
+            }
         } catch (Exception e) {
             throw new IllegalStateException("Failed to convert JSON to list", e);
         }
